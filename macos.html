@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash macOS 下载 | ClashX Meta、ClashFX 完整指南 2026</title>
+    <meta name="description" content="2026 最新 macOS Clash 客户端：ClashX Meta（轻量）、ClashFX（新一代）、Clash Verge Rev（跨平台）详细对比，支持 Intel 和 Apple Silicon。">
+    <link rel="canonical" href="https://mnclash.com/macos.html">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "ClashX Meta",
+      "applicationCategory": "NetworkApplication",
+      "operatingSystem": "macOS 11.0 or later",
+      "dateModified": "2026-10-07",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <style>
+        :root { color-scheme: light; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            line-height: 1.7;
+            color: #f5efe6;
+            background: #0f1117;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: #171a23;
+            padding: 20px 0;
+            border-bottom: 1px solid #1e222e;
+        }
+        .logo { font-size: 1.5rem; font-weight: 600; color: #fbbf24; text-decoration: none; }
+        nav { margin-top: 15px; }
+        nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin-right: 25px;
+            font-size: 0.95rem;
+        }
+        nav a:hover, nav a.active { color: #fbbf24; }
+        .breadcrumb {
+            padding: 20px 0;
+            font-size: 0.9rem;
+            color: #808080;
+        }
+        .breadcrumb a { color: #a0a0a0; text-decoration: none; }
+        main { padding: 40px 0; }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        .intro {
+            font-size: 1.05rem;
+            color: #c0c0c0;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+        h2 {
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem 0;
+            color: #ffffff;
+            border-left: 4px solid #fbbf24;
+            padding-left: 15px;
+        }
+        h3 {
+            font-size: 1.3rem;
+            margin: 2rem 0 1rem 0;
+            color: #fbbf24;
+        }
+        p { margin-bottom: 1rem; color: #d0d0d0; }
+        .app-card {
+            background: #171a23;
+            border: 1px solid #1e222e;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 2rem 0;
+        }
+        .app-card h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+        .tag {
+            display: inline-block;
+            background: #1e222e;
+            color: #fbbf24;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-right: 8px;
+            margin-bottom: 10px;
+        }
+        .tag.official { background: #5eead4; color: #0f1117; }
+        .tag.recommended { background: #fbbf24; color: #0f1117; }
+        .tag.new { background: #5eead4; color: #0f1117; }
+        .download-btn {
+            display: inline-block;
+            background: #fbbf24;
+            color: #0f1117;
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+        .download-btn:hover {
+            background: #f59e0b;
+        }
+        ul {
+            margin: 1rem 0 1rem 20px;
+            color: #d0d0d0;
+        }
+        li { margin-bottom: 0.5rem; }
+        .note {
+            background: #1e222e;
+            border-left: 3px solid #fbbf24;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .note strong { color: #fbbf24; }
+        .warning {
+            background: #2e1a1a;
+            border-left: 3px solid #f87171;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .warning strong { color: #f87171; }
+        .tip {
+            background: #1a2e1a;
+            border-left: 3px solid #5eead4;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .tip strong { color: #5eead4; }
+        .compare-table {
+            width: 100%;
+            margin: 2rem 0;
+            border-collapse: collapse;
+            background: #171a23;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .compare-table th,
+        .compare-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #1e222e;
+        }
+        .compare-table th {
+            background: #1a1d28;
+            color: #fbbf24;
+            font-weight: 600;
+        }
+        .compare-table td {
+            color: #d0d0d0;
+        }
+        .steps {
+            margin: 2rem 0;
+        }
+        .step-item {
+            background: #171a23;
+            padding: 20px 20px 20px 60px;
+            margin: 15px 0;
+            border-radius: 6px;
+            position: relative;
+            border-left: 3px solid #fbbf24;
+        }
+        .step-item::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background: #fbbf24;
+            color: #0f1117;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        footer {
+            background: #171a23;
+            padding: 30px 0;
+            margin-top: 60px;
+            text-align: center;
+            color: #808080;
+            border-top: 1px solid #1e222e;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Clash 客户端</a>
+            <nav>
+                <a href="index.html">首页</a>
+                <a href="windows.html">Windows</a>
+                <a href="macos.html" class="active">macOS</a>
+                <a href="android.html">Android</a>
+                <a href="ios.html">iOS</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">首页</a> / <a href="#download">下载</a> / macOS
+        </div>
+
+        <main>
+            <h1>Clash macOS 客户端完整指南</h1>
+
+            <p class="intro">
+                macOS 平台上有几款优秀的 Clash 客户端可选。2026 年主流的有 ClashX Meta（轻量经典）、ClashFX（新一代推荐）、Clash Verge Rev（跨平台强者）等。所有客户端都完美支持 Intel 和 Apple Silicon（M1/M2/M3）芯片，功能完整且开源免费。
+            </p>
+
+            <div class="tip">
+                <strong>2026 年推荐：</strong>ClashFX 是 ClashX 团队推荐的新一代客户端，基于最新的 mihomo 核心，提供增强模式（TUN）支持。如果追求轻量简洁，ClashX Meta 依然是好选择。
+            </div>
+
+            <h2>macOS Clash 客户端对比</h2>
+
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>客户端</th>
+                        <th>内核</th>
+                        <th>更新状态</th>
+                        <th>特点</th>
+                        <th>推荐度</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>ClashX Meta</strong></td>
+                        <td>Clash Meta</td>
+                        <td>活跃维护</td>
+                        <td>轻量、经典、首选</td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ClashFX</strong></td>
+                        <td>mihomo (Meta)</td>
+                        <td>活跃维护</td>
+                        <td>增强模式、新一代</td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clash Verge Rev</strong></td>
+                        <td>mihomo (Meta)</td>
+                        <td>活跃维护</td>
+                        <td>跨平台、功能强</td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clash Nyanpasu</strong></td>
+                        <td>Clash Meta</td>
+                        <td>活跃维护</td>
+                        <td>轻量、可爱风</td>
+                        <td>⭐⭐⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clash Mi</strong></td>
+                        <td>Clash Meta</td>
+                        <td>活跃维护</td>
+                        <td>全平台统一</td>
+                        <td>⭐⭐⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ClashX Pro</strong></td>
+                        <td>Clash Premium</td>
+                        <td>缓慢维护</td>
+                        <td>增强版、已被替代</td>
+                        <td>⭐⭐⭐☆☆</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ClashX</strong></td>
+                        <td>Clash</td>
+                        <td>停止维护</td>
+                        <td>原版、不推荐</td>
+                        <td>⭐⭐☆☆☆</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip" style="margin-top: 1.5rem;">
+                <strong>ClashX 系列演变历史：</strong>ClashX（原版）→ ClashX Pro（增强版）→ ClashX Meta（Meta 核心）→ ClashFX（新一代）。目前推荐使用 <strong>ClashX Meta</strong>（轻量首选）或 <strong>ClashFX</strong>（功能更强）。
+            </div>
+
+            <h2>详细推荐</h2>
+
+            <div class="app-card">
+                <h3>ClashFX</h3>
+                <span class="tag new">新一代</span>
+                <span class="tag recommended">官方推荐</span>
+
+                <p><strong>简介：</strong>ClashX 团队推荐的新一代 macOS 客户端，基于最新的 mihomo (Clash Meta) 核心构建。提供增强模式（TUN）支持，功能更强大，是 ClashX 的自然升级选择。</p>
+
+                <p><strong>最新版本：</strong>持续更新中（2026 年活跃开发）</p>
+
+                <p><strong>优点：</strong></p>
+                <ul>
+                    <li>✅ <strong>官方推荐</strong> - ClashX 团队指定升级路径</li>
+                    <li>✅ <strong>增强模式（TUN）</strong> - 代理所有应用流量</li>
+                    <li>✅ <strong>最新 mihomo 核心</strong> - 支持所有新协议</li>
+                    <li>✅ <strong>原生 macOS 体验</strong> - 菜单栏操作</li>
+                    <li>✅ <strong>完美支持 Apple Silicon</strong> - M1/M2/M3 优化</li>
+                </ul>
+
+                <p><strong>缺点：</strong></p>
+                <ul>
+                    <li>⚠️ 相对新，文档还在完善</li>
+                </ul>
+
+                <p><strong>下载地址：</strong></p>
+                <ul>
+                    <li>GitHub: <a href="https://github.com/Clash-FX/ClashFX" style="color: #fbbf24;">Clash-FX/ClashFX</a></li>
+                </ul>
+
+                <a href="https://github.com/Clash-FX/ClashFX/releases/latest" class="download-btn">下载 ClashFX</a>
+
+                <p style="margin-top: 1.5rem;"><strong>适合人群：</strong>追求最新功能、需要 TUN 模式的用户。</p>
+            </div>
+
+            <div class="app-card">
+                <h3>ClashX Meta</h3>
+                <span class="tag official">经典稳定</span>
+                <span class="tag recommended">推荐</span>
+
+                <p><strong>简介：</strong>ClashX 的 Meta 版本，基于 Clash Meta 核心。轻量级菜单栏应用，功能完整稳定，是 macOS 上最受欢迎的 Clash 客户端之一。</p>
+
+                <p><strong>最新版本：</strong>v1.4.4（持续更新）</p>
+
+                <p><strong>优点：</strong></p>
+                <ul>
+                    <li>✅ <strong>轻量稳定</strong> - 占用资源少</li>
+                    <li>✅ <strong>完整 Meta 支持</strong> - 支持新协议</li>
+                    <li>✅ <strong>简单易用</strong> - 菜单栏操作</li>
+                    <li>✅ <strong>开源免费</strong> - GitHub 可下载</li>
+                    <li>✅ <strong>完美支持 Intel 和 Apple Silicon</strong></li>
+                </ul>
+
+                <p><strong>下载地址：</strong></p>
+                <ul>
+                    <li>GitHub: <a href="https://github.com/MetaCubeX/ClashX.Meta" style="color: #fbbf24;">MetaCubeX/ClashX.Meta</a></li>
+                </ul>
+
+                <a href="https://github.com/MetaCubeX/ClashX.Meta/releases/latest" class="download-btn">下载 ClashX Meta</a>
+
+                <p style="margin-top: 1.5rem;"><strong>适合人群：</strong>所有用户，特别是追求简洁稳定的用户。</p>
+            </div>
+
+            <div class="app-card">
+                <h3>Clash Verge Rev</h3>
+                <span class="tag">跨平台</span>
+
+                <p><strong>简介：</strong>Clash Verge 的社区维护版本，基于 Tauri 框架。提供可视化规则编辑、WebDAV 同步等高级功能，支持 macOS/Windows/Linux。</p>
+
+                <p><strong>优点：</strong></p>
+                <ul>
+                    <li>✅ <strong>功能最强大</strong> - 可视化规则、节点管理</li>
+                    <li>✅ <strong>跨平台</strong> - 多设备体验一致</li>
+                    <li>✅ <strong>WebDAV 同步</strong> - 配置多设备同步</li>
+                    <li>✅ <strong>自定义主题</strong> - 界面可定制</li>
+                </ul>
+
+                <p><strong>缺点：</strong></p>
+                <ul>
+                    <li>⚠️ 相对重量级</li>
+                    <li>⚠️ 功能多，新手可能觉得复杂</li>
+                </ul>
+
+                <p><strong>下载地址：</strong></p>
+                <ul>
+                    <li>GitHub: <a href="https://github.com/clash-verge-rev/clash-verge-rev" style="color: #fbbf24;">clash-verge-rev/clash-verge-rev</a></li>
+                </ul>
+
+                <a href="https://github.com/clash-verge-rev/clash-verge-rev/releases/latest" class="download-btn">下载 Clash Verge Rev</a>
+
+                <p style="margin-top: 1.5rem;"><strong>适合人群：</strong>需要高级功能、多设备同步的用户。</p>
+            </div>
+
+            <div class="app-card">
+                <h3>Clash Nyanpasu</h3>
+                <span class="tag new">轻量之选</span>
+                <span class="tag free">免费</span>
+
+                <p><strong>简介：</strong>基于 Tauri 框架开发的轻量级 Clash 客户端，使用 Clash Meta 核心。名字来自日语"にゃんぱす"（喵帕斯），界面可爱，资源占用低。</p>
+
+                <p><strong>支持平台：</strong>macOS（Intel + Apple Silicon）、Windows、Linux</p>
+
+                <p><strong>优点：</strong></p>
+                <ul>
+                    <li>✅ <strong>非常轻量</strong> - 内存占用低（约 50-80MB）</li>
+                    <li>✅ <strong>可爱风格</strong> - 独特的界面设计</li>
+                    <li>✅ <strong>Clash Meta 核心</strong> - 完整协议支持</li>
+                    <li>✅ <strong>完全免费开源</strong> - 无广告</li>
+                    <li>✅ <strong>持续更新</strong> - 社区活跃（2026 年仍在更新）</li>
+                    <li>✅ <strong>跨平台</strong> - macOS/Windows/Linux 统一体验</li>
+                </ul>
+
+                <p><strong>缺点：</strong></p>
+                <ul>
+                    <li>⚠️ 功能相对基础（适合日常使用）</li>
+                    <li>⚠️ 社区规模较小</li>
+                    <li>⚠️ 文档相对较少</li>
+                </ul>
+
+                <p><strong>下载地址：</strong></p>
+                <ul>
+                    <li>GitHub: <a href="https://github.com/libnyanpasu/clash-nyanpasu" style="color: #fbbf24;">libnyanpasu/clash-nyanpasu</a></li>
+                </ul>
+
+                <a href="https://github.com/libnyanpasu/clash-nyanpasu/releases/latest" class="download-btn">下载 Clash Nyanpasu</a>
+
+                <p style="margin-top: 1.5rem;"><strong>适合人群：</strong>追求轻量、喜欢可爱风格、电脑配置较低的用户。</p>
+            </div>
+
+            <div class="app-card">
+                <h3>Clash Mi</h3>
+                <span class="tag new">全平台统一</span>
+                <span class="tag free">免费</span>
+
+                <p><strong>简介：</strong>基于 Flutter 开发的全平台 Clash 客户端，<strong style="color: #fbbf24;">同时支持 iOS、Android、Windows、macOS、Linux 五大平台！</strong>使用 mihomo (Clash Meta) 核心，开源免费。</p>
+
+                <p><strong>支持平台：</strong></p>
+                <ul>
+                    <li>✅ macOS（Intel + Apple Silicon）</li>
+                    <li>✅ Windows（x64）</li>
+                    <li>✅ Linux（x86_64）</li>
+                    <li>✅ Android（arm64-v8a、armeabi-v7a）</li>
+                    <li>✅ iOS（App Store）</li>
+                </ul>
+
+                <p><strong>macOS 版本优点：</strong></p>
+                <ul>
+                    <li>✅ <strong>真正的全平台统一</strong> - 唯一支持 5 个平台的 Clash 客户端</li>
+                    <li>✅ <strong>完全免费开源</strong> - 无广告、无内购</li>
+                    <li>✅ <strong>Clash Meta 核心</strong> - 完整协议支持（VLESS、Reality 等）</li>
+                    <li>✅ <strong>多设备体验统一</strong> - 手机和电脑使用同一客户端</li>
+                    <li>✅ <strong>完美支持 Apple Silicon</strong> - M1/M2/M3/M4 原生优化</li>
+                    <li>✅ <strong>持续更新</strong> - KaringX 团队活跃维护</li>
+                </ul>
+
+                <p><strong>缺点：</strong></p>
+                <ul>
+                    <li>⚠️ 界面相对朴素（不如 ClashX Meta 精致）</li>
+                    <li>⚠️ 功能相对基础</li>
+                    <li>⚠️ 相对较新，社区规模还在成长</li>
+                </ul>
+
+                <p><strong>下载地址：</strong></p>
+                <ul>
+                    <li>GitHub: <a href="https://github.com/KaringX/clashmi/releases" style="color: #fbbf24;">KaringX/clashmi</a></li>
+                    <li>官网: <a href="https://en.clash-mi.org/" style="color: #fbbf24;">clash-mi.org</a></li>
+                </ul>
+
+                <div class="tip" style="margin-top: 1rem;">
+                    <strong>全平台优势：</strong>如果你同时使用 Mac 和 iPhone（或 Android 手机），Clash Mi 让你在所有设备上使用同一个客户端，学习成本最低，配置可以通用。
+                </div>
+
+                <a href="https://github.com/KaringX/clashmi/releases/latest" class="download-btn">下载 Clash Mi</a>
+
+                <p style="margin-top: 1.5rem;"><strong>适合人群：</strong>多设备用户（Mac+iPhone/Android）、追求跨平台统一体验、预算有限的用户。</p>
+            </div>
+
+            <div class="app-card">
+                <h3>ClashX Pro</h3>
+                <span class="tag">已被替代</span>
+
+                <p><strong>简介：</strong>ClashX 的增强版本，基于 Clash Premium 核心，增加了 TUN 模式和更多高级功能。但现在已被 ClashFX 取代。</p>
+
+                <p><strong>状态：</strong></p>
+                <ul>
+                    <li>⚠️ 维护缓慢（不如 ClashFX 活跃）</li>
+                    <li>⚠️ 已被官方推荐升级到 ClashFX</li>
+                    <li>⚠️ 基于 Clash Premium（已停止开发）</li>
+                </ul>
+
+                <p><strong>历史地位：</strong></p>
+                <p>ClashX Pro 在 2020-2023 年间是 macOS 上功能最强的 Clash 客户端，提供了 TUN 模式等高级功能。但随着 Clash Premium 停止更新，ClashX 团队开发了新一代的 ClashFX 来替代它。</p>
+
+                <div class="warning" style="margin-top: 1rem;">
+                    <strong>升级建议：</strong>如果你正在使用 ClashX Pro，建议升级到 <strong>ClashFX</strong>（官方推荐的新一代）或 <strong>ClashX Meta</strong>（轻量稳定）。
+                </div>
+
+                <p style="margin-top: 1.5rem;"><strong>建议：</strong>不推荐新用户使用，建议选择 ClashFX 或 ClashX Meta。</p>
+            </div>
+
+            <div class="app-card">
+                <h3>ClashX（原版）</h3>
+                <span class="tag deprecated">已停止维护</span>
+
+                <p><strong>简介：</strong>最早的 ClashX 版本，基于原版 Clash 核心。由于 Clash 核心已停止开发，ClashX 原版也停止了维护。</p>
+
+                <p><strong>ClashX 系列演变：</strong></p>
+                <ul>
+                    <li><strong>ClashX</strong>（2018-2023）→ 基于 Clash 核心，已停止</li>
+                    <li><strong>ClashX Pro</strong>（2020-2024）→ 增强版，增加 TUN 模式，基于 Clash Premium</li>
+                    <li><strong>ClashX Meta</strong>（2022-至今）→ 基于 Clash Meta 核心，轻量首选 ⭐</li>
+                    <li><strong>ClashFX</strong>（2024-至今）→ 新一代，基于 mihomo，官方推荐 ⭐</li>
+                </ul>
+
+                <p><strong>状态：</strong></p>
+                <ul>
+                    <li>❌ 已停止维护</li>
+                    <li>❌ 不支持新协议（VLESS、Reality、Hysteria2 等）</li>
+                    <li>❌ 可能存在安全漏洞</li>
+                    <li>❌ 强烈建议升级到 ClashX Meta 或 ClashFX</li>
+                </ul>
+
+                <div class="warning" style="margin-top: 1rem;">
+                    <strong>升级路径：</strong>如果你正在使用原版 ClashX，建议升级到 <strong>ClashX Meta</strong>（最简单，使用习惯相同）或 <strong>ClashFX</strong>（功能更强）。配置文件可以直接迁移。
+                </div>
+
+                <p style="margin-top: 1.5rem;"><strong>建议：</strong>强烈不推荐新用户使用，现有用户请尽快升级。</p>
+            </div>
+
+            <h2>新手该选哪个？</h2>
+
+            <p style="font-size: 1.1rem; margin-top: 1.5rem;">根据你的需求选择：</p>
+
+            <ul style="font-size: 1.05rem; line-height: 2; margin-top: 1rem;">
+                <li><strong style="color: #5eead4;">追求轻量稳定：</strong>选 <strong>ClashX Meta</strong>（经典选择，稳定可靠，首选推荐）</li>
+                <li><strong style="color: #5eead4;">需要 TUN 模式：</strong>选 <strong>ClashFX</strong>（新一代，功能更强）</li>
+                <li><strong style="color: #5eead4;">需要高级功能：</strong>选 <strong>Clash Verge Rev</strong>（可视化编辑、跨平台同步）</li>
+                <li><strong style="color: #5eead4;">电脑配置较低：</strong>选 <strong>Clash Nyanpasu</strong>（最轻量，内存占用低）</li>
+                <li><strong style="color: #5eead4;">多设备用户：</strong>选 <strong>Clash Mi</strong>（全平台统一，Mac/iPhone/Android/Windows/Linux）</li>
+                <li><strong style="color: #5eead4;">不确定选哪个：</strong>直接下载 <strong>ClashX Meta</strong></li>
+            </ul>
+
+            <div class="tip">
+                <strong>个人建议：</strong>大部分人选 ClashX Meta 就够了。它轻量、稳定、简单，完全能满足日常需求。如果你需要代理所有应用（不只是浏览器），或者想要最新的功能，可以试试 ClashFX。如果你同时使用 Mac 和 iPhone，Clash Mi 能让你在所有设备上使用统一客户端。
+            </div>
+
+            <h2>安装教程（以 ClashX Meta 为例）</h2>
+
+            <div class="steps">
+                <div class="step-item" data-step="1">
+                    <strong>下载安装包</strong><br>
+                    访问 <a href="https://github.com/MetaCubeX/ClashX.Meta/releases" style="color: #fbbf24;">GitHub Releases 页面</a>，下载最新版本的 .dmg 文件。
+                </div>
+                <div class="step-item" data-step="2">
+                    <strong>安装应用</strong><br>
+                    双击 .dmg 文件，将 ClashX Meta 拖到 Applications 文件夹。
+                </div>
+                <div class="step-item" data-step="3">
+                    <strong>打开应用</strong><br>
+                    在 Launchpad 或 Applications 文件夹中找到 ClashX Meta，双击打开。首次打开可能提示"无法验证开发者"，去"系统设置" → "隐私与安全性" → 点击"仍要打开"。
+                </div>
+                <div class="step-item" data-step="4">
+                    <strong>安装辅助工具</strong><br>
+                    首次启动会提示安装辅助工具（用于修改系统代理设置），输入 macOS 密码允许安装。
+                </div>
+                <div class="step-item" data-step="5">
+                    <strong>导入订阅</strong><br>
+                    点击菜单栏的 ClashX 图标，选择"配置" → "托管配置" → "管理" → "添加"，粘贴订阅链接，点击"确定"。
+                </div>
+                <div class="step-item" data-step="6">
+                    <strong>启动代理</strong><br>
+                    点击菜单栏图标，选择"设置为系统代理"。再选择"代理模式" → "规则判断"。就可以正常使用了。
+                </div>
+            </div>
+
+            <div class="warning">
+                <strong>Gatekeeper 提示说明：</strong>首次打开时 macOS 可能提示"无法验证开发者"。这是因为应用没有苹果的公证。去"系统设置" → "隐私与安全性"，找到 ClashX Meta，点击"仍要打开"即可。从 GitHub 官方下载的版本是安全的。
+            </div>
+
+            <h2>芯片兼容性</h2>
+
+            <p>所有推荐的客户端都完美支持 Intel 和 Apple Silicon 芯片：</p>
+
+            <h3>Apple Silicon（M1/M2/M3/M4）</h3>
+            <ul>
+                <li>✅ ClashX Meta - 原生支持（Universal Binary）</li>
+                <li>✅ ClashFX - 原生支持</li>
+                <li>✅ Clash Verge Rev - 原生支持</li>
+            </ul>
+
+            <h3>Intel</h3>
+            <ul>
+                <li>✅ 所有客户端都支持</li>
+            </ul>
+
+            <div class="note">
+                <strong>提示：</strong>下载时选择 Universal 版本（如果有的话），它可以在 Intel 和 Apple Silicon 上都运行。如果没有 Universal 版本，根据你的芯片选择对应的版本。
+            </div>
+
+            <h2>代理模式说明</h2>
+
+            <p>ClashX 提供三种代理模式：</p>
+
+            <h3>1. 规则判断（推荐）</h3>
+            <p>根据配置文件的规则自动分流。国内网站直连，国外网站走代理。这是最常用的模式。</p>
+
+            <h3>2. 全局连接</h3>
+            <p>所有流量都走代理。适合需要完全隐藏真实 IP 的场景。</p>
+
+            <h3>3. 直接连接</h3>
+            <p>所有流量都不走代理。相当于暂时关闭代理。</p>
+
+            <div class="note">
+                <strong>新手建议：</strong>始终使用"规则判断"模式。配置文件通常已经包含了常用的分流规则，无需手动调整。
+            </div>
+
+            <h2>增强模式（TUN）</h2>
+
+            <p>ClashFX 支持增强模式（TUN），可以代理所有应用的流量，不仅是浏览器。这对于需要代理的命令行工具、GUI 应用很有用。</p>
+
+            <h3>如何开启增强模式</h3>
+            <ol style="margin-left: 20px; color: #d0d0d0; line-height: 2;">
+                <li>打开 ClashFX</li>
+                <li>在设置中找到"增强模式"或"TUN Mode"</li>
+                <li>开启后所有应用的流量都会经过 Clash</li>
+            </ol>
+
+            <div class="note">
+                <strong>注意：</strong>ClashX Meta 不支持 TUN 模式，只有 ClashFX 和 Clash Verge Rev 支持。如果你需要这个功能，选择 ClashFX。
+            </div>
+
+            <h2>常见问题</h2>
+
+            <div class="note">
+                <strong>Q: ClashX 和 ClashX Meta 有什么区别？</strong><br><br>
+                ClashX 是原版，基于老的 Clash 核心。ClashX Meta 基于更新的 Clash Meta 核心，支持更多协议和功能。新用户直接用 ClashX Meta。
+            </div>
+
+            <div class="note">
+                <strong>Q: 我该选 ClashX Meta 还是 ClashFX？</strong><br><br>
+                如果只是日常浏览网页，ClashX Meta 足够了。如果需要代理所有应用（TUN 模式），选 ClashFX。
+            </div>
+
+            <div class="note">
+                <strong>Q: 为什么打开时提示"无法验证开发者"？</strong><br><br>
+                这是 macOS 的安全机制。去"系统设置" → "隐私与安全性"，找到对应应用，点击"仍要打开"即可。
+            </div>
+
+            <div class="note">
+                <strong>Q: Apple Silicon Mac 能用吗？</strong><br><br>
+                完全可以。所有推荐的客户端都原生支持 M1/M2/M3 芯片，性能和稳定性都很好。
+            </div>
+
+            <div class="note">
+                <strong>Q: 订阅链接从哪里获取？</strong><br><br>
+                订阅链接由你的服务提供商提供。如果你没有服务，需要先购买或搭建自己的服务器。
+            </div>
+
+            <h2>总结</h2>
+
+            <p style="font-size: 1.05rem; line-height: 1.8;">2026 年在 macOS 上使用 Clash，大部分人选 <strong>ClashX Meta</strong> 就够了。它轻量、稳定、简单，是最经典的选择。如果你需要 TUN 模式或者追求最新功能，可以试试 <strong>ClashFX</strong>（ClashX 团队推荐的新一代产品）。</p>
+
+            <p style="font-size: 1.05rem; line-height: 1.8; margin-top: 1rem;">所有客户端都完美支持 Intel 和 Apple Silicon 芯片，不用担心兼容性问题。下载、安装、导入订阅，几分钟就能用上。</p>
+
+            <div style="margin-top: 3rem; padding: 1.5rem; background: #171a23; border-radius: 8px; border-left: 4px solid #fbbf24;">
+                <h3 style="color: #fbbf24; margin-bottom: 1rem;">📚 相关文章推荐</h3>
+                <ul style="list-style: none; margin: 0; padding: 0;">
+                    <li style="margin-bottom: 0.8rem;">→ <a href="blog/clashx-series-evolution.html" style="color: #5eead4; text-decoration: none;">ClashX 系列完整演变史:从原版到 ClashFX 该选哪个?</a></li>
+                    <li style="margin-bottom: 0.8rem;">→ <a href="blog/clash-nyanpasu-lightweight.html" style="color: #5eead4; text-decoration: none;">Clash Nyanpasu:被忽视的轻量级神器</a></li>
+                    <li style="margin-bottom: 0.8rem;">→ <a href="blog/clash-tun-mode-explained.html" style="color: #5eead4; text-decoration: none;">Clash TUN 模式深度解析</a></li>
+                    <li style="margin-bottom: 0.8rem;">→ <a href="blog/clash-rule-optimization.html" style="color: #5eead4; text-decoration: none;">Clash 规则优化实战</a></li>
+                </ul>
+            </div>
+
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Clash 客户端下载 | 最后更新：<span id="updateTime"></span></p>
+        </div>
+    </footer>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            document.getElementById('updateTime').textContent = `${year}-${month}-${day}`;
+        }
+        updateTime();
+    </script>
+</body>
+</html>
