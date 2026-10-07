@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash 使用教程 | 从安装配置到进阶技巧完整指南</title>
+    <meta name="description" content="详细的 Clash 使用教程，包括订阅导入、节点选择、规则配置、YAML 编写、TUN 模式开启等，适合新手和进阶用户。">
+    <link rel="canonical" href="https://mnclash.com/tutorial.html">
+
+    <style>
+        :root { color-scheme: light; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            line-height: 1.7;
+            color: #f5efe6;
+            background: #0f1117;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: #171a23;
+            padding: 20px 0;
+            border-bottom: 1px solid #1e222e;
+        }
+        .logo { font-size: 1.5rem; font-weight: 600; color: #fbbf24; text-decoration: none; }
+        nav { margin-top: 15px; }
+        nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin-right: 25px;
+            font-size: 0.95rem;
+        }
+        nav a:hover { color: #fbbf24; }
+        nav a.active { color: #fbbf24; }
+        .breadcrumb {
+            padding: 20px 0;
+            font-size: 0.9rem;
+            color: #808080;
+        }
+        .breadcrumb a { color: #a0a0a0; text-decoration: none; }
+        main { padding: 40px 0; }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        .intro {
+            font-size: 1.05rem;
+            color: #c0c0c0;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+        h2 {
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem 0;
+            color: #ffffff;
+            border-left: 4px solid #fbbf24;
+            padding-left: 15px;
+        }
+        h3 {
+            font-size: 1.3rem;
+            margin: 2rem 0 1rem 0;
+            color: #fbbf24;
+        }
+        p { margin-bottom: 1rem; color: #d0d0d0; }
+        .tutorial-section {
+            background: #171a23;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 2rem 0;
+        }
+        .step-list {
+            margin: 1.5rem 0;
+        }
+        .step-item {
+            margin-bottom: 2rem;
+            padding-left: 40px;
+            position: relative;
+        }
+        .step-item:before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            background: #fbbf24;
+            color: #0f1117;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .step-item h4 {
+            font-size: 1.1rem;
+            color: #fbbf24;
+            margin-bottom: 0.5rem;
+        }
+        code {
+            background: #1e222e;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #fbbf24;
+        }
+        pre {
+            background: #1e222e;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+        .note {
+            background: #1e222e;
+            border-left: 3px solid #fbbf24;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .note strong { color: #fbbf24; }
+        .tip {
+            background: #1a2e1a;
+            border-left: 3px solid #5eead4;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .tip strong { color: #5eead4; }
+        ul {
+            margin: 1rem 0 1rem 20px;
+            color: #d0d0d0;
+        }
+        li { margin-bottom: 0.5rem; }
+        footer {
+            background: #171a23;
+            padding: 30px 0;
+            margin-top: 60px;
+            text-align: center;
+            color: #808080;
+            border-top: 1px solid #1e222e;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; }
+            .tutorial-section { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Clash 客户端</a>
+            <nav>
+                <a href="index.html">首页</a>
+                <a href="windows.html">Windows</a>
+                <a href="macos.html">macOS</a>
+                <a href="android.html">Android</a>
+                <a href="ios.html">iOS</a>
+                <a href="tutorial.html" class="active">使用教程</a>
+                <a href="faq.html">常见问题</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">首页</a> / 使用教程
+        </div>
+
+        <main>
+            <h1>Clash 使用教程</h1>
+
+            <p class="intro">
+                这份教程会带你从零开始使用 Clash，不管你是第一次接触代理工具，还是想深入了解高级功能，都能在这里找到对应的内容。教程分基础和进阶两部分，建议按顺序看，遇到不懂的可以先跳过，用熟了再回来看进阶内容。
+            </p>
+
+            <h2>基础教程</h2>
+
+            <div class="tutorial-section">
+                <h3>如何导入订阅链接</h3>
+                <p>订阅链接是使用 Clash 的第一步。拿到订阅链接后，按照你使用的平台操作：</p>
+
+                <div class="step-list">
+                    <div class="step-item" data-step="1">
+                        <h4>复制订阅链接</h4>
+                        <p>从机场或服务商那里获取订阅链接，通常长这样：<code>https://example.com/api/v1/client/subscribe?token=xxxxx</code></p>
+                        <p>注意完整复制，不要漏掉前后的字符，也不要有多余的空格。</p>
+                    </div>
+
+                    <div class="step-item" data-step="2">
+                        <h4>打开 Clash 配置界面</h4>
+                        <p><strong>Windows/macOS：</strong>找到"配置"或"Profiles"标签页，点击"从 URL 导入"或"Download from a URL"。</p>
+                        <p><strong>Android：</strong>点击顶部的"配置"，点右上角加号，选择"从 URL 导入"。</p>
+                    </div>
+
+                    <div class="step-item" data-step="3">
+                        <h4>粘贴链接并下载</h4>
+                        <p>把订阅链接粘贴到输入框，给这个配置起个名字（比如"我的订阅"），点击确定或下载。</p>
+                        <p>Clash 会自动连接订阅链接，解析节点信息。下载完成后，这个配置会出现在列表里。</p>
+                    </div>
+
+                    <div class="step-item" data-step="4">
+                        <h4>选择并启用配置</h4>
+                        <p>点击刚下载的配置，让它处于选中状态。有些客户端会自动切换，有些需要手动点击"使用"或"激活"。</p>
+                    </div>
+                </div>
+
+                <div class="tip">
+                    <strong>提示：</strong>有些订阅链接需要在开启代理的情况下才能访问。如果下载失败，可以试试用浏览器打开订阅链接，看看能不能访问。如果浏览器也打不开，联系服务商确认链接是否正确。
+                </div>
+            </div>
+
+            <div class="tutorial-section">
+                <h3>如何选择和测试节点</h3>
+                <p>导入订阅后，你会看到一堆节点。怎么知道哪个好用呢？</p>
+
+                <div class="step-list">
+                    <div class="step-item" data-step="1">
+                        <h4>进入代理界面</h4>
+                        <p>找到"代理"或"Proxies"标签页，这里会显示所有可用的节点。</p>
+                    </div>
+
+                    <div class="step-item" data-step="2">
+                        <h4>测试节点延迟</h4>
+                        <p>点击"测速"或延迟测试按钮，Clash 会依次 ping 每个节点，显示延迟数值。</p>
+                        <p>延迟越低越好：</p>
+                        <ul>
+                            <li>0-100ms：非常快，基本无感知</li>
+                            <li>100-300ms：正常，看网页没问题</li>
+                            <li>300-500ms：有点慢，视频可能卡顿</li>
+                            <li>500ms 以上或超时：基本不能用</li>
+                        </ul>
+                    </div>
+
+                    <div class="step-item" data-step="3">
+                        <h4>选择节点</h4>
+                        <p>选一个延迟低的节点点击它。有些客户端支持自动选择，会自动选延迟最低的节点。</p>
+                        <p>如果是看视频或下载，除了看延迟，还要看节点的带宽。有些节点延迟低但带宽小，看高清视频会卡。这个只能实际用了才知道，多试几个节点。</p>
+                    </div>
+                </div>
+
+                <div class="note">
+                    <strong>注意：</strong>节点延迟会随时间变化。晚上高峰期，平时很快的节点可能会变慢。遇到这种情况，换个节点就行。
+                </div>
+            </div>
+
+            <div class="tutorial-section">
+                <h3>代理模式怎么选</h3>
+                <p>Clash 通常有三种代理模式，在主界面就能切换：</p>
+
+                <h4>规则模式（推荐）</h4>
+                <p>这是最常用的模式。Clash 会根据规则判断流量该怎么处理：</p>
+                <ul>
+                    <li>国内网站和 IP：直连，不走代理</li>
+                    <li>国外网站：走代理</li>
+                    <li>特定网站：走指定节点</li>
+                    <li>广告域名：拒绝连接</li>
+                </ul>
+                <p>好处是国内网站速度不受影响，还能省代理流量。大部分时候用这个模式就够了。</p>
+
+                <h4>全局模式</h4>
+                <p>所有流量都走代理，不管是国内还是国外网站。</p>
+                <p>什么时候用：</p>
+                <ul>
+                    <li>规则分流有问题，某些该走代理的网站没走</li>
+                    <li>临时需要完全代理的场景</li>
+                    <li>测试节点速度</li>
+                </ul>
+                <p>缺点是国内网站会变慢，而且浪费代理流量。</p>
+
+                <h4>直连模式</h4>
+                <p>等于关闭代理，所有流量都不走代理节点。</p>
+                <p>什么时候用：</p>
+                <ul>
+                    <li>访问银行、支付等对网络环境敏感的网站</li>
+                    <li>临时不需要代理但不想关闭 Clash</li>
+                    <li>排查问题，看看是不是代理导致的</li>
+                </ul>
+            </div>
+
+            <div class="tutorial-section">
+                <h3>如何更新订阅</h3>
+                <p>服务商可能会加新节点或调整节点配置，定期更新订阅能获取最新的节点列表。</p>
+
+                <div class="step-list">
+                    <div class="step-item" data-step="1">
+                        <h4>关闭代理（重要）</h4>
+                        <p>更新订阅前最好先停止代理，点击 Clash 主界面的停止或关闭按钮。</p>
+                        <p>有些订阅链接在开着代理时更新会失败。</p>
+                    </div>
+
+                    <div class="step-item" data-step="2">
+                        <h4>刷新订阅</h4>
+                        <p>在配置界面找到你的订阅，点旁边的刷新或更新图标。Clash 会重新下载配置文件。</p>
+                    </div>
+
+                    <div class="step-item" data-step="3">
+                        <h4>重新启动代理</h4>
+                        <p>更新完成后，重新开启代理。如果之前选的节点还在，会自动连接；如果节点被删除了，需要重新选一个。</p>
+                    </div>
+                </div>
+
+                <p>更新频率建议：如果节点经常变动，每周更新一次；如果节点很稳定，一个月更新一次就够。</p>
+            </div>
+
+            <h2>进阶教程</h2>
+
+            <div class="tutorial-section">
+                <h3>YAML 配置文件详解</h3>
+                <p>Clash 的配置文件是 YAML 格式，了解它的结构能帮你自定义各种功能。</p>
+
+                <h4>配置文件的基本结构</h4>
+                <pre><code># Clash 配置文件示例
+port: 7890              # HTTP 代理端口
+socks-port: 7891        # SOCKS5 代理端口
+allow-lan: false        # 是否允许局域网连接
+mode: rule              # 代理模式：rule/global/direct
+log-level: info         # 日志级别
+
+# DNS 配置
+dns:
+  enable: true
+  enhanced-mode: fake-ip
+  nameserver:
+    - 223.5.5.5
+    - 8.8.8.8
+
+# 代理节点
+proxies:
+  - name: "香港节点"
+    type: vmess
+    server: hk.example.com
+    port: 443
+    uuid: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+# 代理组
+proxy-groups:
+  - name: "节点选择"
+    type: select
+    proxies:
+      - "香港节点"
+      - "自动选择"
+
+  - name: "自动选择"
+    type: url-test
+    proxies:
+      - "香港节点"
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300
+
+# 规则
+rules:
+  - DOMAIN-SUFFIX,google.com,节点选择
+  - DOMAIN-SUFFIX,youtube.com,节点选择
+  - GEOIP,CN,DIRECT
+  - MATCH,节点选择</code></pre>
+
+                <h4>关键字段说明</h4>
+                <p><strong>port 和 socks-port：</strong>Clash 监听的端口，应用程序通过这些端口连接代理。一般不用改。</p>
+                <p><strong>mode：</strong>代理模式，<code>rule</code> 是规则分流，<code>global</code> 是全局代理，<code>direct</code> 是直连。</p>
+                <p><strong>dns.enhanced-mode：</strong>DNS 模式，<code>fake-ip</code> 返回假 IP 加速解析，<code>redir-host</code> 返回真实 IP。</p>
+                <p><strong>proxies：</strong>节点列表，每个节点包含类型、服务器地址、端口、密码等信息。</p>
+                <p><strong>proxy-groups：</strong>代理组，可以把多个节点组合成一个组，支持手动选择、自动测速、负载均衡等策略。</p>
+                <p><strong>rules：</strong>规则列表，从上到下依次匹配，匹配成功就按规则处理，不再继续匹配。</p>
+            </div>
+
+            <div class="tutorial-section">
+                <h3>自定义规则分流</h3>
+                <p>规则决定了哪些流量走代理、哪些直连。了解规则类型能帮你优化分流。</p>
+
+                <h4>常用规则类型</h4>
+                <p><strong>DOMAIN：</strong>精确匹配域名</p>
+                <pre><code>DOMAIN,www.google.com,Proxy</code></pre>
+                <p>只匹配 www.google.com，不匹配 mail.google.com</p>
+
+                <p><strong>DOMAIN-SUFFIX：</strong>匹配域名后缀</p>
+                <pre><code>DOMAIN-SUFFIX,google.com,Proxy</code></pre>
+                <p>匹配所有 .google.com 结尾的域名，包括 www.google.com、mail.google.com 等</p>
+
+                <p><strong>DOMAIN-KEYWORD：</strong>匹配域名关键词</p>
+                <pre><code>DOMAIN-KEYWORD,google,Proxy</code></pre>
+                <p>只要域名里包含 google 就匹配，比如 google.com、googleapis.com</p>
+
+                <p><strong>IP-CIDR：</strong>匹配 IP 段</p>
+                <pre><code>IP-CIDR,192.168.0.0/16,DIRECT</code></pre>
+                <p>匹配 192.168.0.0 到 192.168.255.255 的所有 IP</p>
+
+                <p><strong>GEOIP：</strong>根据 IP 的地理位置匹配</p>
+                <pre><code>GEOIP,CN,DIRECT</code></pre>
+                <p>中国大陆的 IP 直连，不走代理</p>
+
+                <p><strong>MATCH：</strong>兜底规则</p>
+                <pre><code>MATCH,Proxy</code></pre>
+                <p>前面所有规则都没匹配到的，按这条规则处理。通常放在规则列表最后。</p>
+
+                <h4>规则顺序很重要</h4>
+                <p>Clash 从上到下依次匹配规则，匹配到第一条符合的就执行，不会继续往下看。所以：</p>
+                <ul>
+                    <li>把特殊规则放在前面，通用规则放在后面</li>
+                    <li>精确匹配（DOMAIN）放在前面，模糊匹配（KEYWORD）放在后面</li>
+                    <li>MATCH 兜底规则永远放在最后</li>
+                </ul>
+            </div>
+
+            <div class="tutorial-section">
+                <h3>TUN 模式配置</h3>
+                <p>TUN 模式能实现真正的全局代理，连游戏客户端、命令行工具这些不支持系统代理的应用都能走代理。</p>
+
+                <h4>什么时候需要 TUN 模式</h4>
+                <ul>
+                    <li>游戏加速：大部分游戏不读取系统代理，必须用 TUN 模式</li>
+                    <li>命令行工具：git、npm、pip 等有时候不走系统代理</li>
+                    <li>某些应用明确不支持代理</li>
+                </ul>
+
+                <h4>如何开启 TUN 模式</h4>
+                <p><strong>Windows（Clash for Windows）：</strong></p>
+                <ul>
+                    <li>在"常规"或"General"设置中找到"TUN Mode"</li>
+                    <li>点击开启，第一次使用会提示安装虚拟网卡驱动</li>
+                    <li>需要管理员权限</li>
+                </ul>
+
+                <p><strong>macOS（ClashX Pro）：</strong></p>
+                <ul>
+                    <li>点击菜单栏图标，选择"增强模式"</li>
+                    <li>输入密码授权系统扩展</li>
+                    <li>只有 ClashX Pro 支持，免费版 ClashX 不支持</li>
+                </ul>
+
+                <p><strong>Android（Clash for Android）：</strong></p>
+                <ul>
+                    <li>Android 本身就是通过 VPN API 实现全局代理，不需要额外开启 TUN</li>
+                    <li>启动 Clash 时会提示"建立 VPN 连接"，允许即可</li>
+                </ul>
+
+                <div class="note">
+                    <strong>注意：</strong>TUN 模式需要更高权限，配置不当可能导致网络不通。如果开启 TUN 后网络断了，立即关闭 TUN 模式，重启网络适配器。不确定怎么用的话，普通系统代理模式就够用了。
+                </div>
+            </div>
+
+            <div class="tutorial-section">
+                <h3>DNS 分流配置</h3>
+                <p>DNS 分流能防止 DNS 污染和泄露，还能加速域名解析。</p>
+
+                <h4>Clash 的 DNS 工作原理</h4>
+                <p>Clash 内置了 DNS 服务器，应用查询域名时不走系统 DNS，而是由 Clash 处理。Clash 可以：</p>
+                <ul>
+                    <li>针对不同域名使用不同的 DNS 服务器</li>
+                    <li>国内域名用国内 DNS（快），国外域名用国外 DNS（准）</li>
+                    <li>返回 fake-ip 跳过 DNS 查询，直接开始连接</li>
+                </ul>
+
+                <h4>推荐的 DNS 配置</h4>
+                <pre><code>dns:
+  enable: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  nameserver:
+    - 223.5.5.5        # 阿里 DNS
+    - 119.29.29.29     # 腾讯 DNS
+  fallback:
+    - 8.8.8.8          # Google DNS
+    - 1.1.1.1          # Cloudflare DNS
+  fallback-filter:
+    geoip: true
+    geoip-code: CN</code></pre>
+
+                <p><strong>nameserver：</strong>主 DNS 服务器，用来解析国内域名</p>
+                <p><strong>fallback：</strong>后备 DNS，用来解析国外域名和被污染的域名</p>
+                <p><strong>fallback-filter：</strong>决定什么情况下用 fallback，这里配置的是"返回国外 IP 时用 fallback"</p>
+
+                <p>这样配置后，国内网站用国内 DNS 解析（快），国外网站用国外 DNS 解析（准），而且国外 DNS 的查询走代理，防止泄露。</p>
+            </div>
+
+            <div class="tip" style="margin-top: 3rem;">
+                <strong>提示：</strong>进阶配置不是必须的。大部分订阅已经配置好了规则和 DNS，直接用就行。只有在需要自定义时才修改配置文件，而且改之前最好备份原文件。
+            </div>
+
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Clash 客户端下载 | 最后更新：<span id="updateTime"></span></p>
+        </div>
+    </footer>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            document.getElementById('updateTime').textContent = `${year}-${month}-${day}`;
+        }
+        updateTime();
+    </script>
+</body>
+</html>
