@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash 订阅链接怎么用 | 导入、更新、管理订阅完整教程</title>
+    <meta name="description" content="详细讲解 Clash 订阅链接的使用方法：如何获取订阅链接、如何导入到 Clash、如何更新订阅、订阅失败怎么办，以及订阅管理技巧。">
+    <link rel="canonical" href="https://mnclash.com/clash-subscription.html">
+
+    <style>
+        :root { color-scheme: light; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            line-height: 1.7;
+            color: #f5efe6;
+            background: #0f1117;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: #171a23;
+            padding: 20px 0;
+            border-bottom: 1px solid #1e222e;
+        }
+        .logo { font-size: 1.5rem; font-weight: 600; color: #fbbf24; text-decoration: none; }
+        nav { margin-top: 15px; }
+        nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin-right: 25px;
+            font-size: 0.95rem;
+        }
+        nav a:hover { color: #fbbf24; }
+        .breadcrumb {
+            padding: 20px 0;
+            font-size: 0.9rem;
+            color: #808080;
+        }
+        .breadcrumb a { color: #a0a0a0; text-decoration: none; }
+        main { padding: 40px 0; }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        .intro {
+            font-size: 1.05rem;
+            color: #c0c0c0;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+        h2 {
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem 0;
+            color: #ffffff;
+            border-left: 4px solid #fbbf24;
+            padding-left: 15px;
+        }
+        h3 {
+            font-size: 1.3rem;
+            margin: 2rem 0 1rem 0;
+            color: #fbbf24;
+        }
+        p { margin-bottom: 1rem; color: #d0d0d0; }
+        .step-list {
+            margin: 1.5rem 0;
+        }
+        .step-item {
+            background: #171a23;
+            border: 1px solid #1e222e;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 1.5rem;
+            padding-left: 60px;
+            position: relative;
+        }
+        .step-item:before {
+            content: attr(data-step);
+            position: absolute;
+            left: 20px;
+            top: 25px;
+            width: 32px;
+            height: 32px;
+            background: #fbbf24;
+            color: #0f1117;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .step-item h4 {
+            color: #fbbf24;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+        code {
+            background: #1e222e;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #fbbf24;
+        }
+        ul {
+            margin: 1rem 0 1rem 20px;
+            color: #d0d0d0;
+        }
+        li { margin-bottom: 0.5rem; }
+        .note {
+            background: #1e222e;
+            border-left: 3px solid #fbbf24;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .note strong { color: #fbbf24; }
+        .warning {
+            background: #2e1a1a;
+            border-left: 3px solid #f87171;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .warning strong { color: #f87171; }
+        .tip {
+            background: #1a2e1a;
+            border-left: 3px solid #5eead4;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .tip strong { color: #5eead4; }
+        .example-box {
+            background: #171a23;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+            border: 1px solid #1e222e;
+        }
+        .example-box h4 {
+            color: #5eead4;
+            margin-bottom: 0.8rem;
+        }
+        footer {
+            background: #171a23;
+            padding: 30px 0;
+            margin-top: 60px;
+            text-align: center;
+            color: #808080;
+            border-top: 1px solid #1e222e;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Clash 客户端</a>
+            <nav>
+                <a href="index.html">首页</a>
+                <a href="tutorial.html">教程</a>
+                <a href="faq.html">FAQ</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">首页</a> / <a href="tutorial.html">教程</a> / Clash 订阅链接使用
+        </div>
+
+        <main>
+            <h1>Clash 订阅链接怎么用</h1>
+
+            <p class="intro">
+                订阅链接是使用 Clash 的第一步。拿到订阅链接后，导入到 Clash 就能自动获取所有节点配置，不用一个个手动添加。这篇文章从零开始，详细讲解订阅链接的获取、导入、更新和管理。
+            </p>
+
+            <h2>什么是订阅链接</h2>
+
+            <p>订阅链接是一个网址，里面包含了所有节点的配置信息。把这个链接导入 Clash 后，软件会自动解析出所有节点、规则、代理组等配置。</p>
+
+            <p>一个典型的订阅链接长这样：</p>
+            <code style="display: block; margin: 1rem 0; padding: 10px; word-break: break-all;">https://example.com/api/v1/client/subscribe?token=abcd1234efgh5678</code>
+
+            <p><strong>订阅链接的好处：</strong></p>
+            <ul>
+                <li>一次导入，获取所有节点</li>
+                <li>机场更新节点后，点一下刷新就能同步</li>
+                <li>包含优化好的规则和配置</li>
+                <li>换设备时只需要导入同一个链接</li>
+            </ul>
+
+            <h2>如何获取订阅链接</h2>
+
+            <p>订阅链接由代理服务提供商（俗称"机场"）提供。购买服务后，机场会给你订阅链接。</p>
+
+            <div class="step-list">
+                <div class="step-item" data-step="1">
+                    <h4>注册并购买服务</h4>
+                    <p>找一个靠谱的机场，注册账号并购买套餐。价格从每月十几元到上百元不等，根据流量和节点数量定价。</p>
+                </div>
+
+                <div class="step-item" data-step="2">
+                    <h4>进入用户中心</h4>
+                    <p>登录机场网站，找到"用户中心"、"我的订阅"或类似入口。</p>
+                </div>
+
+                <div class="step-item" data-step="3">
+                    <h4>复制订阅链接</h4>
+                    <p>找到 Clash 订阅链接（有些网站叫"Clash 订阅"、"通用订阅"、"标准订阅"），点击"复制"按钮。</p>
+                    <p>注意完整复制整个链接，不要漏掉前后的字符。</p>
+                </div>
+            </div>
+
+            <div class="warning">
+                <strong>重要提示：</strong>订阅链接包含你的账号信息，不要泄露给别人。别人拿到你的订阅链接就能用你的流量。
+            </div>
+
+            <h2>如何导入订阅链接</h2>
+
+            <p>不同平台的 Clash 客户端导入方法略有不同，但流程基本一样。</p>
+
+            <h3>Windows - Clash for Windows / Clash Verge</h3>
+
+            <div class="step-list">
+                <div class="step-item" data-step="1">
+                    <h4>打开配置界面</h4>
+                    <p><strong>Clash for Windows：</strong>点击左侧的"Profiles"标签</p>
+                    <p><strong>Clash Verge：</strong>点击左侧的"订阅"或"配置"标签</p>
+                </div>
+
+                <div class="step-item" data-step="2">
+                    <h4>添加订阅</h4>
+                    <p>找到"从 URL 导入"或"Download from a URL"按钮，点击它。</p>
+                </div>
+
+                <div class="step-item" data-step="3">
+                    <h4>粘贴链接</h4>
+                    <p>在弹出的输入框中粘贴订阅链接，给这个配置起个名字（比如"我的订阅"），点击确定或下载。</p>
+                </div>
+
+                <div class="step-item" data-step="4">
+                    <h4>等待下载</h4>
+                    <p>Clash 会自动连接订阅链接，下载配置文件。下载完成后，配置会出现在列表里。</p>
+                </div>
+
+                <div class="step-item" data-step="5">
+                    <h4>选择配置</h4>
+                    <p>点击刚下载的配置，让它处于选中状态。有些客户端会自动切换，有些需要手动点击"使用"。</p>
+                </div>
+            </div>
+
+            <h3>macOS - ClashX / ClashX Pro</h3>
+
+            <div class="step-list">
+                <div class="step-item" data-step="1">
+                    <h4>打开配置管理</h4>
+                    <p>点击菜单栏的 ClashX 图标，选择"配置" → "托管配置" → "管理"。</p>
+                </div>
+
+                <div class="step-item" data-step="2">
+                    <h4>添加订阅</h4>
+                    <p>在托管配置窗口，点击左下角的"+"按钮。</p>
+                </div>
+
+                <div class="step-item" data-step="3">
+                    <h4>输入信息</h4>
+                    <p>在弹出的窗口中：</p>
+                    <ul>
+                        <li>URL：粘贴订阅链接</li>
+                        <li>配置名称：起个名字，比如"我的订阅"</li>
+                        <li>点击"确定"</li>
+                    </ul>
+                </div>
+
+                <div class="step-item" data-step="4">
+                    <h4>选择配置</h4>
+                    <p>回到主菜单，"配置" → 选中你刚添加的配置。</p>
+                </div>
+            </div>
+
+            <h3>Android - Clash Meta</h3>
+
+            <div class="step-list">
+                <div class="step-item" data-step="1">
+                    <h4>打开配置界面</h4>
+                    <p>点击顶部的"配置"或"Profiles"。</p>
+                </div>
+
+                <div class="step-item" data-step="2">
+                    <h4>添加订阅</h4>
+                    <p>点击右上角的"+"按钮，选择"从 URL 导入"。</p>
+                </div>
+
+                <div class="step-item" data-step="3">
+                    <h4>填写信息</h4>
+                    <ul>
+                        <li>名称：起个名字</li>
+                        <li>URL：粘贴订阅链接</li>
+                        <li>自动更新间隔：可以选择"每天"</li>
+                        <li>点击"保存"</li>
+                    </ul>
+                </div>
+
+                <div class="step-item" data-step="4">
+                    <h4>选择配置</h4>
+                    <p>在配置列表中点击刚添加的配置，让它处于选中状态。</p>
+                </div>
+            </div>
+
+            <h3>iOS - Shadowrocket</h3>
+
+            <div class="step-list">
+                <div class="step-item" data-step="1">
+                    <h4>复制订阅链接</h4>
+                    <p>在 Safari 或其他浏览器中复制订阅链接。</p>
+                </div>
+
+                <div class="step-item" data-step="2">
+                    <h4>导入到 Shadowrocket</h4>
+                    <p>打开 Shadowrocket，点击右上角的"+"，选择"Subscribe"。</p>
+                </div>
+
+                <div class="step-item" data-step="3">
+                    <h4>填写信息</h4>
+                    <ul>
+                        <li>URL：粘贴订阅链接（会自动填充）</li>
+                        <li>备注：起个名字</li>
+                        <li>点击"完成"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tip">
+                <strong>快速导入技巧：</strong>有些机场提供一键导入功能。你在机场网站点击"一键导入 Clash"，会自动跳转到 Clash 并完成导入，不需要手动复制粘贴。
+            </div>
+
+            <h2>导入失败怎么办</h2>
+
+            <p>如果导入订阅时提示失败或下载不了，试试这些办法：</p>
+
+            <div class="example-box">
+                <h4>问题 1：提示"无法连接到订阅链接"</h4>
+                <p><strong>原因：</strong>有些订阅链接本身需要代理才能访问。</p>
+                <p><strong>解决：</strong></p>
+                <ul>
+                    <li>关闭 Clash 的代理（如果已开启）</li>
+                    <li>或者用浏览器打开订阅链接，看能不能访问</li>
+                    <li>如果浏览器也打不开，联系机场确认链接是否正确</li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <h4>问题 2：导入后没有节点</h4>
+                <p><strong>原因：</strong>订阅链接过期、服务到期、或 Clash 版本不支持订阅中的协议。</p>
+                <p><strong>解决：</strong></p>
+                <ul>
+                    <li>确认服务是否在有效期内</li>
+                    <li>联系机场确认订阅链接是否正确</li>
+                    <li>升级到最新版本的 Clash 或换用 Clash Meta</li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <h4>问题 3：链接复制不完整</h4>
+                <p><strong>症状：</strong>粘贴后发现链接很短，或者缺了一截。</p>
+                <p><strong>解决：</strong>重新复制，确保完整复制整个链接。有些机场的链接很长，容易漏掉后面的参数。</p>
+            </div>
+
+            <h2>如何更新订阅</h2>
+
+            <p>机场可能会添加新节点、移除失效节点、或调整配置。定期更新订阅能获取最新的节点列表。</p>
+
+            <h3>手动更新</h3>
+
+            <p><strong>Windows / macOS：</strong>在配置列表中，找到你的订阅，点击旁边的刷新或更新图标。</p>
+
+            <p><strong>Android：</strong>长按配置，选择"更新"。</p>
+
+            <p><strong>建议更新频率：</strong>每周一次，或者发现节点不好用时更新。</p>
+
+            <h3>自动更新</h3>
+
+            <p>部分 Clash 客户端支持自动更新订阅：</p>
+
+            <ul>
+                <li><strong>Clash Verge：</strong>在订阅设置中可以设置自动更新间隔（每天/每周）</li>
+                <li><strong>Clash Meta (Android)：</strong>添加订阅时可以选择自动更新间隔</li>
+            </ul>
+
+            <div class="note">
+                <strong>注意：</strong>更新订阅时最好先关闭代理，有些订阅链接在开着代理时更新会失败。
+            </div>
+
+            <h2>订阅管理技巧</h2>
+
+            <h3>多订阅管理</h3>
+
+            <p>如果你有多个机场订阅，可以都导入到 Clash：</p>
+
+            <ul>
+                <li>给每个订阅起个清晰的名字（比如"机场A"、"机场B"）</li>
+                <li>切换时点击对应的配置即可</li>
+                <li>同时只能启用一个订阅</li>
+            </ul>
+
+            <h3>备份订阅</h3>
+
+            <p>订阅链接建议保存在安全的地方：</p>
+
+            <ul>
+                <li>存到密码管理器（如 1Password、Bitwarden）</li>
+                <li>或者存到私人笔记里</li>
+                <li>换设备时直接用同一个订阅链接导入</li>
+            </ul>
+
+            <h3>订阅转换</h3>
+
+            <p>有些机场只提供 V2Ray 订阅，不提供 Clash 订阅。这时可以用订阅转换服务：</p>
+
+            <ul>
+                <li>把 V2Ray 订阅链接输入转换工具</li>
+                <li>生成 Clash 兼容的订阅链接</li>
+                <li>常用转换工具：sub-web、订阅转换 API</li>
+            </ul>
+
+            <div class="warning">
+                <strong>安全提醒：</strong>使用第三方订阅转换服务时，你的订阅链接会被第三方服务器处理。选择信誉好的转换服务，或者自己搭建转换服务器。
+            </div>
+
+            <h2>常见问题</h2>
+
+            <div class="note">
+                <strong>Q: 订阅链接可以在多个设备上使用吗？</strong><br>
+                可以。同一个订阅链接可以导入到手机、电脑等多个设备。但要注意流量是共享的，多设备同时使用会消耗更多流量。
+            </div>
+
+            <div class="note">
+                <strong>Q: 订阅链接会过期吗？</strong><br>
+                订阅链接本身通常不会过期，但如果你的服务套餐到期了，订阅链接会失效或返回空节点。续费后订阅链接通常还是同一个。
+            </div>
+
+            <div class="note">
+                <strong>Q: 更新订阅会影响当前连接吗？</strong><br>
+                不会。更新订阅只是下载新的配置文件，不会断开当前的代理连接。但如果你当前使用的节点在新配置中被删除了，可能需要重新选择节点。
+            </div>
+
+            <div class="note">
+                <strong>Q: 可以手动编辑订阅配置吗？</strong><br>
+                可以，但不建议。如果手动编辑了订阅配置，下次更新订阅时你的修改会被覆盖。如果需要自定义配置，建议创建一个本地配置文件，不要直接改订阅。
+            </div>
+
+            <h2>总结</h2>
+
+            <p>订阅链接的使用流程：</p>
+
+            <ol style="font-size: 1.05rem; line-height: 2;">
+                <li>从机场获取订阅链接</li>
+                <li>在 Clash 中导入订阅</li>
+                <li>选择刚导入的配置</li>
+                <li>选择一个节点</li>
+                <li>开启系统代理</li>
+                <li>定期更新订阅（建议每周一次）</li>
+            </ol>
+
+            <p style="margin-top: 2rem; font-size: 1.05rem;">掌握订阅链接的使用，是用好 Clash 的第一步。遇到问题先检查订阅链接是否正确、服务是否到期、网络是否正常，大部分问题都能解决。</p>
+
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Clash 客户端下载 | 最后更新：<span id="updateTime"></span></p>
+        </div>
+    </footer>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            document.getElementById('updateTime').textContent = `${year}-${month}-${day}`;
+        }
+        updateTime();
+    </script>
+</body>
+</html>
