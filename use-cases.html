@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash 使用场景大全 | 开发者、科研、游戏、流媒体完整指南</title>
+    <meta name="description" content="详细讲解 Clash 在不同场景下的应用：软件开发、科研学术、游戏加速、流媒体观看、远程办公、跨境电商等，包括针对性的配置建议。">
+    <link rel="canonical" href="https://mnclash.com/use-cases.html">
+
+    <style>
+        :root { color-scheme: light; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            line-height: 1.7;
+            color: #f5efe6;
+            background: #0f1117;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: #171a23;
+            padding: 20px 0;
+            border-bottom: 1px solid #1e222e;
+        }
+        .logo { font-size: 1.5rem; font-weight: 600; color: #fbbf24; text-decoration: none; }
+        nav { margin-top: 15px; }
+        nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin-right: 25px;
+            font-size: 0.95rem;
+        }
+        nav a:hover { color: #fbbf24; }
+        .breadcrumb {
+            padding: 20px 0;
+            font-size: 0.9rem;
+            color: #808080;
+        }
+        .breadcrumb a { color: #a0a0a0; text-decoration: none; }
+        main { padding: 40px 0; }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        .intro {
+            font-size: 1.05rem;
+            color: #c0c0c0;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+        h2 {
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem 0;
+            color: #ffffff;
+            border-left: 4px solid #fbbf24;
+            padding-left: 15px;
+        }
+        h3 {
+            font-size: 1.3rem;
+            margin: 2rem 0 1rem 0;
+            color: #fbbf24;
+        }
+        p { margin-bottom: 1rem; color: #d0d0d0; }
+        .use-case-card {
+            background: #171a23;
+            border: 1px solid #1e222e;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 2rem 0;
+        }
+        .use-case-card h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        .tag {
+            display: inline-block;
+            background: #1e222e;
+            color: #fbbf24;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-right: 8px;
+            margin-bottom: 10px;
+        }
+        .scenario-section {
+            margin: 1.5rem 0;
+        }
+        .scenario-section h4 {
+            color: #5eead4;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+        }
+        code {
+            background: #1e222e;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #fbbf24;
+        }
+        pre {
+            background: #1e222e;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid #2a2e3a;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+        ul {
+            margin: 1rem 0 1rem 20px;
+            color: #d0d0d0;
+        }
+        li { margin-bottom: 0.5rem; }
+        .tip {
+            background: #1a2e1a;
+            border-left: 3px solid #5eead4;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .tip strong { color: #5eead4; }
+        .config-box {
+            background: #1a1d28;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 1rem 0;
+            border-left: 3px solid #fbbf24;
+        }
+        .config-box h5 {
+            color: #fbbf24;
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+        }
+        footer {
+            background: #171a23;
+            padding: 30px 0;
+            margin-top: 60px;
+            text-align: center;
+            color: #808080;
+            border-top: 1px solid #1e222e;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Clash 客户端</a>
+            <nav>
+                <a href="index.html">首页</a>
+                <a href="tutorial.html">教程</a>
+                <a href="faq.html">FAQ</a>
+                <a href="about.html">关于</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">首页</a> / <a href="about.html">关于</a> / 使用场景
+        </div>
+
+        <main>
+            <h1>Clash 使用场景大全</h1>
+
+            <p class="intro">
+                Clash 不只是个"翻墙工具"。软件开发、科研学术、游戏加速、流媒体观看、远程办公，各行各业都有人在用。不同场景对代理的需求不同，配置策略也不一样。这篇文章整理了主要使用场景，给出针对性的配置建议。
+            </p>
+
+            <h2>软件开发</h2>
+
+            <div class="use-case-card">
+                <h3>场景 1：访问开发者资源</h3>
+                <span class="tag">GitHub</span>
+                <span class="tag">Stack Overflow</span>
+                <span class="tag">NPM</span>
+                <span class="tag">Docker Hub</span>
+
+                <div class="scenario-section">
+                    <h4>需求分析</h4>
+                    <p>开发者需要频繁访问 GitHub、Stack Overflow、Google、各种技术文档。国内访问这些网站经常很慢或者打不开，严重影响工作效率。</p>
+                </div>
+
+                <div class="scenario-section">
+                    <h4>推荐配置</h4>
+                    <p><strong>协议选择：</strong>Shadowsocks 或 Trojan，稳定为主</p>
+                    <p><strong>节点选择：</strong>香港或新加坡节点，延迟低，适合长时间连接</p>
+                    <p><strong>代理模式：</strong>规则模式，自动分流</p>
+                </div>
+
+                <div class="config-box">
+                    <h5>专用规则配置</h5>
+                    <pre><code>rules:
+  # GitHub 相关
+  - DOMAIN-SUFFIX,github.com,Proxy
+  - DOMAIN-SUFFIX,githubusercontent.com,Proxy
+  - DOMAIN-SUFFIX,github.io,Proxy
+  - DOMAIN-SUFFIX,githubassets.com,Proxy
+
+  # NPM 和前端工具
+  - DOMAIN-SUFFIX,npmjs.org,Proxy
+  - DOMAIN-SUFFIX,npmjs.com,Proxy
+  - DOMAIN-SUFFIX,yarnpkg.com,Proxy
+  - DOMAIN-SUFFIX,unpkg.com,Proxy
+
+  # Docker
+  - DOMAIN-SUFFIX,docker.com,Proxy
+  - DOMAIN-SUFFIX,docker.io,Proxy
+
+  # Google 服务
+  - DOMAIN-SUFFIX,google.com,Proxy
+  - DOMAIN-SUFFIX,googleapis.com,Proxy
+  - DOMAIN-SUFFIX,golang.org,Proxy
+
+  # Stack Overflow
+  - DOMAIN-SUFFIX,stackoverflow.com,Proxy
+  - DOMAIN-SUFFIX,stackexchange.com,Proxy
+
+  # 国内源直连（速度快）
+  - DOMAIN-SUFFIX,taobao.org,DIRECT
+  - DOMAIN-SUFFIX,npmmirror.com,DIRECT</code></pre>
+                </div>
+
+                <div class="tip">
+                    <strong>建议：</strong>开发环境配好 git、npm、pip 等工具的代理设置，这样命令行工具也能走代理。比如 git 配置：<code>git config --global http.proxy http://127.0.0.1:7890</code>
+                </div>
+            </div>
+
+            <div class="use-case-card">
+                <h3>场景 2：命令行工具代理</h3>
+                <span class="tag">Git</span>
+                <span class="tag">NPM</span>
+                <span class="tag">Pip</span>
+                <span class="tag">终端</span>
+
+                <div class="scenario-section">
+                    <h4>问题</h4>
+                    <p>git clone、npm install、pip install 这些命令经常超时或很慢，因为它们不读取系统代理设置。</p>
+                </div>
+
+                <div class="scenario-section">
+                    <h4>解决方案 1：配置工具代理（推荐）</h4>
+                    <p><strong>Git：</strong></p>
+                    <code style="display: block; margin: 1rem 0;">git config --global http.proxy http://127.0.0.1:7890</code>
+                    <code style="display: block; margin: 1rem 0;">git config --global https.proxy http://127.0.0.1:7890</code>
+
+                    <p style="margin-top: 1.5rem;"><strong>NPM：</strong></p>
+                    <code style="display: block; margin: 1rem 0;">npm config set proxy http://127.0.0.1:7890</code>
+                    <code style="display: block; margin: 1rem 0;">npm config set https-proxy http://127.0.0.1:7890</code>
+
+                    <p style="margin-top: 1.5rem;"><strong>Pip：</strong></p>
+                    <code style="display: block; margin: 1rem 0;">pip install package_name --proxy http://127.0.0.1:7890</code>
+                </div>
+
+                <div class="scenario-section">
+                    <h4>解决方案 2：开启 TUN 模式</h4>
+                    <p>如果不想一个个配置工具，直接开启 Clash 的 TUN 模式，所有命令行工具自动走代理。</p>
+                </div>
+            </div>
+
+            <h2>科研学术</h2>
+
+            <div class="use-case-card">
+                <h3>场景 3：访问学术资源</h3>
+                <span class="tag">Google Scholar</span>
+                <span class="tag">IEEE</span>
+                <span class="tag">PubMed</span>
+                <span class="tag">ArXiv</span>
+
+                <div class="scenario-section">
+                    <h4>需求分析</h4>
+                    <p>科研人员需要访问 Google Scholar、各大学术期刊网站、论文数据库。这些网站在国内要么访问不了，要么速度很慢。</p>
+                </div>
+
+                <div class="scenario-section">
+                    <h4>推荐配置</h4>
+                    <p><strong>协议：</strong>Trojan 或 VLESS（隐蔽性好，不容易被干扰）</p>
+                    <p><strong>节点：</strong>美国或欧洲节点（学术资源服务器多在这些地区）</p>
+                    <p><strong>模式：</strong>规则模式，学术网站走代理，其他直连</p>
+                </div>
+
+                <div class="config-box">
+                    <h5>学术资源规则</h5>
+                    <pre><code>rules:
+  # Google Scholar
+  - DOMAIN-SUFFIX,scholar.google.com,Proxy
+
+  # 学术数据库
+  - DOMAIN-SUFFIX,ieee.org,Proxy
+  - DOMAIN-SUFFIX,acm.org,Proxy
+  - DOMAIN-SUFFIX,springer.com,Proxy
+  - DOMAIN-SUFFIX,sciencedirect.com,Proxy
+  - DOMAIN-SUFFIX,nature.com,Proxy
+  - DOMAIN-SUFFIX,science.org,Proxy
+
+  # 预印本平台
+  - DOMAIN-SUFFIX,arxiv.org,Proxy
+  - DOMAIN-SUFFIX,biorxiv.org,Proxy
+
+  # 参考文献管理
+  - DOMAIN-SUFFIX,mendeley.com,Proxy
+  - DOMAIN-SUFFIX,zotero.org,Proxy</code></pre>
+                </div>
+
+                <div class="tip">
+                    <strong>提示：</strong>某些学校有校园网出口，可以直接访问部分学术资源。如果你在学校内网，可以先试试不开代理，能访问就不用浪费代理流量。
+                </div>
+            </div>
+
+            <h2>游戏加速</h2>
+
+            <div class="use-case-card">
+                <h3>场景 4：降低游戏延迟</h3>
+                <span class="tag">国际服游戏</span>
+                <span class="tag">Steam</span>
+                <span class="tag">低延迟</span>
+
+                <div class="scenario-section">
+                    <h4>需求分析</h4>
+                    <p>玩国际服游戏（如 PUBG、Valorant、Apex）延迟高、掉线频繁。需要低延迟、稳定的代理连接。</p>
+                </div>
+
+                <div class="scenario-section">
+                    <h4>推荐配置</h4>
+                    <p><strong>协议：</strong>Hysteria2（专为弱网优化，延迟最低）</p>
+                    <p><strong>节点：</strong>选择地理位置靠近游戏服务器的节点</p>
+                    <ul>
+                        <li>日服游戏 → 日本节点</li>
+                        <li>美服游戏 → 美国西海岸节点</li>
+                        <li>欧服游戏 → 欧洲节点</li>
+                    </ul>
+                    <p><strong>模式：</strong>TUN 模式（必须），让游戏流量走代理</p>
+                </div>
+
+                <div class="scenario-section">
+                    <h4>配置步骤</h4>
+                    <ol>
+                        <li>开启 Clash 的 TUN 模式</li>
+                        <li>测试节点延迟，选延迟最低的</li>
+                        <li>如果机场提供游戏专用节点，优先选择</li>
+                        <li>进游戏测试，看 ping 值是否降低</li>
+                    </ol>
+                </div>
+
+                <div class="tip">
+                    <strong>游戏加速注意事项：</strong>
+                    <ul style="margin-top: 0.5rem; margin-left: 20px;">
+                        <li>不是所有游戏都允许用代理，使用前确认游戏条款</li>
+                        <li>某些游戏可能检测代理并封号，谨慎使用</li>
+                        <li>游戏加速需要 UDP 支持，确认节点支持 UDP</li>
+                        <li>延迟波动比平均延迟更重要，选稳定的节点</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>流媒体观看</h2>
+
+            <div class="use-case-card">
+                <h3>场景 5：观看流媒体服务</h3>
+                <span class="tag">Netflix</span>
+                <span class="tag">YouTube</span>
+                <span class="tag">Disney+</span>
+                <span class="tag">流媒体解锁</span>
+
+                <div class="scenario-section">
+                    <h4>需求分析</h4>
+                    <p>观看 Netflix、YouTube、Disney+ 等流媒体服务。某些内容有地区限制，需要特定地区的 IP。</p>
+                </div>
+
+                <div class="scenario-section">
+                    <h4>推荐配置</h4>
+                    <p><strong>协议：</strong>Trojan 或 Shadowsocks（稳定，适合长时间串流）</p>
+                    <p><strong>节点选择：</strong></p>
+                    <ul>
+                        <li>Netflix 美区内容 → 美国节点（且支持 Netflix 解锁）</li>
+                        <li>YouTube 4K 视频 → 香港/新加坡节点（带宽大）</li>
+                        <li>Disney+ → 美国或新加坡节点</li>
+                    </ul>
+                    <p><strong>注意：</strong>不是所有节点都能解锁流媒体，需要选择专门的"流媒体解锁节点"或"原生 IP 节点"。</p>
+                </div>
+
+                <div class="config-box">
+                    <h5>流媒体分流配置</h5>
+                    <pre><code># 先创建流媒体专用代理组
+proxy-groups:
+  - name: "Netflix"
+    type: select
+    proxies:
+      - "美国原生IP节点"
+      - "新加坡节点"
+
+  - name: "YouTube"
+    type: select
+    proxies:
+      - "香港节点"
+      - "台湾节点"
+
+rules:
+  # Netflix
+  - DOMAIN-SUFFIX,netflix.com,Netflix
+  - DOMAIN-SUFFIX,nflxvideo.net,Netflix
+
+  # YouTube
+  - DOMAIN-SUFFIX,youtube.com,YouTube
+  - DOMAIN-SUFFIX,googlevideo.com,YouTube
+  - DOMAIN-SUFFIX,ytimg.com,YouTube
+
+  # Disney+
+  - DOMAIN-SUFFIX,disneyplus.com,Proxy
+  - DOMAIN-SUFFIX,disney-plus.net,Proxy</code></pre>
+                </div>
+
+                <div class="tip">
+                    <strong>提示：</strong>流媒体服务对 IP 检测很严格。如果提示"该地区不可用"，说明节点 IP 被识别了，换一个节点试试。原生 IP 节点（住宅 IP）解锁成功率更高。
+                </div>
+            </div>
+
+            <h2>远程办公</h2>
+
+            <div class="use-case-card">
+                <h3>场景 6：访问公司内网</h3>
+                <span class="tag">VPN + Clash</span>
+                <span class="tag">企业内网</span>
+                <span class="tag">混合代理</span>
+
+                <div class="scenario-section">
+                    <h4>场景说明</h4>
+                    <p>你需要同时连接公司 VPN（访问内网资源）和 Clash（访问外网），但它们可能会冲突。</p>
+                </div>
+
+                <div class="scenario-section">
+                    <h4>解决方案</h4>
+                    <p><strong>方法 1：规则分流</strong></p>
+                    <p>在 Clash 规则中把公司内网 IP 段设置为直连，不走代理：</p>
+                    <pre><code>rules:
+  # 公司内网直连
+  - IP-CIDR,10.0.0.0/8,DIRECT
+  - IP-CIDR,172.16.0.0/12,DIRECT
+  - IP-CIDR,192.168.0.0/16,DIRECT
+
+  # 其他流量正常分流
+  - GEOIP,CN,DIRECT
+  - MATCH,Proxy</code></pre>
+
+                    <p style="margin-top: 1.5rem;"><strong>方法 2：先连 VPN，再开 Clash</strong></p>
+                    <p>大部分情况下这个顺序不会冲突。VPN 处理公司内网流量，Clash 处理其他流量。</p>
+
+                    <p style="margin-top: 1.5rem;"><strong>方法 3：分时段使用</strong></p>
+                    <p>工作时间用公司 VPN，下班后关掉 VPN 用 Clash。</p>
+                </div>
+            </div>
+
+            <h2>跨境电商</h2>
+
+            <div class="use-case-card">
+                <h3>场景 7：管理海外店铺</h3>
+                <span class="tag">Amazon</span>
+                <span class="tag">eBay</span>
+                <span class="tag">Shopify</span>
+
+                <div class="scenario-section">
+                    <h4>需求分析</h4>
+                    <p>跨境电商卖家需要登录 Amazon、eBay、Shopify 等平台管理店铺。某些平台对 IP 地址有要求，频繁换 IP 可能触发风控。</p>
+                </div>
+
+                <div class="scenario-section">
+                    <h4>推荐配置</h4>
+                    <p><strong>协议：</strong>Shadowsocks 或 Trojan</p>
+                    <p><strong>节点：</strong>固定使用 1-2 个节点，不要频繁切换</p>
+                    <p><strong>注意：</strong></p>
+                    <ul>
+                        <li>尽量用住宅 IP 节点，不要用数据中心 IP</li>
+                        <li>登录店铺后台时固定一个节点，不要换来换去</li>
+                        <li>有条件的话买专线或独享 IP</li>
+                    </ul>
+                </div>
+
+                <div class="tip">
+                    <strong>风控提示：</strong>Amazon、PayPal 等平台对 IP 很敏感。如果你今天用美国 IP 登录，明天用香港 IP 登录，可能被判定账号异常。跨境电商建议用专业的住宅代理或独享 IP，不要用共享的机场节点。
+                </div>
+            </div>
+
+            <h2>日常使用</h2>
+
+            <div class="use-case-card">
+                <h3>场景 8：普通上网浏览</h3>
+                <span class="tag">浏览网页</span>
+                <span class="tag">社交媒体</span>
+                <span class="tag">简单需求</span>
+
+                <div class="scenario-section">
+                    <h4>推荐配置</h4>
+                    <p><strong>协议：</strong>Shadowsocks（简单稳定）</p>
+                    <p><strong>节点：</strong>香港或新加坡（延迟低，带宽大）</p>
+                    <p><strong>模式：</strong>规则模式（国内网站直连，省流量）</p>
+                </div>
+
+                <div class="scenario-section">
+                    <h4>配置建议</h4>
+                    <ul>
+                        <li>不需要 TUN 模式，系统代理就够了</li>
+                        <li>选一个延迟最低的节点固定用</li>
+                        <li>定期更新订阅，获取最新节点</li>
+                        <li>关注流量使用，避免超额</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>总结</h2>
+
+            <p style="font-size: 1.05rem; line-height: 1.8; margin-top: 2rem;">不同场景对代理的要求不同。开发者注重稳定性和规则分流，游戏玩家看重低延迟，流媒体观看需要解锁能力，跨境电商要求固定 IP。</p>
+
+            <p style="font-size: 1.05rem; line-height: 1.8; margin-top: 1rem;">选对协议、选对节点、配好规则，Clash 能满足各种场景的需求。如果一种配置不行，试试调整节点或规则，多数问题都能解决。</p>
+
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Clash 客户端下载 | 最后更新：<span id="updateTime"></span></p>
+        </div>
+    </footer>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            document.getElementById('updateTime').textContent = `${year}-${month}-${day}`;
+        }
+        updateTime();
+    </script>
+</body>
+</html>
