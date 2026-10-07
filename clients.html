@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash 客户端对比 | 2026 全平台客户端完整评测</title>
+    <meta name="description" content="2026 年 Clash 全平台客户端详细对比：Windows 选 Clash Verge Rev、macOS 选 ClashX Meta、Android 选 Clash Meta、iOS 选 Clash Mi，完整功能对比和推荐。">
+    <link rel="canonical" href="https://mnclash.com/clients.html">
+
+    <style>
+        :root { color-scheme: light; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            line-height: 1.7;
+            color: #f5efe6;
+            background: #0f1117;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: #171a23;
+            padding: 20px 0;
+            border-bottom: 1px solid #1e222e;
+        }
+        .logo { font-size: 1.5rem; font-weight: 600; color: #fbbf24; text-decoration: none; }
+        nav { margin-top: 15px; }
+        nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin-right: 25px;
+            font-size: 0.95rem;
+        }
+        nav a:hover { color: #fbbf24; }
+        main { padding: 40px 0; }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        .intro {
+            font-size: 1.05rem;
+            color: #c0c0c0;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+        h2 {
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem 0;
+            color: #ffffff;
+            border-left: 4px solid #fbbf24;
+            padding-left: 15px;
+        }
+        .comparison-table {
+            width: 100%;
+            margin: 2rem 0;
+            border-collapse: collapse;
+            background: #171a23;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #1e222e;
+        }
+        .comparison-table th {
+            background: #1a1d28;
+            color: #fbbf24;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .comparison-table td {
+            color: #d0d0d0;
+        }
+        .check-yes { color: #5eead4; }
+        .check-no { color: #f87171; }
+        .check-partial { color: #fbbf24; }
+        .platform-section {
+            background: #171a23;
+            border: 1px solid #1e222e;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 2rem 0;
+        }
+        .platform-section h3 {
+            color: #fbbf24;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+        .recommendation {
+            background: #1e222e;
+            border-left: 3px solid #5eead4;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .recommendation strong { color: #5eead4; }
+        footer {
+            background: #171a23;
+            padding: 30px 0;
+            margin-top: 60px;
+            text-align: center;
+            color: #808080;
+            border-top: 1px solid #1e222e;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; }
+            .comparison-table { font-size: 0.85rem; }
+            .comparison-table th,
+            .comparison-table td { padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Clash 客户端</a>
+            <nav>
+                <a href="index.html">首页</a>
+                <a href="windows.html">Windows</a>
+                <a href="macos.html">macOS</a>
+                <a href="android.html">Android</a>
+                <a href="ios.html">iOS</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <h1>Clash 客户端全平台对比（2026）</h1>
+
+            <p class="intro">
+                Clash 生态系统在 2026 年已经非常成熟，各平台都有多个优秀的客户端可选。但原版 Clash 和 Clash for Windows 等早期客户端已停止维护，目前主流的都是基于 Clash Meta（mihomo）核心的新一代客户端。这篇文章详细对比各平台的客户端，帮你快速选出最适合的。
+            </p>
+
+            <h2>全平台客户端总览</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th style="width: 18%;">客户端</th>
+                        <th style="width: 15%;">平台</th>
+                        <th style="width: 12%;">内核</th>
+                        <th style="width: 12%;">更新状态</th>
+                        <th style="width: 10%;">TUN 模式</th>
+                        <th style="width: 13%;">界面风格</th>
+                        <th style="width: 10%;">推荐度</th>
+                        <th style="width: 10%;">适合</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Windows -->
+                    <tr>
+                        <td><strong>Clash Verge Rev</strong></td>
+                        <td>Windows</td>
+                        <td>mihomo (Meta)</td>
+                        <td><span class="check-yes">活跃</span></td>
+                        <td><span class="check-yes">✓</span></td>
+                        <td>现代化</td>
+                        <td><span class="check-yes">⭐⭐⭐⭐⭐</span></td>
+                        <td>所有用户</td>
+                    </tr>
+                    <tr>
+                        <td><strong>FlClash</strong></td>
+                        <td>Windows</td>
+                        <td>Clash Meta</td>
+                        <td><span class="check-yes">活跃</span></td>
+                        <td><span class="check-yes">✓</span></td>
+                        <td>Flutter</td>
+                        <td><span class="check-yes">⭐⭐⭐⭐⭐</span></td>
+                        <td>跨平台</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clash Nyanpasu</strong></td>
+                        <td>Windows</td>
+                        <td>Clash Meta</td>
+                        <td><span class="check-yes">活跃</span></td>
+                        <td><span class="check-yes">✓</span></td>
+                        <td>Tauri 轻量</td>
+                        <td><span class="check-yes">⭐⭐⭐⭐</span></td>
+                        <td>轻量之选</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clash Mi</strong></td>
+                        <td>Windows</td>
+                        <td>mihomo (Meta)</td>
+                        <td><span class="check-yes">活跃</span></td>
+                        <td><span class="check-yes">✓</span></td>
+                        <td>Flutter</td>
+                        <td><span class="check-yes">⭐⭐⭐⭐</span></td>
+                        <td>全平台统一</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clash for Windows</strong></td>
+                        <td>Windows</td>
+                        <td>Clash</td>
+                        <td><span class="check-no">已停止</span></td>
+                        <td><span class="check-yes">✓</span></td>
+                        <td>简洁</td>
+                        <td><span class="check-no">不推荐</span></td>
+                        <td>-</td>
+                    </tr>
+                    <!-- macOS -->
+                    <tr>
+                        <td><strong>ClashX Meta</strong></td>
+                        <td>macOS</td>
+                        <td>Clash Meta</td>
+                        <td><span class="check-yes">活跃</span></td>
+                        <td><span class="check-no">✗</span></td>
+                        <td>原生 macOS</td>
+                        <td><span class="check-yes">⭐⭐⭐⭐⭐</span></td>
+                        <td>轻量用户</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ClashFX</strong></td>
+                        <td>macOS</td>
+                        <td>mihomo (Meta)</td>
+                        <td><span class="check-yes">活跃</span></td>
+                        <td><span class="check-yes">✓</span></td>
+                        <td>原生 macOS</td>
+                        <td><span class="check-yes">⭐⭐⭐⭐⭐</span></td>
+                        <td>需要 TUN</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clash Verge Rev</strong></td>
+                        <td>macOS</td>
+                        <td>mihomo (Meta)</td>
+                        <td><span class="check-yes">活跃</span></td>
+                        <td><span class="check-yes">✓</span></td>
+                        <td>现代化</td>
+                        <td><span class="check-yes">⭐⭐⭐⭐</span></td>
+                        <td>高级功能</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clash Nyanpasu</strong></td>
+                        <td>macOS</td>
+                        <td>Clash Meta</td>
+                        <td><span class="check-yes">活跃</span></td>
+                        <td><span class="check-yes">✓</span></td>
+                        <td>Tauri 轻量</td>
+                        <td><span class="check-yes">⭐⭐⭐⭐</span></td>
+                        <td>轻量之选</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clash Mi</strong></td>
+                        <td>macOS</td>
+                        <td>mihomo (Meta)</td>
+                        <td><span class="check-yes">活跃</span></td>
+                        <td><span class="check-yes">✓</span></td>
+                        <td>Flutter</td>
+                        <td><span class="check-yes">⭐⭐⭐⭐</span></td>
+                        <td>全平台统一</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ClashX Pro</strong></td>
+                        <td>macOS</td>
+                        <td>Clash Premium</td>
+                        <td><span class="check-no">缓慢</span></td>
+                        <td><span class="check-yes">✓</span></td>
+                        <td>原生 macOS</td>
+                        <td><span class="check-no">⭐⭐⭐☆☆</span></td>
+                        <td>已被替代</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ClashX</strong></td>
+                        <td>macOS</td>
+                        <td>Clash</td>
+                        <td><span class="check-no">已停止</span></td>
+                        <td><span class="check-no">✗</span></td>
+                        <td>原生 macOS</td>
+                        <td><span class="check-no">⭐⭐☆☆☆</span></td>
+                        <td>不推荐</td>
+                    </tr>
+                    <!-- Android -->
+                    <tr>
+                        <td><strong>Clash Meta for Android</strong></td>
+                        <td>Android</td>
+                        <td>Clash Meta</td>
+                        <td><span class="check-yes">活跃</span></td>
+                        <td><span class="check-yes">✓</span></td>
+                        <td>Material</td>
+                        <td><span class="check-yes">⭐⭐⭐⭐⭐</span></td>
+                        <td>所有用户</td>
+                    </tr>
+                    <tr>
+                        <td><strong>FlClash</strong></td>
+                        <td>Android</td>
+                        <td>Clash Meta</td>
+                        <td><span class="check-yes">活跃</span></td>
+                        <td><span class="check-yes">✓</span></td>
+                        <td>Flutter</td>
+                        <td><span class="check-yes">⭐⭐⭐⭐⭐</span></td>
+                        <td>现代界面</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clash Mi</strong></td>
+                        <td>Android</td>
+                        <td>mihomo (Meta)</td>
+                        <td><span class="check-yes">活跃</span></td>
+                        <td><span class="check-yes">✓</span></td>
+                        <td>Flutter</td>
+                        <td><span class="check-yes">⭐⭐⭐⭐</span></td>
+                        <td>全平台统一</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clash for Android</strong></td>
+                        <td>Android</td>
+                        <td>Clash</td>
+                        <td><span class="check-no">已停止</span></td>
+                        <td><span class="check-yes">✓</span></td>
+                        <td>简洁</td>
+                        <td><span class="check-no">不推荐</span></td>
+                        <td>-</td>
+                    </tr>
+                    <!-- iOS -->
+                    <tr>
+                        <td><strong>Clash Mi</strong></td>
+                        <td>iOS/全平台</td>
+                        <td>mihomo (Meta)</td>
+                        <td><span class="check-yes">活跃</span></td>
+                        <td><span class="check-yes">✓</span></td>
+                        <td>iOS 原生</td>
+                        <td><span class="check-yes">⭐⭐⭐⭐⭐</span></td>
+                        <td>免费+全平台</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stash</strong></td>
+                        <td>iOS</td>
+                        <td>自研引擎</td>
+                        <td><span class="check-yes">活跃</span></td>
+                        <td><span class="check-yes">✓</span></td>
+                        <td>现代</td>
+                        <td><span class="check-yes">⭐⭐⭐⭐⭐</span></td>
+                        <td>完整 Clash</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Shadowrocket</strong></td>
+                        <td>iOS</td>
+                        <td>多内核</td>
+                        <td><span class="check-yes">活跃</span></td>
+                        <td><span class="check-yes">✓</span></td>
+                        <td>简洁</td>
+                        <td><span class="check-yes">⭐⭐⭐⭐⭐</span></td>
+                        <td>性价比</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>各平台首选推荐</h2>
+
+            <div class="platform-section">
+                <h3>Windows</h3>
+                <div class="recommendation">
+                    <strong>首选：Clash Verge Rev</strong><br>
+                    功能最强大，界面现代，社区活跃，持续更新。支持可视化规则编辑、WebDAV 同步等高级功能。
+                </div>
+                <p style="margin-top: 1rem; color: #d0d0d0;">
+                    <strong>备选：</strong>FlClash（追求简洁轻量）、Clash Nyanpasu（极致轻量，内存占用低）、Clash Mi（全平台统一体验）
+                </p>
+                <p style="margin-top: 0.5rem; color: #d0d0d0;">
+                    <strong>不推荐：</strong>Clash for Windows（已停止维护，有安全风险）
+                </p>
+            </div>
+
+            <div class="platform-section">
+                <h3>macOS</h3>
+                <div class="recommendation">
+                    <strong>首选：ClashX Meta</strong><br>
+                    轻量稳定，原生 macOS 体验，菜单栏操作简单。完美支持 Intel 和 Apple Silicon。
+                </div>
+                <p style="margin-top: 1rem; color: #d0d0d0;">
+                    <strong>备选：</strong>ClashFX（需要 TUN 模式）、Clash Verge Rev（需要高级功能）、Clash Nyanpasu（追求轻量）、Clash Mi（全平台统一）
+                </p>
+                <p style="margin-top: 0.5rem; color: #d0d0d0;">
+                    <strong>不推荐：</strong>ClashX 原版（已停止维护）、ClashX Pro（已被 ClashFX 取代）
+                </p>
+            </div>
+
+            <div class="platform-section">
+                <h3>Android</h3>
+                <div class="recommendation">
+                    <strong>首选：Clash Meta for Android</strong><br>
+                    官方维护，功能完整，更新及时。支持最新的 Meta 核心和所有新协议。
+                </div>
+                <p style="margin-top: 1rem; color: #d0d0d0;">
+                    <strong>备选：</strong>FlClash（追求现代界面）、Clash Mi（全平台统一体验）
+                </p>
+                <p style="margin-top: 0.5rem; color: #d0d0d0;">
+                    <strong>不推荐：</strong>Clash for Android（已停止维护）
+                </p>
+            </div>
+
+            <div class="platform-section">
+                <h3>iOS</h3>
+                <div class="recommendation">
+                    <strong>首选：Clash Mi</strong><br>
+                    2026 年新上架的原生 Clash 客户端，免费开源，完整支持 Meta 核心。<strong style="color: #fbbf24;">同时支持 iOS/Android/Windows/macOS/Linux 五大平台，全平台统一体验！</strong>
+                </div>
+                <p style="margin-top: 1rem; color: #d0d0d0;">
+                    <strong>备选：</strong>Stash（有海外账号，追求现代界面）、Shadowrocket（$2.99，性价比高）
+                </p>
+            </div>
+
+            <h2>功能特性对比</h2>
+
+            <h3>内核版本</h3>
+            <p style="color: #d0d0d0; margin-bottom: 1rem;">
+                <strong style="color: #fbbf24;">mihomo (Clash Meta)</strong> - 2026 年主流内核，原名 Clash Meta。支持 VLESS、Reality、Hysteria2 等新协议，功能最全面。
+            </p>
+            <p style="color: #d0d0d0; margin-bottom: 1rem;">
+                <strong style="color: #fbbf24;">Clash Meta</strong> - mihomo 的前身，功能相近。
+            </p>
+            <p style="color: #d0d0d0; margin-bottom: 1rem;">
+                <strong style="color: #fbbf24;">Clash</strong> - 原版内核，已停止更新，不支持新协议。
+            </p>
+
+            <h3>TUN 模式</h3>
+            <p style="color: #d0d0d0; margin-bottom: 1rem;">
+                TUN 模式可以代理所有应用的流量，不仅是浏览器。对于游戏、命令行工具、桌面软件等非常有用。
+            </p>
+            <p style="color: #d0d0d0;">
+                <strong>支持 TUN：</strong>Clash Verge Rev、FlClash、ClashFX、Clash Meta for Android、所有 iOS 客户端
+            </p>
+            <p style="color: #d0d0d0;">
+                <strong>不支持 TUN：</strong>ClashX Meta
+            </p>
+
+            <h3>跨平台客户端</h3>
+            <table class="comparison-table" style="margin-top: 1.5rem;">
+                <thead>
+                    <tr>
+                        <th>客户端</th>
+                        <th>Windows</th>
+                        <th>macOS</th>
+                        <th>Linux</th>
+                        <th>Android</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Clash Verge Rev</strong></td>
+                        <td class="check-yes">✓</td>
+                        <td class="check-yes">✓</td>
+                        <td class="check-yes">✓</td>
+                        <td class="check-no">✗</td>
+                    </tr>
+                    <tr>
+                        <td><strong>FlClash</strong></td>
+                        <td class="check-yes">✓</td>
+                        <td class="check-yes">✓</td>
+                        <td class="check-yes">✓</td>
+                        <td class="check-yes">✓</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>选择建议</h2>
+
+            <h3>根据需求选择</h3>
+            <ul style="color: #d0d0d0; margin-left: 20px; line-height: 2;">
+                <li><strong style="color: #5eead4;">追求简单稳定：</strong>Windows 选 Clash Verge Rev，macOS 选 ClashX Meta，Android 选 Clash Meta for Android，iOS 选 Clash Mi</li>
+                <li><strong style="color: #5eead4;">需要 TUN 模式：</strong>Windows/Linux 选 Clash Verge Rev，macOS 选 ClashFX，Android 选 Clash Meta，iOS 都支持</li>
+                <li><strong style="color: #5eead4;">多设备统一体验：</strong>FlClash（支持 4 个平台）或 Clash Verge Rev（支持 3 个平台）</li>
+                <li><strong style="color: #5eead4;">追求轻量：</strong>macOS 选 ClashX Meta，iOS 选 Shadowrocket</li>
+                <li><strong style="color: #5eead4;">预算有限：</strong>所有平台都有免费选择（iOS 选 Clash Mi 或 Stash）</li>
+            </ul>
+
+            <h3>新手快速选择</h3>
+            <p style="color: #d0d0d0; font-size: 1.1rem; margin-top: 1.5rem;">
+                如果不想纠结，直接按这个选：
+            </p>
+            <ul style="color: #d0d0d0; margin-left: 20px; line-height: 2; font-size: 1.05rem; margin-top: 1rem;">
+                <li>Windows → <strong style="color: #fbbf24;">Clash Verge Rev</strong></li>
+                <li>macOS → <strong style="color: #fbbf24;">ClashX Meta</strong></li>
+                <li>Android → <strong style="color: #fbbf24;">Clash Meta for Android</strong></li>
+                <li>iOS → <strong style="color: #fbbf24;">Clash Mi</strong>（免费）或 <strong style="color: #fbbf24;">Shadowrocket</strong>（$2.99）</li>
+            </ul>
+
+            <h2>已停止维护的客户端</h2>
+
+            <p style="color: #f87171; font-size: 1.05rem; margin-top: 1rem;">
+                以下客户端已停止维护，<strong>强烈建议不要继续使用：</strong>
+            </p>
+            <ul style="color: #d0d0d0; margin-left: 20px; line-height: 2; margin-top: 1rem;">
+                <li><strong>Clash for Windows</strong> - 2023 年 11 月停止更新，不支持新协议，存在安全风险</li>
+                <li><strong>Clash for Android</strong> - 2023 年 11 月停止更新，建议迁移到 Clash Meta for Android</li>
+                <li><strong>ClashX（原版）</strong> - 更新缓慢，建议升级到 ClashX Meta 或 ClashFX</li>
+            </ul>
+
+            <h2>总结</h2>
+
+            <p style="font-size: 1.05rem; line-height: 1.8; color: #d0d0d0;">
+                2026 年 Clash 生态已经非常成熟，各平台都有优秀的客户端可选。核心原则是：<strong style="color: #fbbf24;">选择基于 Clash Meta（mihomo）内核的客户端，避免已停止维护的老版本。</strong>
+            </p>
+
+            <p style="font-size: 1.05rem; line-height: 1.8; color: #d0d0d0; margin-top: 1rem;">
+                对于大部分用户，Windows 选 Clash Verge Rev，macOS 选 ClashX Meta，Android 选 Clash Meta for Android，iOS 选 Clash Mi，就能满足所有需求。如果有特殊需求（TUN 模式、跨平台同步等），再考虑其他选择。
+            </p>
+
+            <div style="margin-top: 3rem; padding: 1.5rem; background: #171a23; border-radius: 8px; border-left: 4px solid #fbbf24;">
+                <h3 style="color: #fbbf24; margin-bottom: 1rem;">📚 相关文章推荐</h3>
+                <ul style="list-style: none; margin: 0; padding: 0;">
+                    <li style="margin-bottom: 0.8rem;">→ <a href="blog/clash-mi-cross-platform-guide.html" style="color: #5eead4; text-decoration: none;">Clash Mi 全平台使用指南</a></li>
+                    <li style="margin-bottom: 0.8rem;">→ <a href="blog/clashx-series-evolution.html" style="color: #5eead4; text-decoration: none;">ClashX 系列完整演变史</a></li>
+                    <li style="margin-bottom: 0.8rem;">→ <a href="blog/clash-nyanpasu-lightweight.html" style="color: #5eead4; text-decoration: none;">Clash Nyanpasu:被忽视的轻量级神器</a></li>
+                    <li style="margin-bottom: 0.8rem;">→ <a href="blog/clash-subscription-management.html" style="color: #5eead4; text-decoration: none;">Clash 订阅管理完全指南</a></li>
+                </ul>
+            </div>
+
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Clash 客户端下载 | 最后更新：<span id="updateTime"></span></p>
+        </div>
+    </footer>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            document.getElementById('updateTime').textContent = `${year}-${month}-${day}`;
+        }
+        updateTime();
+    </script>
+</body>
+</html>
