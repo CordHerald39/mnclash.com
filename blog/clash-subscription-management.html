@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash 订阅管理完全指南:多订阅、自动更新、备份 | 2026 最新</title>
+    <meta name="description" content="Clash 订阅管理完整教程,包括订阅导入、多订阅源管理、自动更新策略、配置备份、订阅转换、常见问题排查。帮助你高效管理 Clash 订阅。">
+    <link rel="canonical" href="https://mnclash.com/blog/clash-subscription-management.html">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Clash 订阅管理完全指南:多订阅、自动更新、备份",
+      "description": "Clash 订阅管理完整指南",
+      "datePublished": "2026-10-04",
+      "dateModified": "2026-10-07",
+      "author": {
+        "@type": "Organization",
+        "name": "Clash 客户端指南"
+      }
+    }
+    </script>
+
+    <style>
+        :root { color-scheme: light; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            line-height: 1.8;
+            color: #f5efe6;
+            background: #0f1117;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: #171a23;
+            padding: 20px 0;
+            border-bottom: 1px solid #1e222e;
+        }
+        .logo { font-size: 1.5rem; font-weight: 600; color: #fbbf24; text-decoration: none; }
+        nav { margin-top: 15px; }
+        nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin-right: 25px;
+            font-size: 0.95rem;
+        }
+        nav a:hover { color: #fbbf24; }
+        main { padding: 40px 0; }
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 1.5rem;
+        }
+        .breadcrumb a {
+            color: #fbbf24;
+            text-decoration: none;
+        }
+        article h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #fbbf24;
+            line-height: 1.3;
+        }
+        .article-meta {
+            font-size: 0.95rem;
+            color: #888;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #1e222e;
+        }
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
+        }
+        .tag {
+            background: #1e222e;
+            color: #fbbf24;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        article h2 {
+            font-size: 1.6rem;
+            color: #fbbf24;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        article h3 {
+            font-size: 1.3rem;
+            color: #5eead4;
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
+        }
+        article p {
+            margin-bottom: 1.2rem;
+            line-height: 1.8;
+        }
+        article ul, article ol {
+            margin-left: 2rem;
+            margin-bottom: 1.2rem;
+        }
+        article li {
+            margin-bottom: 0.6rem;
+        }
+        .highlight-box {
+            background: #171a23;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #fbbf24;
+            margin: 2rem 0;
+        }
+        .tip {
+            background: #1e222e;
+            padding: 1.2rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+            border-left: 3px solid #5eead4;
+        }
+        .warning {
+            background: #1e222e;
+            padding: 1.2rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+            border-left: 3px solid #f87171;
+        }
+        .internal-links {
+            background: #171a23;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2.5rem 0;
+        }
+        .internal-links h3 {
+            font-size: 1.2rem;
+            color: #fbbf24;
+            margin-bottom: 1rem;
+            margin-top: 0;
+        }
+        .internal-links ul {
+            list-style: none;
+            margin: 0;
+        }
+        .internal-links li {
+            margin-bottom: 0.6rem;
+        }
+        .internal-links a {
+            color: #5eead4;
+            text-decoration: none;
+        }
+        .internal-links a:hover {
+            text-decoration: underline;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        th, td {
+            padding: 0.8rem;
+            border: 1px solid #1e222e;
+            text-align: left;
+        }
+        th {
+            background: #171a23;
+            color: #fbbf24;
+            font-weight: 600;
+        }
+        code {
+            background: #1e222e;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            color: #5eead4;
+        }
+        .step-box {
+            background: #171a23;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 4px solid #5eead4;
+        }
+        footer {
+            background: #171a23;
+            padding: 30px 0;
+            margin-top: 60px;
+            border-top: 1px solid #1e222e;
+            color: #888;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo">Clash 客户端</a>
+            <nav>
+                <a href="../index.html">首页</a>
+                <a href="../tutorial.html">使用教程</a>
+                <a href="index.html">文章资讯</a>
+                <a href="../faq.html">常见问题</a>
+                <a href="../clients.html">客户端对比</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../index.html">首页</a> / <a href="index.html">文章资讯</a> / Clash 订阅管理完全指南
+            </div>
+
+            <article>
+                <h1>Clash 订阅管理完全指南:多订阅、自动更新、备份</h1>
+
+                <div class="article-meta">
+                    发布时间: 2026-10-04 | 更新时间: <span id="update-time"></span> | 阅读时间: 5 分钟
+                    <div class="article-tags">
+                        <span class="tag">订阅管理</span>
+                        <span class="tag">新手教程</span>
+                        <span class="tag">实用技巧</span>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong style="color: #fbbf24; font-size: 1.1rem;">本文内容</strong>
+                    <p style="margin-top: 0.8rem; margin-bottom: 0;">
+                        如何管理多个订阅源?如何设置自动更新?订阅链接失效怎么办?本文详细讲解 Clash 订阅管理的各个方面,包括订阅导入、更新策略、配置备份和故障排查。
+                    </p>
+                </div>
+
+                <h2>什么是 Clash 订阅?</h2>
+
+                <p>Clash 订阅是一个 URL 链接,由机场或服务商提供。访问这个链接可以获取包含节点信息的配置文件,Clash 客户端解析后就能使用这些节点。</p>
+
+                <h3>订阅链接示例</h3>
+
+                <p><code>https://example.com/subscribe?token=abc123xyz</code></p>
+
+                <p><strong>订阅的优势:</strong></p>
+                <ul>
+                    <li>一键导入所有节点</li>
+                    <li>服务商更新节点时自动同步</li>
+                    <li>无需手动配置复杂参数</li>
+                    <li>支持规则和节点同时更新</li>
+                </ul>
+
+                <h2>订阅导入方法</h2>
+
+                <h3>方法1:URL 导入(推荐)</h3>
+
+                <p>适用于大多数 Clash 客户端:</p>
+
+                <div class="step-box">
+                    <strong>步骤(以 Clash Verge Rev 为例):</strong>
+                    <ol style="margin-top: 0.8rem; margin-left: 1.5rem;">
+                        <li>打开 <a href="../windows.html" style="color: #fbbf24;">Clash Verge Rev</a></li>
+                        <li>点击"订阅" → "新建"</li>
+                        <li>粘贴订阅链接</li>
+                        <li>设置订阅名称(如"机场A")</li>
+                        <li>点击"确定"</li>
+                        <li>等待更新完成</li>
+                    </ol>
+                </div>
+
+                <h3>方法2:文件导入</h3>
+
+                <p>适用于已下载的配置文件(.yaml):</p>
+
+                <ol>
+                    <li>打开客户端</li>
+                    <li>点击"配置" → "导入配置文件"</li>
+                    <li>选择 .yaml 文件</li>
+                    <li>导入完成</li>
+                </ol>
+
+                <h3>方法3:Clash 链接导入</h3>
+
+                <p>支持 <code>clash://</code> 协议的客户端(iOS、Android):</p>
+
+                <ol>
+                    <li>在浏览器中打开订阅链接页面</li>
+                    <li>点击"一键导入"或"导入 Clash"</li>
+                    <li>自动跳转到客户端</li>
+                    <li>确认导入</li>
+                </ol>
+
+                <div class="tip">
+                    <strong>💡 提示:</strong>不同客户端的导入界面可能不同,但基本流程相似。<a href="../clients.html" style="color: #fbbf24;">查看各客户端对比</a>
+                </div>
+
+                <h2>多订阅管理</h2>
+
+                <h3>为什么需要多订阅?</h3>
+
+                <ul>
+                    <li><strong>备份</strong> - 主订阅失效时有备用</li>
+                    <li><strong>分流</strong> - 不同订阅对应不同用途(如看剧专用、游戏专用)</li>
+                    <li><strong>试用</strong> - 对比多个机场的速度和稳定性</li>
+                    <li><strong>组合</strong> - 合并多个小型订阅的节点</li>
+                </ul>
+
+                <h3>多订阅配置方式</h3>
+
+                <p><strong>方式1:客户端内多订阅</strong></p>
+
+                <p>支持的客户端:</p>
+                <ul>
+                    <li><a href="../windows.html" style="color: #fbbf24;">Clash Verge Rev</a> - 原生支持</li>
+                    <li><a href="clash-mi-cross-platform-guide.html" style="color: #fbbf24;">Clash Mi</a> - 跨平台支持</li>
+                    <li><a href="../android.html" style="color: #fbbf24;">FlClash</a> - Android 最佳</li>
+                </ul>
+
+                <p>操作方法:直接添加多个订阅,在配置列表中切换即可。</p>
+
+                <p><strong>方式2:订阅转换(合并订阅)</strong></p>
+
+                <p>将多个订阅合并为一个,适合客户端不支持多订阅的情况。</p>
+
+                <p>推荐工具:</p>
+                <ul>
+                    <li><strong>肥羊增强版:</strong> <code>https://sub.xeton.dev/</code></li>
+                    <li><strong>品云:</strong> <code>https://id9.cc/</code></li>
+                    <li><strong>subconverter:</strong>自建转换服务(更安全)</li>
+                </ul>
+
+                <div class="warning">
+                    <strong>⚠️ 安全提示:</strong>使用订阅转换时,你的订阅链接会经过第三方服务器。建议:
+                    <ul style="margin-top: 0.8rem; margin-left: 1.5rem;">
+                        <li>只使用知名的转换服务</li>
+                        <li>或自建 subconverter</li>
+                        <li>转换后定期更换订阅链接</li>
+                    </ul>
+                </div>
+
+                <h2>订阅更新策略</h2>
+
+                <h3>更新方式</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>更新方式</th>
+                            <th>说明</th>
+                            <th>适用场景</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>手动更新</strong></td>
+                            <td>点击"更新订阅"按钮</td>
+                            <td>发现节点失效或想立即获取新节点</td>
+                        </tr>
+                        <tr>
+                            <td><strong>自动更新</strong></td>
+                            <td>客户端定期自动更新</td>
+                            <td>大多数情况(推荐)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>启动时更新</strong></td>
+                            <td>每次启动客户端时更新</td>
+                            <td>不常开机的用户</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>自动更新配置</h3>
+
+                <p><strong>Clash Verge Rev:</strong></p>
+                <ol>
+                    <li>进入"设置" → "订阅"</li>
+                    <li>找到"自动更新间隔"</li>
+                    <li>设置时间(推荐 24 小时)</li>
+                    <li>开启"启动时更新订阅"</li>
+                </ol>
+
+                <p><strong>ClashX Meta (macOS):</strong></p>
+                <ol>
+                    <li>点击菜单栏图标</li>
+                    <li>"配置" → "托管配置" → "设置自动更新"</li>
+                    <li>输入更新间隔(秒为单位,86400 = 24小时)</li>
+                </ol>
+
+                <p><strong>Android 客户端:</strong></p>
+                <ol>
+                    <li>进入订阅设置</li>
+                    <li>开启"自动更新"</li>
+                    <li>选择更新频率</li>
+                </ol>
+
+                <div class="tip">
+                    <strong>💡 推荐更新频率:</strong>
+                    <ul style="margin-top: 0.8rem; margin-left: 1.5rem;">
+                        <li>稳定的机场:24-48 小时</li>
+                        <li>经常更新的机场:12 小时</li>
+                        <li>免费订阅:6-12 小时</li>
+                    </ul>
+                </div>
+
+                <h2>配置备份</h2>
+
+                <h3>为什么要备份?</h3>
+
+                <ul>
+                    <li>订阅链接可能失效</li>
+                    <li>机场可能跑路</li>
+                    <li>误删配置需要恢复</li>
+                    <li>切换设备时快速迁移</li>
+                </ul>
+
+                <h3>备份方法</h3>
+
+                <p><strong>方法1:保存订阅链接</strong></p>
+
+                <p>最简单的方式,将订阅 URL 保存到:</p>
+                <ul>
+                    <li>密码管理器(1Password、Bitwarden)</li>
+                    <li>加密笔记(Obsidian、Notion)</li>
+                    <li>云盘(私密文件夹)</li>
+                </ul>
+
+                <p><strong>方法2:导出配置文件</strong></p>
+
+                <p>大多数客户端支持导出 .yaml 文件:</p>
+                <ol>
+                    <li>找到"配置" → "导出配置"</li>
+                    <li>保存 .yaml 文件到安全位置</li>
+                    <li>定期更新备份</li>
+                </ol>
+
+                <p><strong>方法3:截图保存</strong></p>
+
+                <p>截图订阅页面和节点列表,应急时可以手动重建。</p>
+
+                <div class="warning">
+                    <strong>⚠️ 安全注意:</strong>
+                    <ul style="margin-top: 0.8rem; margin-left: 1.5rem;">
+                        <li>订阅链接包含你的身份信息,不要公开分享</li>
+                        <li>配置文件包含完整节点信息,妥善保管</li>
+                        <li>定期更换订阅链接(如果机场支持重置)</li>
+                    </ul>
+                </div>
+
+                <h2>订阅转换</h2>
+
+                <h3>什么时候需要转换?</h3>
+
+                <ul>
+                    <li>订阅格式不兼容(V2Ray 订阅转 Clash)</li>
+                    <li>合并多个订阅</li>
+                    <li>自定义规则集</li>
+                    <li>过滤不需要的节点</li>
+                </ul>
+
+                <h3>转换步骤(以肥羊为例)</h3>
+
+                <ol>
+                    <li>访问 <code>https://sub.xeton.dev/</code></li>
+                    <li>将订阅链接粘贴到"订阅链接"输入框</li>
+                    <li>选择"客户端" - Clash</li>
+                    <li>选择"后端地址" - 推荐肥羊官方</li>
+                    <li>高级功能(可选):
+                        <ul>
+                            <li>排除节点:过滤不需要的节点</li>
+                            <li>包含节点:只保留特定节点</li>
+                            <li>节点重命名</li>
+                        </ul>
+                    </li>
+                    <li>点击"生成订阅链接"</li>
+                    <li>复制生成的新链接,导入 Clash</li>
+                </ol>
+
+                <h3>自建订阅转换</h3>
+
+                <p>对安全要求高的用户可以自建:</p>
+
+                <ol>
+                    <li>GitHub: <code>tindy2013/subconverter</code></li>
+                    <li>下载 Release 版本</li>
+                    <li>本地运行或部署到服务器</li>
+                    <li>使用自己的转换服务</li>
+                </ol>
+
+                <h2>常见问题解决</h2>
+
+                <h3>Q1: 订阅更新失败</h3>
+
+                <p><strong>可能原因和解决方法:</strong></p>
+
+                <ul>
+                    <li><strong>网络问题</strong> - 检查网络连接,尝试开启全局代理更新</li>
+                    <li><strong>订阅链接失效</strong> - 联系机场获取新链接</li>
+                    <li><strong>客户端问题</strong> - 重启客户端或尝试手动更新</li>
+                    <li><strong>防火墙拦截</strong> - 暂时关闭防火墙测试</li>
+                </ul>
+
+                <h3>Q2: 更新后节点消失</h3>
+
+                <p><strong>解决方法:</strong></p>
+
+                <ol>
+                    <li>检查是否误删订阅 - 重新导入订阅链接</li>
+                    <li>查看更新日志 - 可能是服务器更新了节点列表</li>
+                    <li>恢复备份 - 使用之前导出的配置文件</li>
+                </ol>
+
+                <h3>Q3: 多个订阅冲突</h3>
+
+                <p><strong>表现:</strong>切换订阅后规则不生效或节点重复。</p>
+
+                <p><strong>解决方法:</strong></p>
+                <ul>
+                    <li>确保每个订阅名称不同</li>
+                    <li>使用订阅转换合并为一个</li>
+                    <li>或分别使用,不同时启用多个</li>
+                </ul>
+
+                <h3>Q4: 订阅链接泄露怎么办?</h3>
+
+                <p><strong>应对措施:</strong></p>
+                <ol>
+                    <li>立即登录机场后台</li>
+                    <li>找到"重置订阅"或"重新生成订阅"</li>
+                    <li>获取新订阅链接</li>
+                    <li>在所有设备上更新</li>
+                    <li>删除旧订阅</li>
+                </ol>
+
+                <h3>Q5: 订阅里节点太多,如何筛选?</h3>
+
+                <p><strong>方法1:使用订阅转换过滤</strong></p>
+                <p>在转换时设置"排除节点"或"包含节点"规则。</p>
+
+                <p><strong>方法2:客户端内过滤</strong></p>
+                <p>部分客户端(如 <a href="../windows.html" style="color: #fbbf24;">Clash Verge Rev</a>)支持节点过滤功能。</p>
+
+                <p><strong>方法3:自定义配置</strong></p>
+                <p>编辑 config.yaml,手动删除不需要的节点。</p>
+
+                <h2>订阅管理最佳实践</h2>
+
+                <h3>1. 定期检查订阅状态</h3>
+
+                <p>建议每周检查一次:</p>
+                <ul>
+                    <li>订阅是否正常更新</li>
+                    <li>节点数量是否正常</li>
+                    <li>服务商是否有新通知</li>
+                </ul>
+
+                <h3>2. 保持订阅链接安全</h3>
+
+                <ul>
+                    <li>不要在公共场合分享</li>
+                    <li>不要上传到公共代码仓库</li>
+                    <li>定期更换链接</li>
+                </ul>
+
+                <h3>3. 合理设置更新频率</h3>
+
+                <ul>
+                    <li>过于频繁 - 浪费流量,增加服务器负担</li>
+                    <li>过于稀疏 - 可能错过重要更新</li>
+                    <li>推荐 24 小时一次</li>
+                </ul>
+
+                <h3>4. 准备备用订阅</h3>
+
+                <ul>
+                    <li>至少有一个备用机场</li>
+                    <li>提前测试备用订阅可用性</li>
+                    <li>关键时刻不至于没网可用</li>
+                </ul>
+
+                <h2>不同客户端订阅管理对比</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>客户端</th>
+                            <th>多订阅</th>
+                            <th>自动更新</th>
+                            <th>订阅转换</th>
+                            <th>配置导出</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="../windows.html" style="color: #fbbf24;">Clash Verge Rev</a></td>
+                            <td>✅ 优秀</td>
+                            <td>✅ 支持</td>
+                            <td>✅ 内置</td>
+                            <td>✅ 支持</td>
+                        </tr>
+                        <tr>
+                            <td><a href="../macos.html" style="color: #fbbf24;">ClashX Meta</a></td>
+                            <td>✅ 支持</td>
+                            <td>✅ 支持</td>
+                            <td>❌ 需外部</td>
+                            <td>✅ 支持</td>
+                        </tr>
+                        <tr>
+                            <td><a href="clash-mi-cross-platform-guide.html" style="color: #fbbf24;">Clash Mi</a></td>
+                            <td>✅ 支持</td>
+                            <td>✅ 支持</td>
+                            <td>❌ 需外部</td>
+                            <td>✅ 支持</td>
+                        </tr>
+                        <tr>
+                            <td><a href="../android.html" style="color: #fbbf24;">FlClash</a></td>
+                            <td>✅ 支持</td>
+                            <td>✅ 支持</td>
+                            <td>✅ 内置</td>
+                            <td>✅ 支持</td>
+                        </tr>
+                        <tr>
+                            <td><a href="clash-nyanpasu-lightweight.html" style="color: #fbbf24;">Clash Nyanpasu</a></td>
+                            <td>✅ 支持</td>
+                            <td>✅ 支持</td>
+                            <td>❌ 需外部</td>
+                            <td>✅ 支持</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="internal-links">
+                    <h3>📚 相关阅读</h3>
+                    <ul>
+                        <li>→ <a href="../tutorial.html">Clash 使用教程</a> - 订阅导入基础教程</li>
+                        <li>→ <a href="../windows.html">Windows 客户端推荐</a> - 订阅管理功能对比</li>
+                        <li>→ <a href="../android.html">Android 客户端对比</a> - 移动端订阅管理</li>
+                        <li>→ <a href="clash-mi-cross-platform-guide.html">Clash Mi 全平台指南</a> - 跨设备订阅同步</li>
+                        <li>→ <a href="clash-rule-optimization.html">规则优化实战</a> - 配合订阅的规则配置</li>
+                        <li>→ <a href="../troubleshooting.html">故障排查</a> - 订阅问题解决</li>
+                        <li>→ <a href="../faq.html">常见问题</a> - 更多订阅相关问题</li>
+                    </ul>
+                </div>
+
+                <h2>总结</h2>
+
+                <p>订阅管理是使用 Clash 的基础技能。掌握好订阅的导入、更新、备份和转换,可以让你在使用过程中更加顺畅。</p>
+
+                <p>记住几个关键点:</p>
+
+                <ol>
+                    <li><strong>安全第一</strong> - 妥善保管订阅链接,不要泄露</li>
+                    <li><strong>定期备份</strong> - 至少保存订阅链接和配置文件</li>
+                    <li><strong>合理更新</strong> - 24 小时自动更新是最佳选择</li>
+                    <li><strong>准备备用</strong> - 至少有一个备用订阅源</li>
+                    <li><strong>选对客户端</strong> - 功能强大的客户端让管理更轻松</li>
+                </ol>
+
+                <p>希望本文能帮助你更好地管理 Clash 订阅,享受流畅的网络体验。</p>
+
+                <div class="highlight-box">
+                    <strong>🔗 推荐工具:</strong><br>
+                    • 订阅转换(肥羊): <a href="https://sub.xeton.dev/" style="color: #fbbf24;">sub.xeton.dev</a><br>
+                    • 订阅转换(品云): <a href="https://id9.cc/" style="color: #fbbf24;">id9.cc</a><br>
+                    • subconverter: <a href="https://github.com/tindy2013/subconverter" style="color: #fbbf24;">github.com/tindy2013/subconverter</a>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 Clash 客户端指南 | <a href="../index.html" style="color: #fbbf24; text-decoration: none;">返回首页</a></p>
+        </div>
+    </footer>
+
+    <script>
+        const now = new Date();
+        const formatter = new Intl.DateTimeFormat('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        document.getElementById('update-time').textContent = formatter.format(now);
+    </script>
+</body>
+</html>
