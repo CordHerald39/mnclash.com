@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash 支持的代理协议详解 | Shadowsocks、VMess、Trojan、Hysteria 对比</title>
+    <meta name="description" content="详细讲解 Clash 支持的各种代理协议：Shadowsocks、VMess、VLESS、Trojan、Hysteria、Snell 等，包括协议特点、性能对比、配置示例。">
+    <link rel="canonical" href="https://mnclash.com/protocols.html">
+
+    <style>
+        :root { color-scheme: light; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            line-height: 1.7;
+            color: #f5efe6;
+            background: #0f1117;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: #171a23;
+            padding: 20px 0;
+            border-bottom: 1px solid #1e222e;
+        }
+        .logo { font-size: 1.5rem; font-weight: 600; color: #fbbf24; text-decoration: none; }
+        nav { margin-top: 15px; }
+        nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin-right: 25px;
+            font-size: 0.95rem;
+        }
+        nav a:hover { color: #fbbf24; }
+        .breadcrumb {
+            padding: 20px 0;
+            font-size: 0.9rem;
+            color: #808080;
+        }
+        .breadcrumb a { color: #a0a0a0; text-decoration: none; }
+        main { padding: 40px 0; }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        .intro {
+            font-size: 1.05rem;
+            color: #c0c0c0;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+        h2 {
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem 0;
+            color: #ffffff;
+            border-left: 4px solid #fbbf24;
+            padding-left: 15px;
+        }
+        h3 {
+            font-size: 1.3rem;
+            margin: 2rem 0 1rem 0;
+            color: #fbbf24;
+        }
+        p { margin-bottom: 1rem; color: #d0d0d0; }
+        .comparison-table {
+            width: 100%;
+            margin: 2rem 0;
+            border-collapse: collapse;
+            background: #171a23;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #1e222e;
+        }
+        .comparison-table th {
+            background: #1a1d28;
+            color: #fbbf24;
+            font-weight: 600;
+        }
+        .comparison-table td {
+            color: #d0d0d0;
+        }
+        .comparison-table tr:hover {
+            background: #1a1d28;
+        }
+        .protocol-card {
+            background: #171a23;
+            border: 1px solid #1e222e;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 2rem 0;
+        }
+        .protocol-card h3 {
+            color: #fbbf24;
+            margin-bottom: 1rem;
+            margin-top: 0;
+        }
+        .tag {
+            display: inline-block;
+            background: #1e222e;
+            color: #fbbf24;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        .tag.pro { background: #5eead4; color: #0f1117; }
+        .tag.con { background: #f87171; color: #0f1117; }
+        code {
+            background: #1e222e;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #fbbf24;
+        }
+        pre {
+            background: #1e222e;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid #2a2e3a;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+        ul {
+            margin: 1rem 0 1rem 20px;
+            color: #d0d0d0;
+        }
+        li { margin-bottom: 0.5rem; }
+        .check-yes { color: #5eead4; }
+        .check-no { color: #f87171; }
+        .check-partial { color: #fbbf24; }
+        footer {
+            background: #171a23;
+            padding: 30px 0;
+            margin-top: 60px;
+            text-align: center;
+            color: #808080;
+            border-top: 1px solid #1e222e;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Clash 客户端</a>
+            <nav>
+                <a href="index.html">首页</a>
+                <a href="tutorial.html">教程</a>
+                <a href="faq.html">FAQ</a>
+                <a href="about.html">关于</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">首页</a> / <a href="about.html">关于</a> / 代理协议
+        </div>
+
+        <main>
+            <h1>Clash 支持的代理协议详解</h1>
+
+            <p class="intro">
+                Clash 支持多种代理协议，每种协议有自己的特点和适用场景。Shadowsocks 经典稳定、Trojan 隐蔽性强、VMess 功能丰富、Hysteria 速度快。这篇文章详细讲解各协议的原理、优缺点、配置方法，帮你选择合适的协议。
+            </p>
+
+            <h2>协议对比表</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>协议</th>
+                        <th>速度</th>
+                        <th>隐蔽性</th>
+                        <th>稳定性</th>
+                        <th>配置难度</th>
+                        <th>资源占用</th>
+                        <th>推荐度</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Shadowsocks</strong></td>
+                        <td><span class="check-yes">快</span></td>
+                        <td><span class="check-partial">中等</span></td>
+                        <td><span class="check-yes">很好</span></td>
+                        <td><span class="check-yes">简单</span></td>
+                        <td><span class="check-yes">低</span></td>
+                        <td><span class="check-yes">⭐⭐⭐⭐</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>VMess</strong></td>
+                        <td><span class="check-partial">中等</span></td>
+                        <td><span class="check-yes">好</span></td>
+                        <td><span class="check-yes">好</span></td>
+                        <td><span class="check-partial">中等</span></td>
+                        <td><span class="check-partial">中等</span></td>
+                        <td><span class="check-yes">⭐⭐⭐⭐</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>VLESS</strong></td>
+                        <td><span class="check-yes">快</span></td>
+                        <td><span class="check-yes">好</span></td>
+                        <td><span class="check-yes">好</span></td>
+                        <td><span class="check-partial">中等</span></td>
+                        <td><span class="check-yes">低</span></td>
+                        <td><span class="check-yes">⭐⭐⭐⭐⭐</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Trojan</strong></td>
+                        <td><span class="check-yes">快</span></td>
+                        <td><span class="check-yes">很好</span></td>
+                        <td><span class="check-yes">很好</span></td>
+                        <td><span class="check-partial">中等</span></td>
+                        <td><span class="check-yes">低</span></td>
+                        <td><span class="check-yes">⭐⭐⭐⭐⭐</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hysteria2</strong></td>
+                        <td><span class="check-yes">很快</span></td>
+                        <td><span class="check-partial">中等</span></td>
+                        <td><span class="check-yes">好</span></td>
+                        <td><span class="check-no">复杂</span></td>
+                        <td><span class="check-partial">中等</span></td>
+                        <td><span class="check-yes">⭐⭐⭐⭐</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Snell</strong></td>
+                        <td><span class="check-yes">快</span></td>
+                        <td><span class="check-partial">中等</span></td>
+                        <td><span class="check-yes">好</span></td>
+                        <td><span class="check-yes">简单</span></td>
+                        <td><span class="check-yes">低</span></td>
+                        <td><span class="check-partial">⭐⭐⭐</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>协议详解</h2>
+
+            <div class="protocol-card">
+                <h3>Shadowsocks (SS)</h3>
+                <span class="tag">经典协议</span>
+                <span class="tag">稳定可靠</span>
+                <span class="tag">部署广泛</span>
+
+                <p>Shadowsocks 是最经典的代理协议，2012 年由 clowwindy 开发。设计简单高效，使用 SOCKS5 协议加密传输。</p>
+
+                <h4 style="color: #5eead4; font-size: 1.05rem; margin-top: 1.5rem;">优点</h4>
+                <ul>
+                    <li><strong>稳定性极好</strong> - 经过十多年的验证，bug 少</li>
+                    <li><strong>速度快</strong> - 协议简单，开销小</li>
+                    <li><strong>资源占用低</strong> - 服务端和客户端都很轻量</li>
+                    <li><strong>生态成熟</strong> - 支持的客户端和服务端最多</li>
+                    <li><strong>配置简单</strong> - 只需要服务器地址、端口、密码、加密方式</li>
+                </ul>
+
+                <h4 style="color: #f87171; font-size: 1.05rem; margin-top: 1.5rem;">缺点</h4>
+                <ul>
+                    <li><strong>特征明显</strong> - 流量特征容易被识别</li>
+                    <li><strong>功能单一</strong> - 没有混淆、伪装等高级功能</li>
+                    <li><strong>抗干扰能力弱</strong> - 在某些网络环境下容易被限速或阻断</li>
+                </ul>
+
+                <h4 style="color: #fbbf24; font-size: 1.05rem; margin-top: 1.5rem;">配置示例</h4>
+                <pre><code>proxies:
+  - name: "SS-节点"
+    type: ss
+    server: server.example.com
+    port: 8388
+    cipher: aes-256-gcm
+    password: your-password
+    udp: true</code></pre>
+
+                <p style="margin-top: 1rem;"><strong>适合人群：</strong>追求稳定、简单的用户；网络环境较好的地区。</p>
+            </div>
+
+            <div class="protocol-card">
+                <h3>VMess</h3>
+                <span class="tag">V2Ray 核心</span>
+                <span class="tag">功能丰富</span>
+                <span class="tag">灵活配置</span>
+
+                <p>VMess 是 V2Ray 的核心协议，支持动态端口、时间戳验证、多种加密方式。相比 Shadowsocks 更复杂，但功能也更强大。</p>
+
+                <h4 style="color: #5eead4; font-size: 1.05rem; margin-top: 1.5rem;">优点</h4>
+                <ul>
+                    <li><strong>功能强大</strong> - 支持动态端口、mKCP、WebSocket 等传输方式</li>
+                    <li><strong>隐蔽性好</strong> - 可以伪装成正常的 HTTP/HTTPS 流量</li>
+                    <li><strong>时间戳验证</strong> - 防止重放攻击</li>
+                    <li><strong>灵活配置</strong> - 可以针对不同场景调整参数</li>
+                </ul>
+
+                <h4 style="color: #f87171; font-size: 1.05rem; margin-top: 1.5rem;">缺点</h4>
+                <ul>
+                    <li><strong>速度略慢</strong> - 加密开销比 SS 大</li>
+                    <li><strong>配置复杂</strong> - 参数多，新手容易配错</li>
+                    <li><strong>资源占用高</strong> - CPU 和内存占用比 SS 多</li>
+                </ul>
+
+                <h4 style="color: #fbbf24; font-size: 1.05rem; margin-top: 1.5rem;">配置示例</h4>
+                <pre><code>proxies:
+  - name: "VMess-节点"
+    type: vmess
+    server: server.example.com
+    port: 443
+    uuid: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    alterId: 0
+    cipher: auto
+    tls: true
+    skip-cert-verify: false
+    servername: server.example.com
+    network: ws
+    ws-opts:
+      path: /path
+      headers:
+        Host: server.example.com</code></pre>
+
+                <p style="margin-top: 1rem;"><strong>适合人群：</strong>需要伪装流量、网络环境复杂的用户。</p>
+            </div>
+
+            <div class="protocol-card">
+                <h3>VLESS</h3>
+                <span class="tag">新一代协议</span>
+                <span class="tag">轻量高效</span>
+                <span class="tag pro">推荐</span>
+
+                <p>VLESS 是 VMess 的轻量版，去掉了 VMess 的加密层，改用 TLS 加密。性能更好，配置更简单。</p>
+
+                <h4 style="color: #5eead4; font-size: 1.05rem; margin-top: 1.5rem;">优点</h4>
+                <ul>
+                    <li><strong>性能优秀</strong> - 去掉了多余的加密，速度接近原始连接</li>
+                    <li><strong>隐蔽性强</strong> - 流量完全看起来像正常 HTTPS</li>
+                    <li><strong>配置简洁</strong> - 比 VMess 简单很多</li>
+                    <li><strong>支持 Reality</strong> - 可以伪装成任意真实网站（最强伪装）</li>
+                </ul>
+
+                <h4 style="color: #f87171; font-size: 1.05rem; margin-top: 1.5rem;">缺点</h4>
+                <ul>
+                    <li><strong>必须用 TLS</strong> - 不用 TLS 就没有加密，不安全</li>
+                    <li><strong>需要域名和证书</strong> - 部署稍微麻烦一点</li>
+                </ul>
+
+                <h4 style="color: #fbbf24; font-size: 1.05rem; margin-top: 1.5rem;">配置示例</h4>
+                <pre><code>proxies:
+  - name: "VLESS-节点"
+    type: vless
+    server: server.example.com
+    port: 443
+    uuid: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    tls: true
+    skip-cert-verify: false
+    servername: server.example.com
+    network: ws
+    ws-opts:
+      path: /path</code></pre>
+
+                <p style="margin-top: 1rem;"><strong>适合人群：</strong>追求性能和隐蔽性的用户，有域名和证书的场景。</p>
+            </div>
+
+            <div class="protocol-card">
+                <h3>Trojan</h3>
+                <span class="tag">伪装专家</span>
+                <span class="tag">隐蔽性强</span>
+                <span class="tag pro">推荐</span>
+
+                <p>Trojan 的核心思想是"把代理流量伪装成正常 HTTPS 流量"。只有知道密码的客户端才能连接，其他访问看起来就是个普通网站。</p>
+
+                <h4 style="color: #5eead4; font-size: 1.05rem; margin-top: 1.5rem;">优点</h4>
+                <ul>
+                    <li><strong>隐蔽性最强</strong> - 流量和正常 HTTPS 完全一样</li>
+                    <li><strong>速度快</strong> - 只有一层 TLS 加密，开销小</li>
+                    <li><strong>稳定可靠</strong> - 协议简单，不容易出问题</li>
+                    <li><strong>抗封锁能力强</strong> - 很难被识别和阻断</li>
+                </ul>
+
+                <h4 style="color: #f87171; font-size: 1.05rem; margin-top: 1.5rem;">缺点</h4>
+                <ul>
+                    <li><strong>必须有域名和证书</strong> - 部署门槛比 SS 高</li>
+                    <li><strong>需要伪装网站</strong> - 通常需要搭建一个真实网站做掩护</li>
+                </ul>
+
+                <h4 style="color: #fbbf24; font-size: 1.05rem; margin-top: 1.5rem;">配置示例</h4>
+                <pre><code>proxies:
+  - name: "Trojan-节点"
+    type: trojan
+    server: server.example.com
+    port: 443
+    password: your-password
+    sni: server.example.com
+    skip-cert-verify: false
+    udp: true</code></pre>
+
+                <p style="margin-top: 1rem;"><strong>适合人群：</strong>追求最高隐蔽性，有域名和证书，能搭建伪装网站的用户。</p>
+            </div>
+
+            <div class="protocol-card">
+                <h3>Hysteria / Hysteria2</h3>
+                <span class="tag">高速协议</span>
+                <span class="tag">基于 QUIC</span>
+                <span class="tag">低延迟</span>
+
+                <p>Hysteria 基于 QUIC 协议（HTTP/3 的底层协议），专门为不稳定网络设计。弱网环境下性能表现非常好。</p>
+
+                <h4 style="color: #5eead4; font-size: 1.05rem; margin-top: 1.5rem;">优点</h4>
+                <ul>
+                    <li><strong>速度极快</strong> - 利用 QUIC 的多路复用和拥塞控制</li>
+                    <li><strong>弱网表现好</strong> - 丢包环境下也能保持高速</li>
+                    <li><strong>延迟低</strong> - 0-RTT 连接建立，首包延迟极低</li>
+                    <li><strong>支持 UDP</strong> - 原生支持 UDP 代理</li>
+                </ul>
+
+                <h4 style="color: #f87171; font-size: 1.05rem; margin-top: 1.5rem;">缺点</h4>
+                <ul>
+                    <li><strong>配置复杂</strong> - 参数多，需要调优</li>
+                    <li><strong>占用带宽</strong> - 为了对抗丢包，会发送冗余数据</li>
+                    <li><strong>兼容性</strong> - 某些网络可能限制 UDP</li>
+                </ul>
+
+                <h4 style="color: #fbbf24; font-size: 1.05rem; margin-top: 1.5rem;">配置示例</h4>
+                <pre><code>proxies:
+  - name: "Hysteria2-节点"
+    type: hysteria2
+    server: server.example.com
+    port: 443
+    password: your-password
+    sni: server.example.com
+    skip-cert-verify: false</code></pre>
+
+                <p style="margin-top: 1rem;"><strong>适合人群：</strong>网络环境不稳定、追求极致速度的用户；游戏加速场景。</p>
+            </div>
+
+            <div class="protocol-card">
+                <h3>Snell</h3>
+                <span class="tag">Surge 专属</span>
+                <span class="tag">高性能</span>
+
+                <p>Snell 是 Surge 开发的私有协议，专注性能优化。协议简单高效，但只有 Surge 和部分客户端支持。</p>
+
+                <h4 style="color: #5eead4; font-size: 1.05rem; margin-top: 1.5rem;">优点</h4>
+                <ul>
+                    <li><strong>速度快</strong> - 协议设计精简</li>
+                    <li><strong>稳定</strong> - Surge 团队维护，质量有保证</li>
+                    <li><strong>低延迟</strong> - 连接建立快</li>
+                </ul>
+
+                <h4 style="color: #f87171; font-size: 1.05rem; margin-top: 1.5rem;">缺点</h4>
+                <ul>
+                    <li><strong>闭源</strong> - 不开源，只能用官方实现</li>
+                    <li><strong>生态小</strong> - 支持的客户端少</li>
+                    <li><strong>服务端收费</strong> - Snell 服务端不是免费的</li>
+                </ul>
+
+                <h4 style="color: #fbbf24; font-size: 1.05rem; margin-top: 1.5rem;">配置示例</h4>
+                <pre><code>proxies:
+  - name: "Snell-节点"
+    type: snell
+    server: server.example.com
+    port: 8388
+    psk: your-psk
+    version: 4
+    obfs-opts:
+      mode: tls</code></pre>
+
+                <p style="margin-top: 1rem;"><strong>适合人群：</strong>Surge 用户，追求性能的 macOS/iOS 用户。</p>
+            </div>
+
+            <h2>协议选择建议</h2>
+
+            <p style="font-size: 1.1rem; margin: 2rem 0;">根据你的需求选择：</p>
+
+            <ul style="font-size: 1.05rem; line-height: 2;">
+                <li><strong>追求稳定简单：</strong>选 <strong>Shadowsocks</strong>，最经典可靠</li>
+                <li><strong>追求隐蔽性：</strong>选 <strong>Trojan</strong> 或 <strong>VLESS + Reality</strong></li>
+                <li><strong>追求性能：</strong>选 <strong>VLESS</strong> 或 <strong>Hysteria2</strong></li>
+                <li><strong>网络环境差：</strong>选 <strong>Hysteria2</strong>，弱网表现最好</li>
+                <li><strong>游戏加速：</strong>选 <strong>Hysteria2</strong>，延迟最低</li>
+                <li><strong>不确定：</strong>选 <strong>Trojan</strong>，隐蔽性和性能都不错</li>
+            </ul>
+
+            <p style="font-size: 1.05rem; margin-top: 2rem;">实际使用时，大部分机场会提供多种协议的节点。你可以都试试，选延迟最低、速度最快的。不同时间段、不同地区，最优协议可能不同。</p>
+
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Clash 客户端下载 | 最后更新：<span id="updateTime"></span></p>
+        </div>
+    </footer>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            document.getElementById('updateTime').textContent = `${year}-${month}-${day}`;
+        }
+        updateTime();
+    </script>
+</body>
+</html>
