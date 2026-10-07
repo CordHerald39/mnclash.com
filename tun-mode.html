@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash TUN 模式详解 | 虚拟网卡、全局代理、游戏加速完整指南</title>
+    <meta name="description" content="详细讲解 Clash TUN 模式的原理、优势、配置方法。包括 Windows、macOS、Android 各平台的 TUN 模式启用步骤，常见问题和故障排查。">
+    <link rel="canonical" href="https://mnclash.com/tun-mode.html">
+
+    <style>
+        :root { color-scheme: light; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            line-height: 1.7;
+            color: #f5efe6;
+            background: #0f1117;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: #171a23;
+            padding: 20px 0;
+            border-bottom: 1px solid #1e222e;
+        }
+        .logo { font-size: 1.5rem; font-weight: 600; color: #fbbf24; text-decoration: none; }
+        nav { margin-top: 15px; }
+        nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin-right: 25px;
+            font-size: 0.95rem;
+        }
+        nav a:hover { color: #fbbf24; }
+        .breadcrumb {
+            padding: 20px 0;
+            font-size: 0.9rem;
+            color: #808080;
+        }
+        .breadcrumb a { color: #a0a0a0; text-decoration: none; }
+        main { padding: 40px 0; }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        .intro {
+            font-size: 1.05rem;
+            color: #c0c0c0;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+        h2 {
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem 0;
+            color: #ffffff;
+            border-left: 4px solid #fbbf24;
+            padding-left: 15px;
+        }
+        h3 {
+            font-size: 1.3rem;
+            margin: 2rem 0 1rem 0;
+            color: #fbbf24;
+        }
+        p { margin-bottom: 1rem; color: #d0d0d0; }
+        .comparison-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 2rem 0;
+        }
+        .compare-item {
+            background: #171a23;
+            border: 1px solid #1e222e;
+            border-radius: 8px;
+            padding: 25px;
+        }
+        .compare-item h4 {
+            color: #fbbf24;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        .platform-card {
+            background: #171a23;
+            border: 1px solid #1e222e;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 2rem 0;
+        }
+        .platform-card h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
+        .step-list {
+            margin: 1.5rem 0;
+        }
+        .step-item {
+            margin-bottom: 1.5rem;
+            padding-left: 40px;
+            position: relative;
+        }
+        .step-item:before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            background: #fbbf24;
+            color: #0f1117;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        code {
+            background: #1e222e;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #fbbf24;
+        }
+        pre {
+            background: #1e222e;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid #2a2e3a;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+        ul {
+            margin: 1rem 0 1rem 20px;
+            color: #d0d0d0;
+        }
+        li { margin-bottom: 0.5rem; }
+        .note {
+            background: #1e222e;
+            border-left: 3px solid #fbbf24;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .note strong { color: #fbbf24; }
+        .warning {
+            background: #2e1a1a;
+            border-left: 3px solid #f87171;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .warning strong { color: #f87171; }
+        .tip {
+            background: #1a2e1a;
+            border-left: 3px solid #5eead4;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .tip strong { color: #5eead4; }
+        footer {
+            background: #171a23;
+            padding: 30px 0;
+            margin-top: 60px;
+            text-align: center;
+            color: #808080;
+            border-top: 1px solid #1e222e;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; }
+            .comparison-box { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Clash 客户端</a>
+            <nav>
+                <a href="index.html">首页</a>
+                <a href="tutorial.html">教程</a>
+                <a href="faq.html">FAQ</a>
+                <a href="about.html">关于</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">首页</a> / <a href="tutorial.html">教程</a> / TUN 模式
+        </div>
+
+        <main>
+            <h1>Clash TUN 模式完整指南</h1>
+
+            <p class="intro">
+                TUN 模式能实现真正的全局代理。游戏客户端、命令行工具、UWP 应用，这些不读取系统代理设置的程序，只有通过 TUN 模式才能走代理。这篇文章从原理到实践，详细讲解 TUN 模式的工作方式、各平台配置方法、常见问题和故障排查。
+            </p>
+
+            <h2>TUN 模式是什么</h2>
+
+            <p>TUN（网络隧道）是一种虚拟网卡技术。Clash 会在系统中创建一个虚拟网卡，然后把系统的所有网络流量都重定向到这个虚拟网卡，由 Clash 接管并根据规则处理。</p>
+
+            <p>简单说：<strong>TUN 模式 = 虚拟网卡 + 流量劫持</strong></p>
+
+            <h2>系统代理 vs TUN 模式</h2>
+
+            <div class="comparison-box">
+                <div class="compare-item">
+                    <h4>系统代理模式</h4>
+                    <p><strong>工作原理：</strong></p>
+                    <p>在系统设置中配置一个代理服务器地址。应用程序需要主动读取这个设置，然后把流量发送到代理服务器。</p>
+
+                    <p style="margin-top: 1.5rem;"><strong>优点：</strong></p>
+                    <ul>
+                        <li>配置简单</li>
+                        <li>不需要管理员权限</li>
+                        <li>对网络影响小</li>
+                    </ul>
+
+                    <p style="margin-top: 1.5rem;"><strong>缺点：</strong></p>
+                    <ul>
+                        <li>只对遵守代理设置的应用有效</li>
+                        <li>游戏、UWP 应用、命令行工具经常不走代理</li>
+                        <li>某些应用会忽略系统代理</li>
+                    </ul>
+                </div>
+
+                <div class="compare-item">
+                    <h4>TUN 模式</h4>
+                    <p><strong>工作原理：</strong></p>
+                    <p>创建虚拟网卡，劫持系统所有网络流量。不管应用是否读取代理设置，流量都会经过 Clash。</p>
+
+                    <p style="margin-top: 1.5rem;"><strong>优点：</strong></p>
+                    <ul>
+                        <li>真正的全局代理</li>
+                        <li>任何应用都能走代理</li>
+                        <li>游戏加速必备</li>
+                    </ul>
+
+                    <p style="margin-top: 1.5rem;"><strong>缺点：</strong></p>
+                    <ul>
+                        <li>需要管理员权限</li>
+                        <li>配置复杂</li>
+                        <li>出问题可能影响整个网络</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>什么时候需要 TUN 模式</h2>
+
+            <p>以下场景必须用 TUN 模式：</p>
+
+            <ul style="font-size: 1.05rem; line-height: 1.8;">
+                <li><strong>游戏加速</strong> - 绝大部分游戏不读取系统代理，必须用 TUN 模式</li>
+                <li><strong>命令行工具</strong> - git、npm、pip、curl 等有时不走系统代理</li>
+                <li><strong>UWP 应用</strong> - Windows 应用商店的应用通常不遵守系统代理</li>
+                <li><strong>特殊软件</strong> - 某些应用明确不支持代理（如某些下载工具）</li>
+                <li><strong>透明代理</strong> - 想让所有设备的流量都走代理（路由器 Clash）</li>
+            </ul>
+
+            <p style="margin-top: 1.5rem;">如果只是浏览网页、用常规软件，系统代理模式就够了，不需要开 TUN。</p>
+
+            <h2>各平台 TUN 模式配置</h2>
+
+            <div class="platform-card">
+                <h3>Windows - Clash for Windows / Clash Verge</h3>
+
+                <div class="step-list">
+                    <div class="step-item" data-step="1">
+                        <strong>安装虚拟网卡驱动</strong>
+                        <p>第一次使用 TUN 模式时，Clash 会提示安装 WinTUN 驱动。点击安装并授予管理员权限。</p>
+                        <p>如果没有自动提示，到 Clash 安装目录找到 <code>service</code> 文件夹，运行 <code>install-service.bat</code>。</p>
+                    </div>
+
+                    <div class="step-item" data-step="2">
+                        <strong>开启 TUN 模式</strong>
+                        <p><strong>Clash for Windows：</strong>在"常规"或"General"设置中找到"TUN Mode"开关，打开它。</p>
+                        <p><strong>Clash Verge：</strong>在设置中找到"TUN 模式"，打开开关。</p>
+                    </div>
+
+                    <div class="step-item" data-step="3">
+                        <strong>配置 TUN 参数（可选）</strong>
+                        <p>在配置文件中添加 TUN 相关设置：</p>
+                        <pre><code>tun:
+  enable: true
+  stack: system
+  dns-hijack:
+    - any:53
+  auto-route: true
+  auto-detect-interface: true</code></pre>
+                    </div>
+
+                    <div class="step-item" data-step="4">
+                        <strong>测试</strong>
+                        <p>打开命令行，ping 一个国外网站，或者打开一个游戏，看看能不能正常连接。</p>
+                    </div>
+                </div>
+
+                <div class="warning">
+                    <strong>注意：</strong>Windows 开启 TUN 模式后，如果网络断了，立即关闭 TUN 模式。可能是虚拟网卡配置冲突，或者规则有问题。
+                </div>
+            </div>
+
+            <div class="platform-card">
+                <h3>macOS - ClashX Pro</h3>
+
+                <div class="step-list">
+                    <div class="step-item" data-step="1">
+                        <strong>确认使用 ClashX Pro</strong>
+                        <p>免费版 ClashX <strong>不支持</strong>增强模式（TUN）。必须使用 ClashX Pro 版本。</p>
+                        <p>下载地址：<a href="https://github.com/yichengchen/clashX/releases" style="color: #fbbf24; text-decoration: none;">GitHub Releases</a></p>
+                    </div>
+
+                    <div class="step-item" data-step="2">
+                        <strong>开启增强模式</strong>
+                        <p>点击菜单栏的 ClashX Pro 图标，选择"增强模式"或"Enhanced Mode"。</p>
+                        <p>首次开启会提示输入密码，授权安装系统扩展。</p>
+                    </div>
+
+                    <div class="step-item" data-step="3">
+                        <strong>授权系统扩展</strong>
+                        <p>打开"系统设置" → "隐私与安全性" → "系统扩展"，允许 ClashX Pro 的扩展。</p>
+                        <p>可能需要重启电脑才能生效。</p>
+                    </div>
+
+                    <div class="step-item" data-step="4">
+                        <strong>测试</strong>
+                        <p>打开终端，运行 <code>curl -I https://google.com</code>，如果能访问说明增强模式生效了。</p>
+                    </div>
+                </div>
+
+                <div class="tip">
+                    <strong>提示：</strong>macOS 的增强模式比较稳定，开启后基本不会影响正常使用。如果遇到问题，关闭增强模式再重新开启通常就能解决。
+                </div>
+            </div>
+
+            <div class="platform-card">
+                <h3>Android - Clash Meta</h3>
+
+                <p>Android 的 Clash 本身就是通过 VPN API 实现的全局代理，效果和 TUN 模式一样。启动 Clash 时会提示"建立 VPN 连接"，允许即可。</p>
+
+                <div class="note">
+                    <strong>注意：</strong>Android 上不需要额外开启 TUN 模式，默认就是全局代理。但要注意某些国产手机（小米、华汉、OPPO）会后台限制 VPN 应用，需要在电池优化和权限管理中给 Clash 开白名单。
+                </div>
+            </div>
+
+            <div class="platform-card">
+                <h3>Linux</h3>
+
+                <p>Linux 上配置 TUN 模式相对复杂，需要手动配置路由表和防火墙规则。</p>
+
+                <div class="step-list">
+                    <div class="step-item" data-step="1">
+                        <strong>启用 TUN 模块</strong>
+                        <pre><code>sudo modprobe tun</code></pre>
+                    </div>
+
+                    <div class="step-item" data-step="2">
+                        <strong>配置 Clash</strong>
+                        <p>在配置文件中添加：</p>
+                        <pre><code>tun:
+  enable: true
+  stack: system
+  dns-hijack:
+    - any:53
+  auto-route: true
+  auto-detect-interface: true</code></pre>
+                    </div>
+
+                    <div class="step-item" data-step="3">
+                        <strong>以 root 权限运行 Clash</strong>
+                        <pre><code>sudo ./clash -d /path/to/config</code></pre>
+                    </div>
+                </div>
+
+                <div class="note">
+                    <strong>注意：</strong>Linux 上的 TUN 模式需要 root 权限。建议用 systemd 服务管理 Clash，避免每次手动运行。
+                </div>
+            </div>
+
+            <h2>TUN 模式配置详解</h2>
+
+            <p>TUN 模式的核心配置项：</p>
+
+            <pre><code>tun:
+  enable: true              # 启用 TUN 模式
+  stack: system             # 协议栈：system, gvisor, lwip
+  dns-hijack:               # DNS 劫持
+    - any:53                # 劫持所有 53 端口的 DNS 请求
+  auto-route: true          # 自动配置路由表
+  auto-detect-interface: true # 自动检测出口网卡</code></pre>
+
+            <h3>stack 选项</h3>
+
+            <ul>
+                <li><strong>system</strong> - 使用系统协议栈，兼容性最好，推荐</li>
+                <li><strong>gvisor</strong> - 用户态协议栈，性能好但兼容性一般</li>
+                <li><strong>lwip</strong> - 轻量级协议栈，某些场景下性能更好</li>
+            </ul>
+
+            <p>大部分情况用 <code>system</code> 就行，遇到兼容性问题再试试其他的。</p>
+
+            <h3>dns-hijack</h3>
+
+            <p>劫持 DNS 请求，防止 DNS 泄露。<code>any:53</code> 表示劫持所有发往 53 端口的请求。</p>
+
+            <h3>auto-route</h3>
+
+            <p>自动配置路由表，让系统流量自动走虚拟网卡。设为 <code>true</code> 就不用手动配置路由了。</p>
+
+            <h2>常见问题和故障排查</h2>
+
+            <div class="note">
+                <strong>Q: 开启 TUN 模式后网络断了怎么办？</strong><br><br>
+                <strong>解决步骤：</strong>
+                <ul style="margin-top: 0.5rem; margin-left: 20px;">
+                    <li>立即关闭 TUN 模式</li>
+                    <li>重启 Clash</li>
+                    <li>检查配置文件中的 TUN 配置是否正确</li>
+                    <li>如果还是不行，重启网络适配器：网络连接 → 禁用 → 启用</li>
+                    <li>实在不行，重启电脑</li>
+                </ul>
+            </div>
+
+            <div class="note">
+                <strong>Q: TUN 模式下某些网站打不开？</strong><br><br>
+                检查规则配置。可能是规则把该网站拒绝了，或者走了错误的代理节点。切换到"全局模式"测试，如果全局模式能访问，就是规则问题。
+            </div>
+
+            <div class="note">
+                <strong>Q: 游戏还是连不上？</strong><br><br>
+                <strong>检查以下几点：</strong>
+                <ul style="margin-top: 0.5rem; margin-left: 20px;">
+                    <li>TUN 模式是否真的开启了（看 Clash 界面有没有虚拟网卡图标）</li>
+                    <li>规则是否把游戏服务器 IP 直连了（改成全局模式测试）</li>
+                    <li>节点是否支持 UDP（很多游戏需要 UDP）</li>
+                    <li>防火墙是否拦截了虚拟网卡</li>
+                </ul>
+            </div>
+
+            <div class="note">
+                <strong>Q: TUN 模式比系统代理慢吗？</strong><br><br>
+                理论上 TUN 模式会增加一点延迟（通常 1-5ms），因为多了虚拟网卡这一层。但实际使用中几乎感觉不出来。如果明显变慢，可能是配置问题或者规则太复杂。
+            </div>
+
+            <div class="note">
+                <strong>Q: 可以同时用系统代理和 TUN 模式吗？</strong><br><br>
+                不建议。两种模式会冲突，可能导致流量被处理两次，或者某些流量走不通。选一种用就行，大部分情况系统代理够了，需要游戏加速再开 TUN。
+            </div>
+
+            <h2>性能优化建议</h2>
+
+            <div class="tip">
+                <strong>1. 精简规则</strong><br>
+                规则越多，每个数据包匹配的时间越长。使用规则集代替手动列举，用 GEOIP 代替大量域名规则。
+            </div>
+
+            <div class="tip">
+                <strong>2. 选择合适的 stack</strong><br>
+                如果 <code>system</code> 性能不够，试试 <code>gvisor</code>。但要注意兼容性，某些应用可能不工作。
+            </div>
+
+            <div class="tip">
+                <strong>3. 关闭不需要的功能</strong><br>
+                如果不需要劫持 DNS，可以关掉 <code>dns-hijack</code>。减少不必要的处理能提升性能。
+            </div>
+
+            <h2>总结</h2>
+
+            <p style="font-size: 1.05rem; line-height: 1.8;">TUN 模式是 Clash 的高级功能，能实现真正的全局代理。配置稍微复杂，但对游戏加速、特殊应用代理是必不可少的。</p>
+
+            <p style="font-size: 1.05rem; line-height: 1.8; margin-top: 1rem;">普通使用系统代理就够了，只有在需要代理特殊应用时才开 TUN。开启 TUN 后如果遇到问题，先关掉 TUN 再排查，避免影响正常上网。</p>
+
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Clash 客户端下载 | 最后更新：<span id="updateTime"></span></p>
+        </div>
+    </footer>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            document.getElementById('updateTime').textContent = `${year}-${month}-${day}`;
+        }
+        updateTime();
+    </script>
+</body>
+</html>
