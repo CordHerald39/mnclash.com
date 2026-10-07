@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash 代理组配置详解 | 手动选择、自动测速、负载均衡完整指南</title>
+    <meta name="description" content="详细讲解 Clash 代理组（proxy-groups）的配置：select、url-test、fallback、load-balance 四种类型的区别、使用场景和配置示例。">
+    <link rel="canonical" href="https://mnclash.com/clash-proxy-groups.html">
+
+    <style>
+        :root { color-scheme: light; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            line-height: 1.7;
+            color: #f5efe6;
+            background: #0f1117;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: #171a23;
+            padding: 20px 0;
+            border-bottom: 1px solid #1e222e;
+        }
+        .logo { font-size: 1.5rem; font-weight: 600; color: #fbbf24; text-decoration: none; }
+        nav { margin-top: 15px; }
+        nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin-right: 25px;
+            font-size: 0.95rem;
+        }
+        nav a:hover { color: #fbbf24; }
+        main { padding: 40px 0; }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        .intro {
+            font-size: 1.05rem;
+            color: #c0c0c0;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+        h2 {
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem 0;
+            color: #ffffff;
+            border-left: 4px solid #fbbf24;
+            padding-left: 15px;
+        }
+        h3 {
+            font-size: 1.3rem;
+            margin: 2rem 0 1rem 0;
+            color: #fbbf24;
+        }
+        p { margin-bottom: 1rem; color: #d0d0d0; }
+        code {
+            background: #1e222e;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #fbbf24;
+        }
+        pre {
+            background: #1e222e;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid #2a2e3a;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+        .type-card {
+            background: #171a23;
+            border: 1px solid #1e222e;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 2rem 0;
+        }
+        .type-card h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
+        .tag {
+            display: inline-block;
+            background: #1e222e;
+            color: #fbbf24;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-right: 8px;
+            margin-bottom: 10px;
+        }
+        .tag.pro { background: #5eead4; color: #0f1117; }
+        ul {
+            margin: 1rem 0 1rem 20px;
+            color: #d0d0d0;
+        }
+        li { margin-bottom: 0.5rem; }
+        .tip {
+            background: #1a2e1a;
+            border-left: 3px solid #5eead4;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .tip strong { color: #5eead4; }
+        .note {
+            background: #1e222e;
+            border-left: 3px solid #fbbf24;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .note strong { color: #fbbf24; }
+        footer {
+            background: #171a23;
+            padding: 30px 0;
+            margin-top: 60px;
+            text-align: center;
+            color: #808080;
+            border-top: 1px solid #1e222e;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Clash 客户端</a>
+            <nav>
+                <a href="index.html">首页</a>
+                <a href="tutorial.html">教程</a>
+                <a href="faq.html">FAQ</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <h1>Clash 代理组配置完整指南</h1>
+
+            <p class="intro">
+                代理组是 Clash 的核心功能之一。它把多个节点组织起来,实现手动切换、自动选择、故障切换、负载均衡等功能。理解代理组的工作原理和配置方法,你就能根据需求灵活组合节点,打造最适合自己的分流策略。
+            </p>
+
+            <h2>什么是代理组</h2>
+
+            <p>简单说,代理组就是一组节点的集合。规则中不直接指定节点,而是指定代理组,由代理组决定实际用哪个节点。</p>
+
+            <p><strong>例子:</strong></p>
+            <pre><code>proxy-groups:
+  - name: "Proxy"
+    type: select
+    proxies:
+      - 香港节点1
+      - 香港节点2
+      - 美国节点1
+
+rules:
+  - DOMAIN-SUFFIX,google.com,Proxy  # 访问 Google 时用 Proxy 组</code></pre>
+
+            <p>这样配置后,访问 Google 时会使用 Proxy 组中当前选中的节点。如果节点挂了,你可以在 Proxy 组中切换到其他节点,不用改规则。</p>
+
+            <h2>四种代理组类型</h2>
+
+            <div class="type-card">
+                <h3>select - 手动选择</h3>
+                <span class="tag pro">最常用</span>
+                <span class="tag">灵活</span>
+
+                <p><strong>工作方式:</strong>你手动选择用哪个节点,不会自动切换。</p>
+
+                <p><strong>配置示例:</strong></p>
+                <pre><code>proxy-groups:
+  - name: "Proxy"
+    type: select
+    proxies:
+      - 香港节点1
+      - 香港节点2
+      - 美国节点1
+      - DIRECT  # 也可以包含 DIRECT（直连）</code></pre>
+
+                <p><strong>适用场景:</strong></p>
+                <ul>
+                    <li>你想自己控制用哪个节点</li>
+                    <li>不同网站需要不同地区的节点（如 Netflix 美区、日区）</li>
+                    <li>测试不同节点的速度</li>
+                </ul>
+
+                <p><strong>优点:</strong></p>
+                <ul>
+                    <li>完全可控</li>
+                    <li>可以包含其他代理组作为选项</li>
+                    <li>可以随时切换</li>
+                </ul>
+
+                <p><strong>缺点:</strong></p>
+                <ul>
+                    <li>节点挂了不会自动切换</li>
+                    <li>需要手动选择</li>
+                </ul>
+            </div>
+
+            <div class="type-card">
+                <h3>url-test - 自动测速</h3>
+                <span class="tag pro">智能</span>
+                <span class="tag">自动</span>
+
+                <p><strong>工作方式:</strong>定期测试所有节点延迟,自动选择延迟最低的节点。</p>
+
+                <p><strong>配置示例:</strong></p>
+                <pre><code>proxy-groups:
+  - name: "Auto"
+    type: url-test
+    proxies:
+      - 香港节点1
+      - 香港节点2
+      - 新加坡节点1
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300
+    tolerance: 50</code></pre>
+
+                <p><strong>参数说明:</strong></p>
+                <ul>
+                    <li><code>url</code> - 测速用的网址,通常用 gstatic（Google 的测速服务）</li>
+                    <li><code>interval</code> - 测速间隔（秒）,这里是 300 秒 = 5 分钟</li>
+                    <li><code>tolerance</code> - 容差（毫秒）,只有新节点比当前节点快 50ms 以上才切换</li>
+                </ul>
+
+                <p><strong>适用场景:</strong></p>
+                <ul>
+                    <li>你有多个相似的节点（如多个香港节点）</li>
+                    <li>想自动选择最快的节点</li>
+                    <li>不想手动切换节点</li>
+                </ul>
+
+                <p><strong>优点:</strong></p>
+                <ul>
+                    <li>自动选择最快节点</li>
+                    <li>节点慢了会自动切换</li>
+                    <li>省心</li>
+                </ul>
+
+                <p><strong>缺点:</strong></p>
+                <ul>
+                    <li>无法手动控制用哪个节点</li>
+                    <li>测速有流量消耗</li>
+                    <li>可能频繁切换节点（如果设置不当）</li>
+                </ul>
+
+                <div class="tip">
+                    <strong>优化建议:</strong><code>tolerance</code> 不要设太小,否则会频繁切换。一般设 50-150ms。<code>interval</code> 不要太短,5-10 分钟就够了。
+                </div>
+            </div>
+
+            <div class="type-card">
+                <h3>fallback - 故障切换</h3>
+                <span class="tag">可靠</span>
+                <span class="tag">自动</span>
+
+                <p><strong>工作方式:</strong>按顺序优先使用第一个节点,如果第一个节点挂了,自动切换到第二个。</p>
+
+                <p><strong>配置示例:</strong></p>
+                <pre><code>proxy-groups:
+  - name: "Fallback"
+    type: fallback
+    proxies:
+      - 主力节点
+      - 备用节点1
+      - 备用节点2
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300</code></pre>
+
+                <p><strong>工作流程:</strong></p>
+                <ol style="margin-left: 20px; color: #d0d0d0;">
+                    <li>默认使用"主力节点"</li>
+                    <li>每 300 秒测试一次主力节点</li>
+                    <li>如果主力节点超时,切换到"备用节点1"</li>
+                    <li>主力节点恢复后,会切回主力节点</li>
+                </ol>
+
+                <p><strong>适用场景:</strong></p>
+                <ul>
+                    <li>你有一个主力节点,速度快但不太稳定</li>
+                    <li>想要故障自动切换</li>
+                    <li>追求可靠性</li>
+                </ul>
+
+                <p><strong>优点:</strong></p>
+                <ul>
+                    <li>自动故障切换</li>
+                    <li>优先使用最好的节点</li>
+                    <li>节点恢复后自动切回</li>
+                </ul>
+
+                <p><strong>缺点:</strong></p>
+                <ul>
+                    <li>不会自动选最快的,只用第一个可用的</li>
+                    <li>节点顺序很重要</li>
+                </ul>
+            </div>
+
+            <div class="type-card">
+                <h3>load-balance - 负载均衡</h3>
+                <span class="tag">高级</span>
+                <span class="tag">分散</span>
+
+                <p><strong>工作方式:</strong>把流量分散到多个节点,每个连接随机选择一个节点。</p>
+
+                <p><strong>配置示例:</strong></p>
+                <pre><code>proxy-groups:
+  - name: "LoadBalance"
+    type: load-balance
+    proxies:
+      - 节点1
+      - 节点2
+      - 节点3
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300
+    strategy: consistent-hashing</code></pre>
+
+                <p><strong>strategy 策略:</strong></p>
+                <ul>
+                    <li><code>consistent-hashing</code> - 一致性哈希,同一个域名总是用同一个节点</li>
+                    <li><code>round-robin</code> - 轮询,每个连接依次使用不同节点</li>
+                </ul>
+
+                <p><strong>适用场景:</strong></p>
+                <ul>
+                    <li>多个节点带宽都不够大,需要分散流量</li>
+                    <li>下载大文件,想同时用多个节点的带宽</li>
+                    <li>高级用户优化</li>
+                </ul>
+
+                <p><strong>优点:</strong></p>
+                <ul>
+                    <li>充分利用多个节点的带宽</li>
+                    <li>单个节点压力小</li>
+                </ul>
+
+                <p><strong>缺点:</strong></p>
+                <ul>
+                    <li>配置复杂</li>
+                    <li>某些网站可能检测到多 IP 访问</li>
+                    <li>延迟可能不稳定</li>
+                </ul>
+
+                <div class="note">
+                    <strong>建议:</strong>除非你真的需要分散流量,否则不推荐用 load-balance。大部分情况 select 或 url-test 就够了。
+                </div>
+            </div>
+
+            <h2>代理组嵌套</h2>
+
+            <p>代理组可以包含其他代理组,实现更灵活的策略。</p>
+
+            <p><strong>示例:分地区选择</strong></p>
+            <pre><code>proxy-groups:
+  # 顶层选择组
+  - name: "Proxy"
+    type: select
+    proxies:
+      - Auto-HK
+      - Auto-US
+      - Auto-SG
+      - DIRECT
+
+  # 香港自动组
+  - name: "Auto-HK"
+    type: url-test
+    proxies:
+      - 香港节点1
+      - 香港节点2
+      - 香港节点3
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300
+
+  # 美国自动组
+  - name: "Auto-US"
+    type: url-test
+    proxies:
+      - 美国节点1
+      - 美国节点2
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300
+
+  # 新加坡自动组
+  - name: "Auto-SG"
+    type: url-test
+    proxies:
+      - 新加坡节点1
+      - 新加坡节点2
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300</code></pre>
+
+            <p>这样配置后:</p>
+            <ul>
+                <li>在 Proxy 组中可以选择用香港、美国还是新加坡</li>
+                <li>每个地区内部自动选择最快的节点</li>
+                <li>兼顾了灵活性和自动化</li>
+            </ul>
+
+            <h2>实用配置案例</h2>
+
+            <h3>案例 1:日常使用配置</h3>
+
+            <pre><code>proxy-groups:
+  # 主代理组 - 手动选择用哪个策略
+  - name: "Proxy"
+    type: select
+    proxies:
+      - Auto  # 自动选最快
+      - 香港
+      - 美国
+      - DIRECT
+
+  # 自动选择组 - 从所有节点中选最快的
+  - name: "Auto"
+    type: url-test
+    proxies:
+      - 香港节点1
+      - 香港节点2
+      - 美国节点1
+      - 新加坡节点1
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300
+    tolerance: 100
+
+  # 手动香港组
+  - name: "香港"
+    type: select
+    proxies:
+      - 香港节点1
+      - 香港节点2
+
+  # 手动美国组
+  - name: "美国"
+    type: select
+    proxies:
+      - 美国节点1
+      - 美国节点2</code></pre>
+
+            <h3>案例 2:流媒体分流配置</h3>
+
+            <pre><code>proxy-groups:
+  # 通用代理
+  - name: "Proxy"
+    type: select
+    proxies:
+      - Auto
+      - DIRECT
+
+  # 自动选择
+  - name: "Auto"
+    type: url-test
+    proxies:
+      - 香港节点1
+      - 香港节点2
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300
+
+  # Netflix 专用（需要美国原生 IP）
+  - name: "Netflix"
+    type: select
+    proxies:
+      - 美国原生IP节点
+      - 新加坡节点
+
+  # YouTube 专用（香港速度快）
+  - name: "YouTube"
+    type: select
+    proxies:
+      - 香港节点1
+      - 香港节点2
+      - 台湾节点
+
+rules:
+  - DOMAIN-SUFFIX,netflix.com,Netflix
+  - DOMAIN-SUFFIX,youtube.com,YouTube
+  - MATCH,Proxy</code></pre>
+
+            <h3>案例 3:故障切换 + 手动选择</h3>
+
+            <pre><code>proxy-groups:
+  # 手动选地区
+  - name: "Proxy"
+    type: select
+    proxies:
+      - Fallback-HK
+      - Fallback-US
+      - DIRECT
+
+  # 香港故障切换
+  - name: "Fallback-HK"
+    type: fallback
+    proxies:
+      - 香港高速节点
+      - 香港备用节点1
+      - 香港备用节点2
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300
+
+  # 美国故障切换
+  - name: "Fallback-US"
+    type: fallback
+    proxies:
+      - 美国高速节点
+      - 美国备用节点
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300</code></pre>
+
+            <h2>常见问题</h2>
+
+            <div class="note">
+                <strong>Q: url-test 组一直在切换节点怎么办?</strong><br><br>
+                增大 <code>tolerance</code> 参数。比如从 50 改成 150,这样只有新节点明显更快时才切换。
+            </div>
+
+            <div class="note">
+                <strong>Q: 可以在代理组中引用节点正则吗?</strong><br><br>
+                可以。使用 <code>use</code> 参数引用 provider,或用 <code>filter</code> 过滤节点名称。但这是 Clash Premium 的功能,普通版本不支持。
+            </div>
+
+            <div class="note">
+                <strong>Q: 代理组的顺序重要吗?</strong><br><br>
+                对 select 和 fallback 很重要。select 组中第一个选项是默认选中的;fallback 组优先使用第一个节点。对 url-test 和 load-balance 不重要。
+            </div>
+
+            <div class="note">
+                <strong>Q: 测速 URL 用什么好?</strong><br><br>
+                推荐用 <code>http://www.gstatic.com/generate_204</code>（Google）或 <code>http://cp.cloudflare.com/generate_204</code>（Cloudflare）。响应快且稳定。
+            </div>
+
+            <h2>总结</h2>
+
+            <p style="font-size: 1.05rem; line-height: 1.8;">选择代理组类型的建议:</p>
+
+            <ul style="font-size: 1.05rem; line-height: 1.8;">
+                <li><strong>日常使用:</strong> select + url-test 嵌套</li>
+                <li><strong>追求稳定:</strong> select + fallback 嵌套</li>
+                <li><strong>完全自动:</strong> url-test</li>
+                <li><strong>完全手动:</strong> select</li>
+                <li><strong>特殊需求:</strong> load-balance（不推荐新手）</li>
+            </ul>
+
+            <p style="font-size: 1.05rem; line-height: 1.8; margin-top: 1.5rem;">代理组配置没有绝对的"最优解",关键是理解每种类型的特点,根据自己的需求组合使用。先从简单的 select 开始,熟悉后再尝试 url-test 和嵌套配置。</p>
+
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Clash 客户端下载 | 最后更新：<span id="updateTime"></span></p>
+        </div>
+    </footer>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            document.getElementById('updateTime').textContent = `${year}-${month}-${day}`;
+        }
+        updateTime();
+    </script>
+</body>
+</html>
