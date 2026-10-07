@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash 配置文件详解 | YAML 配置完整指南</title>
+    <meta name="description" content="详细讲解 Clash 配置文件（config.yaml）的结构、各部分的作用、如何编辑和自定义配置，包含完整的配置示例。">
+    <link rel="canonical" href="https://mnclash.com/clash-config-yaml.html">
+
+    <style>
+        :root { color-scheme: light; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            line-height: 1.7;
+            color: #f5efe6;
+            background: #0f1117;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: #171a23;
+            padding: 20px 0;
+            border-bottom: 1px solid #1e222e;
+        }
+        .logo { font-size: 1.5rem; font-weight: 600; color: #fbbf24; text-decoration: none; }
+        nav { margin-top: 15px; }
+        nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin-right: 25px;
+            font-size: 0.95rem;
+        }
+        nav a:hover { color: #fbbf24; }
+        main { padding: 40px 0; }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        .intro {
+            font-size: 1.05rem;
+            color: #c0c0c0;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+        h2 {
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem 0;
+            color: #ffffff;
+            border-left: 4px solid #fbbf24;
+            padding-left: 15px;
+        }
+        h3 {
+            font-size: 1.3rem;
+            margin: 2rem 0 1rem 0;
+            color: #fbbf24;
+        }
+        p { margin-bottom: 1rem; color: #d0d0d0; }
+        code {
+            background: #1e222e;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #fbbf24;
+        }
+        pre {
+            background: #1e222e;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid #2a2e3a;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+        .config-section {
+            background: #171a23;
+            border: 1px solid #1e222e;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 2rem 0;
+        }
+        .config-section h3 {
+            margin-top: 0;
+        }
+        ul {
+            margin: 1rem 0 1rem 20px;
+            color: #d0d0d0;
+        }
+        li { margin-bottom: 0.5rem; }
+        .tip {
+            background: #1a2e1a;
+            border-left: 3px solid #5eead4;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .tip strong { color: #5eead4; }
+        .warning {
+            background: #2e1a1a;
+            border-left: 3px solid #f87171;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .warning strong { color: #f87171; }
+        footer {
+            background: #171a23;
+            padding: 30px 0;
+            margin-top: 60px;
+            text-align: center;
+            color: #808080;
+            border-top: 1px solid #1e222e;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Clash 客户端</a>
+            <nav>
+                <a href="index.html">首页</a>
+                <a href="tutorial.html">教程</a>
+                <a href="faq.html">FAQ</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <h1>Clash 配置文件完整解析</h1>
+
+            <p class="intro">
+                Clash 的所有行为都由一个 YAML 配置文件控制。理解配置文件的结构，你就能自定义代理规则、添加节点、配置分流策略。这篇文章从头到尾讲解配置文件的每个部分，配合完整示例，让你看懂并能自己修改配置。
+            </p>
+
+            <h2>配置文件在哪里</h2>
+
+            <p><strong>Windows - Clash for Windows：</strong></p>
+            <code style="display: block; margin: 1rem 0; padding: 10px;">C:\Users\你的用户名\.config\clash\config.yaml</code>
+
+            <p><strong>macOS - ClashX：</strong></p>
+            <code style="display: block; margin: 1rem 0; padding: 10px;">~/.config/clash/config.yaml</code>
+
+            <p><strong>Android - Clash Meta：</strong></p>
+            <p>在应用内直接编辑，或导出到文件管理器。</p>
+
+            <div class="tip">
+                <strong>快速打开：</strong>大部分 Clash 客户端提供"打开配置文件夹"或"编辑配置"的快捷入口，不用手动找路径。
+            </div>
+
+            <h2>配置文件结构</h2>
+
+            <p>Clash 配置文件分为几个主要部分：</p>
+
+            <pre><code># 基础设置
+port: 7890
+socks-port: 7891
+allow-lan: false
+mode: rule
+
+# DNS 配置
+dns:
+  enable: true
+  nameserver:
+    - 223.5.5.5
+
+# 代理节点
+proxies:
+  - name: "节点1"
+    type: ss
+    server: xxx
+
+# 代理组
+proxy-groups:
+  - name: "Proxy"
+    type: select
+    proxies:
+      - 节点1
+
+# 规则
+rules:
+  - DOMAIN-SUFFIX,google.com,Proxy
+  - GEOIP,CN,DIRECT
+  - MATCH,Proxy</code></pre>
+
+            <h2>各部分详解</h2>
+
+            <div class="config-section">
+                <h3>1. 基础设置</h3>
+
+                <pre><code>port: 7890              # HTTP 代理端口
+socks-port: 7891        # SOCKS5 代理端口
+allow-lan: false        # 是否允许局域网连接
+mode: rule              # 代理模式：rule, global, direct
+log-level: info         # 日志级别
+external-controller: 127.0.0.1:9090  # 外部控制接口</code></pre>
+
+                <p><strong>重点参数说明：</strong></p>
+                <ul>
+                    <li><code>port</code> - HTTP 代理端口，浏览器等应用通过这个端口连接</li>
+                    <li><code>socks-port</code> - SOCKS5 端口，某些应用需要 SOCKS5 代理</li>
+                    <li><code>allow-lan</code> - 设为 true 可以让局域网其他设备通过你的电脑代理</li>
+                    <li><code>mode</code> - 默认代理模式，通常用 rule（规则分流）</li>
+                </ul>
+            </div>
+
+            <div class="config-section">
+                <h3>2. DNS 配置</h3>
+
+                <pre><code>dns:
+  enable: true
+  ipv6: false
+  listen: 0.0.0.0:53
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  fallback:
+    - 8.8.8.8
+    - 1.1.1.1</code></pre>
+
+                <p><strong>DNS 模式：</strong></p>
+                <ul>
+                    <li><code>fake-ip</code> - 虚拟 IP 模式，速度快，推荐</li>
+                    <li><code>redir-host</code> - 真实 IP 模式，兼容性好</li>
+                </ul>
+
+                <p><strong>DNS 服务器：</strong></p>
+                <ul>
+                    <li><code>nameserver</code> - 国内 DNS，查询国内域名</li>
+                    <li><code>fallback</code> - 国外 DNS，查询国外域名</li>
+                </ul>
+            </div>
+
+            <div class="config-section">
+                <h3>3. 代理节点 (proxies)</h3>
+
+                <p>这部分列出所有可用的代理节点。通常由订阅自动生成，手动添加节点也在这里。</p>
+
+                <p><strong>Shadowsocks 节点示例：</strong></p>
+                <pre><code>proxies:
+  - name: "香港节点"
+    type: ss
+    server: hk.example.com
+    port: 8388
+    cipher: aes-256-gcm
+    password: your-password
+    udp: true</code></pre>
+
+                <p><strong>Trojan 节点示例：</strong></p>
+                <pre><code>  - name: "美国节点"
+    type: trojan
+    server: us.example.com
+    port: 443
+    password: your-password
+    sni: us.example.com
+    skip-cert-verify: false
+    udp: true</code></pre>
+
+                <p><strong>VMess 节点示例：</strong></p>
+                <pre><code>  - name: "新加坡节点"
+    type: vmess
+    server: sg.example.com
+    port: 443
+    uuid: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    alterId: 0
+    cipher: auto
+    tls: true
+    network: ws
+    ws-opts:
+      path: /path</code></pre>
+            </div>
+
+            <div class="config-section">
+                <h3>4. 代理组 (proxy-groups)</h3>
+
+                <p>代理组把多个节点组织起来，实现自动选择、故障切换等功能。</p>
+
+                <p><strong>手动选择组：</strong></p>
+                <pre><code>proxy-groups:
+  - name: "Proxy"
+    type: select
+    proxies:
+      - 香港节点
+      - 美国节点
+      - 新加坡节点</code></pre>
+
+                <p><strong>自动测速组：</strong></p>
+                <pre><code>  - name: "Auto"
+    type: url-test
+    proxies:
+      - 香港节点
+      - 新加坡节点
+    url: http://www.gstatic.com/generate_204
+    interval: 300</code></pre>
+
+                <p><strong>故障转移组：</strong></p>
+                <pre><code>  - name: "Fallback"
+    type: fallback
+    proxies:
+      - 香港节点
+      - 美国节点
+    url: http://www.gstatic.com/generate_204
+    interval: 300</code></pre>
+
+                <p><strong>负载均衡组：</strong></p>
+                <pre><code>  - name: "LoadBalance"
+    type: load-balance
+    proxies:
+      - 香港节点
+      - 新加坡节点
+    url: http://www.gstatic.com/generate_204
+    interval: 300</code></pre>
+
+                <p><strong>类型说明：</strong></p>
+                <ul>
+                    <li><code>select</code> - 手动选择节点</li>
+                    <li><code>url-test</code> - 自动选择延迟最低的节点</li>
+                    <li><code>fallback</code> - 主节点挂了自动切换备用节点</li>
+                    <li><code>load-balance</code> - 多个节点负载均衡</li>
+                </ul>
+            </div>
+
+            <div class="config-section">
+                <h3>5. 规则 (rules)</h3>
+
+                <p>规则决定哪些流量走代理，哪些直连。规则从上到下匹配，匹配到第一条后就不再继续。</p>
+
+                <pre><code>rules:
+  # 广告拦截
+  - DOMAIN-SUFFIX,googlesyndication.com,REJECT
+  - DOMAIN-SUFFIX,doubleclick.net,REJECT
+
+  # 国外网站走代理
+  - DOMAIN-SUFFIX,google.com,Proxy
+  - DOMAIN-SUFFIX,youtube.com,Proxy
+  - DOMAIN-SUFFIX,github.com,Proxy
+
+  # 国内网站直连
+  - DOMAIN-SUFFIX,baidu.com,DIRECT
+  - DOMAIN-SUFFIX,qq.com,DIRECT
+
+  # 局域网直连
+  - IP-CIDR,192.168.0.0/16,DIRECT
+  - IP-CIDR,10.0.0.0/8,DIRECT
+
+  # 中国 IP 直连
+  - GEOIP,CN,DIRECT
+
+  # 其他流量走代理
+  - MATCH,Proxy</code></pre>
+
+                <p><strong>规则类型：</strong></p>
+                <ul>
+                    <li><code>DOMAIN</code> - 完整匹配域名</li>
+                    <li><code>DOMAIN-SUFFIX</code> - 匹配域名后缀</li>
+                    <li><code>DOMAIN-KEYWORD</code> - 匹配域名关键词</li>
+                    <li><code>IP-CIDR</code> - 匹配 IP 段</li>
+                    <li><code>GEOIP</code> - 匹配地理位置</li>
+                    <li><code>MATCH</code> - 兜底规则，匹配所有</li>
+                </ul>
+
+                <p><strong>动作：</strong></p>
+                <ul>
+                    <li><code>Proxy</code> - 走代理（代理组名）</li>
+                    <li><code>DIRECT</code> - 直连</li>
+                    <li><code>REJECT</code> - 拒绝</li>
+                </ul>
+            </div>
+
+            <h2>完整配置示例</h2>
+
+            <p>这是一个实际可用的完整配置文件：</p>
+
+            <pre><code># 基础设置
+port: 7890
+socks-port: 7891
+allow-lan: false
+mode: rule
+log-level: info
+external-controller: 127.0.0.1:9090
+
+# DNS 配置
+dns:
+  enable: true
+  ipv6: false
+  enhanced-mode: fake-ip
+  nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  fallback:
+    - 8.8.8.8
+    - 1.1.1.1
+
+# 代理节点
+proxies:
+  - name: "HK-01"
+    type: ss
+    server: hk1.example.com
+    port: 8388
+    cipher: aes-256-gcm
+    password: password123
+    udp: true
+
+  - name: "US-01"
+    type: trojan
+    server: us1.example.com
+    port: 443
+    password: password456
+    sni: us1.example.com
+    udp: true
+
+# 代理组
+proxy-groups:
+  - name: "Proxy"
+    type: select
+    proxies:
+      - Auto
+      - HK-01
+      - US-01
+      - DIRECT
+
+  - name: "Auto"
+    type: url-test
+    proxies:
+      - HK-01
+      - US-01
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+
+# 规则
+rules:
+  # 广告拦截
+  - DOMAIN-SUFFIX,googlesyndication.com,REJECT
+  - DOMAIN-SUFFIX,doubleclick.net,REJECT
+
+  # Google 服务
+  - DOMAIN-SUFFIX,google.com,Proxy
+  - DOMAIN-SUFFIX,youtube.com,Proxy
+  - DOMAIN-SUFFIX,googleapis.com,Proxy
+
+  # GitHub
+  - DOMAIN-SUFFIX,github.com,Proxy
+  - DOMAIN-SUFFIX,githubusercontent.com,Proxy
+
+  # 国内常用网站直连
+  - DOMAIN-SUFFIX,baidu.com,DIRECT
+  - DOMAIN-SUFFIX,qq.com,DIRECT
+  - DOMAIN-SUFFIX,taobao.com,DIRECT
+
+  # 局域网直连
+  - IP-CIDR,192.168.0.0/16,DIRECT
+  - IP-CIDR,10.0.0.0/8,DIRECT
+  - IP-CIDR,127.0.0.0/8,DIRECT
+
+  # 中国 IP 直连
+  - GEOIP,CN,DIRECT
+
+  # 其他走代理
+  - MATCH,Proxy</code></pre>
+
+            <h2>如何编辑配置文件</h2>
+
+            <div class="warning">
+                <strong>重要：</strong>编辑配置文件前一定要备份！改错了可能导致 Clash 无法启动。
+            </div>
+
+            <p><strong>步骤：</strong></p>
+            <ol style="margin-left: 20px; color: #d0d0d0;">
+                <li>关闭 Clash（避免配置被覆盖）</li>
+                <li>找到配置文件 config.yaml</li>
+                <li>用文本编辑器打开（推荐 VS Code、Notepad++）</li>
+                <li>修改需要改的部分</li>
+                <li>保存文件</li>
+                <li>重启 Clash，检查是否正常启动</li>
+            </ol>
+
+            <div class="tip">
+                <strong>YAML 格式注意事项：</strong>
+                <ul style="margin-top: 0.5rem; margin-left: 20px;">
+                    <li>缩进使用空格，不要用 Tab</li>
+                    <li>每级缩进通常是 2 个空格</li>
+                    <li>冒号后面要加空格</li>
+                    <li>字符串如果包含特殊字符，要用引号</li>
+                </ul>
+            </div>
+
+            <h2>常见问题</h2>
+
+            <p><strong>Q: 配置文件改错了怎么办？</strong></p>
+            <p>如果 Clash 启动失败，说明配置文件有语法错误。检查错误信息，或者恢复备份。常见错误：缩进不对、少了空格、引号没配对。</p>
+
+            <p style="margin-top: 1.5rem;"><strong>Q: 可以合并多个订阅吗？</strong></p>
+            <p>可以。把多个订阅的节点都复制到 proxies 部分，然后在代理组中引用它们。但手动合并比较麻烦，建议用订阅转换工具。</p>
+
+            <p style="margin-top: 1.5rem;"><strong>Q: 修改配置后需要重启 Clash 吗？</strong></p>
+            <p>是的。大部分配置修改需要重启 Clash 才能生效。有些客户端支持"重载配置"，不用完全退出。</p>
+
+            <h2>总结</h2>
+
+            <p style="font-size: 1.05rem; line-height: 1.8;">理解配置文件是进阶使用 Clash 的关键。大部分时候用订阅提供的默认配置就够了，但当你想自定义规则、添加特定网站的分流、或者优化 DNS 配置时，就需要直接编辑配置文件。</p>
+
+            <p style="font-size: 1.05rem; line-height: 1.8; margin-top: 1rem;">从简单的修改开始，比如加几条规则、改个端口，熟悉了再做复杂的定制。记得改之前备份，改完后测试能不能正常启动。</p>
+
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Clash 客户端下载 | 最后更新：<span id="updateTime"></span></p>
+        </div>
+    </footer>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            document.getElementById('updateTime').textContent = `${year}-${month}-${day}`;
+        }
+        updateTime();
+    </script>
+</body>
+</html>
