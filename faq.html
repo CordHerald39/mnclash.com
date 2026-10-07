@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash 常见问题解答 | 配置问题、连接故障、使用疑问全解决</title>
+    <meta name="description" content="汇总 Clash 使用过程中最常遇到的 15+ 个问题，包括订阅导入、连接失败、规则配置、TUN 模式等，提供详细解决方案和排查步骤。">
+    <link rel="canonical" href="https://mnclash.com/faq.html">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Clash 是完全免费的吗？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Clash 核心程序完全开源免费，遵循 GPL-3.0 协议。各平台的图形界面客户端（Clash for Windows、ClashX、Clash Meta）也都是免费的。不过要注意，代理节点服务需要单独购买，这个和 Clash 软件本身无关。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "导入订阅后没有节点怎么办？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "先检查订阅链接是否正确复制，有没有多余的空格。然后确认订阅链接没有过期，可以联系提供商确认。如果链接没问题，试试关闭代理再更新订阅，或者重启客户端。"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        :root { color-scheme: light; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            line-height: 1.7;
+            color: #f5efe6;
+            background: #0f1117;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: #171a23;
+            padding: 20px 0;
+            border-bottom: 1px solid #1e222e;
+        }
+        .logo { font-size: 1.5rem; font-weight: 600; color: #fbbf24; text-decoration: none; }
+        nav { margin-top: 15px; }
+        nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin-right: 25px;
+            font-size: 0.95rem;
+        }
+        nav a:hover { color: #fbbf24; }
+        nav a.active { color: #fbbf24; }
+        .breadcrumb {
+            padding: 20px 0;
+            font-size: 0.9rem;
+            color: #808080;
+        }
+        .breadcrumb a { color: #a0a0a0; text-decoration: none; }
+        .breadcrumb a:hover { color: #fbbf24; }
+        main { padding: 40px 0; }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        .intro {
+            font-size: 1.05rem;
+            color: #c0c0c0;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+        .section-title {
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem 0;
+            color: #ffffff;
+            border-left: 4px solid #fbbf24;
+            padding-left: 15px;
+        }
+        .faq-list {
+            margin-bottom: 2rem;
+        }
+        .faq-item {
+            background: #171a23;
+            border: 1px solid #1e222e;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        .faq-question {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fbbf24;
+            padding: 20px 25px;
+            cursor: pointer;
+            position: relative;
+        }
+        .faq-question:before {
+            content: "Q";
+            position: absolute;
+            left: -35px;
+            top: 20px;
+            font-size: 0.9rem;
+            color: #808080;
+        }
+        .faq-answer {
+            padding: 0 25px 20px 25px;
+            color: #d0d0d0;
+            line-height: 1.8;
+        }
+        .faq-answer p {
+            margin-bottom: 1rem;
+        }
+        .faq-answer ul {
+            margin: 1rem 0 1rem 20px;
+            color: #d0d0d0;
+        }
+        .faq-answer li {
+            margin-bottom: 0.5rem;
+        }
+        .faq-answer strong {
+            color: #fbbf24;
+        }
+        .faq-answer code {
+            background: #1e222e;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #fbbf24;
+        }
+        .note {
+            background: #1e222e;
+            border-left: 3px solid #fbbf24;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .note strong { color: #fbbf24; }
+        footer {
+            background: #171a23;
+            padding: 30px 0;
+            margin-top: 60px;
+            text-align: center;
+            color: #808080;
+            border-top: 1px solid #1e222e;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .section-title { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Clash 客户端</a>
+            <nav>
+                <a href="index.html">首页</a>
+                <a href="windows.html">Windows</a>
+                <a href="macos.html">macOS</a>
+                <a href="android.html">Android</a>
+                <a href="ios.html">iOS</a>
+                <a href="faq.html" class="active">常见问题</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">首页</a> / 常见问题
+        </div>
+
+        <main>
+            <h1>Clash 常见问题解答</h1>
+
+            <p class="intro">
+                用 Clash 的过程中难免会遇到各种问题。这里整理了大家最常问的问题，从基础使用到故障排查，从配置技巧到进阶功能，基本都能在这找到答案。如果这里没有你要找的，可以看看具体平台的使用教程。
+            </p>
+
+            <h2 class="section-title">基础使用</h2>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">Clash 是完全免费的吗？会不会突然收费？</div>
+                    <div class="faq-answer">
+                        <p>Clash 核心程序完全开源免费，遵循 GPL-3.0 协议，代码公开在 GitHub 上任何人都能查看。各平台的图形界面客户端（Clash for Windows、ClashX、Clash Meta）也都是免费的，不存在收费计划。</p>
+                        <p>不过要注意，<strong>代理节点服务需要单独购买</strong>，这个和 Clash 软件本身无关。Clash 只是一个工具，就像浏览器一样，软件免费但上网服务要付费。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Clash 合法吗？使用会有风险吗？</div>
+                    <div class="faq-answer">
+                        <p>Clash 本身是一个开源的网络代理工具，软件本身不违法。但用它来做什么，这个就要看具体情况了。</p>
+                        <p>如果是用来访问正常的国外网站，比如查学术资料、看技术文档、用 GitHub，这些都是正常的网络使用。但如果用来访问违法内容或从事违法活动，那问题就不在工具而在行为本身。</p>
+                        <p>从安全角度说，从官方 GitHub 下载的 Clash 是安全的，不含病毒和后门。但要注意别从不明网站下载修改版，那些可能被植入恶意代码。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">什么是订阅链接？在哪里获取？</div>
+                    <div class="faq-answer">
+                        <p>订阅链接是一个网址，里面包含了所有节点的配置信息。把这个链接导入 Clash 后，软件会自动解析出所有节点，你就不用一个个手动添加了。</p>
+                        <p>订阅链接一般是从机场服务商那里获取的。你买了服务后，他们会给你一个订阅链接，长得像这样：<code>https://example.com/sub?token=xxxxx</code></p>
+                        <p>有些订阅链接支持自动更新，服务商加了新节点或改了配置，你在 Clash 里点一下更新就能同步。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Clash 和 VPN 有什么区别？</div>
+                    <div class="faq-answer">
+                        <p>虽然用起来效果差不多，但技术上完全不同：</p>
+                        <p><strong>VPN（虚拟专用网）</strong>是把你的所有流量都加密后通过一条隧道发送，通常用于企业内网访问或完全隐藏上网行为。特点是全局生效，不管什么应用都走 VPN。</p>
+                        <p><strong>Clash</strong> 是代理工具，可以根据规则智能分流：国内网站直连，国外网站走代理。这样既能访问外网，国内网站速度也不受影响。而且 Clash 支持更灵活的配置，可以针对不同网站用不同节点。</p>
+                        <p>简单说，VPN 是一刀切，Clash 是精准控制。日常使用 Clash 更方便，速度也更快。</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">配置相关</h2>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">导入订阅后没有节点怎么办？</div>
+                    <div class="faq-answer">
+                        <p>遇到这种情况，按顺序检查这几点：</p>
+                        <ul>
+                            <li>订阅链接是否完整复制，有没有多余的空格或少复制了字符</li>
+                            <li>订阅链接是否过期，可以联系服务商确认</li>
+                            <li>网络环境是否正常，有些订阅链接本身需要代理才能访问</li>
+                            <li>Clash 版本是否支持订阅中的节点协议（比如旧版本不支持 Hysteria2）</li>
+                        </ul>
+                        <p>一个实用的办法是：先关闭 Clash 的代理，然后刷新订阅，看看能不能获取到节点。如果还不行，试试重启 Clash 客户端。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">代理模式该选哪个？规则、全局、直连有什么区别？</div>
+                    <div class="faq-answer">
+                        <p><strong>规则模式（推荐）：</strong>根据配置文件里的规则自动分流。国内网站直连，国外网站走代理，某些网站可以指定特定节点。这是最常用也最省心的模式。</p>
+                        <p><strong>全局模式：</strong>所有流量都走代理，不管访问什么网站。适合临时需要完全代理的情况，但会让国内网站变慢，而且浪费流量。</p>
+                        <p><strong>直连模式：</strong>相当于关闭代理，所有流量都不走代理。适合临时需要访问银行网站、支付平台等对网络环境敏感的服务。</p>
+                        <p>日常使用选规则模式就对了，方便又省流量。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">规则分流是什么？怎么配置？</div>
+                    <div class="faq-answer">
+                        <p>规则分流就是告诉 Clash：什么流量该怎么处理。比如你可以设置："所有访问 Google 的请求走香港节点，访问 Netflix 走美国节点，访问淘宝直接连接"。</p>
+                        <p>规则分流的好处是：</p>
+                        <ul>
+                            <li>国内网站直连，速度快不浪费流量</li>
+                            <li>不同网站用不同节点，优化速度</li>
+                            <li>屏蔽广告域名，省流量</li>
+                        </ul>
+                        <p>大部分订阅链接已经包含了规则，导入后直接能用。如果想自定义规则，需要编辑配置文件的 <code>rules</code> 部分，不过这个对新手来说有点复杂，建议先用订阅自带的规则。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">如何更新订阅？多久更新一次合适？</div>
+                    <div class="faq-answer">
+                        <p>在 Clash 的配置或订阅管理界面，找到你的订阅，点旁边的刷新或更新按钮就行。更新时 Clash 会重新下载配置文件，获取最新的节点信息。</p>
+                        <p>更新频率看服务商的节点变化情况。如果服务商经常加节点或调整线路，可以每周更新一次。如果节点很稳定，一个月更新一次也够。频繁更新其实没必要，节点没变的话更新了也是一样的。</p>
+                        <p>有些 Clash 客户端支持自动更新订阅，可以设置每天或每周自动拉取，就不用手动管了。</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">故障排查</h2>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">启动 Clash 后还是无法访问外网</div>
+                    <div class="faq-answer">
+                        <p>这是最常见的问题，一般是这几个原因：</p>
+                        <p><strong>1. 没有选择可用节点</strong><br>
+                        打开 Clash 的代理界面，确认已经选中了一个节点。可以点延迟测试，看哪些节点能用。</p>
+                        <p><strong>2. 系统代理没开启</strong><br>
+                        检查 Clash 的"系统代理"或"Set as system proxy"选项是否打开。Windows 和 macOS 需要手动开启这个。</p>
+                        <p><strong>3. 代理模式选错了</strong><br>
+                        如果选的是"直连模式"，那相当于没开代理。改成"规则模式"或"全局模式"试试。</p>
+                        <p><strong>4. 节点失效</strong><br>
+                        测试一下节点延迟，如果全部超时，说明节点不可用了，联系服务商或更新订阅。</p>
+                        <p><strong>5. 防火墙拦截</strong><br>
+                        有些安全软件会拦截 Clash 的网络连接，试着把 Clash 加入白名单。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">部分网站能访问，部分不能访问</div>
+                    <div class="faq-answer">
+                        <p>这通常是规则分流的问题。Clash 根据规则判断流量走向，如果规则配置不当，就会出现有些网站能上有些不能上的情况。</p>
+                        <p>临时解决办法：切换到"全局模式"，让所有流量都走代理，看看是不是规则的问题。如果全局模式下能访问，那就确定是规则需要调整。</p>
+                        <p>长期解决：检查规则配置，确保目标网站匹配到正确的规则。也可以换一个规则集试试，比如 ACL4SSR 或 Loyalsoldier 这些社区维护的规则一般比较全面。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">速度很慢，看视频卡顿怎么办？</div>
+                    <div class="faq-answer">
+                        <p>代理速度慢一般是节点问题，试试这些办法：</p>
+                        <ul>
+                            <li><strong>换节点</strong> - 测试所有节点的延迟，选延迟最低的。有些节点虽然延迟低但带宽小，多试几个</li>
+                            <li><strong>换协议</strong> - 如果服务商提供多种协议节点，试试 Trojan 或 Hysteria，这些协议在某些网络环境下速度更快</li>
+                            <li><strong>检查本地网络</strong> - 先不开代理测试本地网速，如果本地网就慢，代理肯定也快不了</li>
+                            <li><strong>避开高峰期</strong> - 晚上 8-11 点是用网高峰，很多节点会变慢，可以换个时间段试试</li>
+                        </ul>
+                        <p>如果所有节点都慢，那可能是服务商的问题，考虑换一家。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Clash 启动后电脑网络就断了</div>
+                    <div class="faq-answer">
+                        <p>这种情况通常是 TUN 模式或增强模式配置有问题。TUN 模式会创建虚拟网卡接管网络流量，如果配置不当就会导致整个网络不通。</p>
+                        <p>解决办法：</p>
+                        <ul>
+                            <li>关闭 TUN 模式或增强模式，改用普通的系统代理模式</li>
+                            <li>检查 Clash 的网络权限，Windows 需要管理员权限，macOS 需要授权网络扩展</li>
+                            <li>重启网络适配器或重启电脑</li>
+                        </ul>
+                        <p>如果关闭 Clash 后网络还是不通，可能是虚拟网卡没有正确删除。Windows 可以在"网络连接"里禁用 Clash 创建的网卡，macOS 在"系统设置-网络"里删除。</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">进阶问题</h2>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">TUN 模式和系统代理有什么区别？</div>
+                    <div class="faq-answer">
+                        <p><strong>系统代理</strong>是在系统层面设置一个代理地址，应用程序需要主动读取系统代理设置才会走代理。但有些应用不遵守系统代理设置，比如某些游戏、命令行工具，这些就不会走代理。</p>
+                        <p><strong>TUN 模式</strong>是创建一个虚拟网卡，把系统的所有网络流量都劫持到这个虚拟网卡，然后由 Clash 处理。这样就实现了真正的全局代理，任何应用的网络请求都会经过 Clash。</p>
+                        <p>TUN 模式更彻底，但也更复杂，需要管理员权限，而且配置不当可能影响整个网络。普通使用系统代理就够了，只有在需要代理特殊应用时才开 TUN 模式。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">DNS 污染是什么？Clash 如何防止 DNS 泄露？</div>
+                    <div class="faq-answer">
+                        <p>DNS 污染是指你查询一个域名的 IP 地址时，DNS 服务器返回一个错误的 IP，导致你访问不到真实的网站。DNS 泄露是指虽然你开了代理，但 DNS 查询还是走的本地网络，可能暴露你要访问的网站。</p>
+                        <p>Clash 通过内置的 DNS 服务器来解决这两个问题：</p>
+                        <ul>
+                            <li>使用国外的 DNS 服务器（如 1.1.1.1）解析被污染的域名</li>
+                            <li>DNS 查询也可以通过代理，防止泄露</li>
+                            <li>支持 fake-ip 模式，直接返回假 IP 跳过 DNS 查询</li>
+                        </ul>
+                        <p>这些配置通常在订阅里已经设置好了，不需要手动改。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Clash 支持哪些代理协议？</div>
+                    <div class="faq-answer">
+                        <p>Clash 支持的协议很全面，主流的基本都支持：</p>
+                        <ul>
+                            <li><strong>Shadowsocks (SS)</strong> - 最经典的协议，稳定可靠</li>
+                            <li><strong>ShadowsocksR (SSR)</strong> - SS 的增强版，兼容性好</li>
+                            <li><strong>VMess</strong> - V2Ray 的核心协议，功能强大</li>
+                            <li><strong>VLESS</strong> - VMess 的轻量版，性能更好</li>
+                            <li><strong>Trojan</strong> - 伪装成 HTTPS 流量，隐蔽性强</li>
+                            <li><strong>Hysteria / Hysteria2</strong> - 基于 QUIC 的高速协议</li>
+                            <li><strong>Snell</strong> - 专为 Surge 设计的协议</li>
+                            <li><strong>SOCKS5 / HTTP</strong> - 标准代理协议</li>
+                        </ul>
+                        <p>不同版本的 Clash 支持的协议可能有差异。Clash Meta（Mihomo 内核）支持最全，基本上主流协议都能用。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">如何备份 Clash 的配置？</div>
+                    <div class="faq-answer">
+                        <p>Clash 的配置文件通常存在这些位置：</p>
+                        <ul>
+                            <li><strong>Windows：</strong>用户目录下的 <code>.config/clash</code> 或 Clash 安装目录的 <code>profiles</code> 文件夹</li>
+                            <li><strong>macOS：</strong><code>~/.config/clash</code> 或应用支持目录里</li>
+                            <li><strong>Android：</strong>内部存储的 <code>Clash</code> 文件夹</li>
+                        </ul>
+                        <p>备份时把整个配置文件夹复制一份就行。主要是 <code>config.yaml</code>（主配置文件）和 <code>profiles</code> 文件夹（订阅配置）。</p>
+                        <p>换手机或重装系统后，把备份的配置文件夹覆盖回去，就能恢复所有设置和订阅，不用重新配置。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="note" style="margin-top: 3rem;">
+                <strong>还有问题？</strong>如果这里没找到答案，可以看看对应平台的详细使用教程，或者到 Clash 的 GitHub 仓库查看 Issues，很多问题社区里都讨论过。
+            </div>
+
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Clash 客户端下载 | 最后更新：<span id="updateTime"></span></p>
+        </div>
+    </footer>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            document.getElementById('updateTime').textContent = `${year}-${month}-${day}`;
+        }
+        updateTime();
+    </script>
+</body>
+</html>
