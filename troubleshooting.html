@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash 故障排查完整指南 | 连接失败、无法上网、速度慢解决方案</title>
+    <meta name="description" content="详细的 Clash 故障排查流程：连接失败、无法访问外网、速度慢、TUN 模式问题、DNS 错误等常见故障的原因分析和解决方案。">
+    <link rel="canonical" href="https://mnclash.com/troubleshooting.html">
+
+    <style>
+        :root { color-scheme: light; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            line-height: 1.7;
+            color: #f5efe6;
+            background: #0f1117;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: #171a23;
+            padding: 20px 0;
+            border-bottom: 1px solid #1e222e;
+        }
+        .logo { font-size: 1.5rem; font-weight: 600; color: #fbbf24; text-decoration: none; }
+        nav { margin-top: 15px; }
+        nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin-right: 25px;
+            font-size: 0.95rem;
+        }
+        nav a:hover { color: #fbbf24; }
+        .breadcrumb {
+            padding: 20px 0;
+            font-size: 0.9rem;
+            color: #808080;
+        }
+        .breadcrumb a { color: #a0a0a0; text-decoration: none; }
+        main { padding: 40px 0; }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        .intro {
+            font-size: 1.05rem;
+            color: #c0c0c0;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+        h2 {
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem 0;
+            color: #ffffff;
+            border-left: 4px solid #fbbf24;
+            padding-left: 15px;
+        }
+        h3 {
+            font-size: 1.3rem;
+            margin: 2rem 0 1rem 0;
+            color: #fbbf24;
+        }
+        p { margin-bottom: 1rem; color: #d0d0d0; }
+        .problem-card {
+            background: #171a23;
+            border: 1px solid #1e222e;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 2rem 0;
+        }
+        .problem-card h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+        }
+        .symptom {
+            background: #1e222e;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin: 1rem 0;
+            border-left: 3px solid #f87171;
+        }
+        .symptom strong {
+            color: #f87171;
+        }
+        .solution-steps {
+            margin: 1.5rem 0;
+        }
+        .solution-step {
+            background: #1a1d28;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border-left: 3px solid #5eead4;
+        }
+        .solution-step h4 {
+            color: #5eead4;
+            margin-bottom: 0.8rem;
+            font-size: 1.05rem;
+        }
+        .flowchart {
+            background: #171a23;
+            border: 1px solid #1e222e;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 2rem 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+        .flowchart-item {
+            margin: 0.5rem 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        .flowchart-item:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #fbbf24;
+        }
+        code {
+            background: #1e222e;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #fbbf24;
+        }
+        ul {
+            margin: 1rem 0 1rem 20px;
+            color: #d0d0d0;
+        }
+        li { margin-bottom: 0.5rem; }
+        .note {
+            background: #1e222e;
+            border-left: 3px solid #fbbf24;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .note strong { color: #fbbf24; }
+        .warning {
+            background: #2e1a1a;
+            border-left: 3px solid #f87171;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .warning strong { color: #f87171; }
+        .tip {
+            background: #1a2e1a;
+            border-left: 3px solid #5eead4;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .tip strong { color: #5eead4; }
+        .checklist {
+            background: #171a23;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+        .checklist li {
+            padding: 8px 0;
+            border-bottom: 1px solid #1e222e;
+        }
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+        footer {
+            background: #171a23;
+            padding: 30px 0;
+            margin-top: 60px;
+            text-align: center;
+            color: #808080;
+            border-top: 1px solid #1e222e;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Clash 客户端</a>
+            <nav>
+                <a href="index.html">首页</a>
+                <a href="tutorial.html">教程</a>
+                <a href="faq.html">FAQ</a>
+                <a href="about.html">关于</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">首页</a> / <a href="tutorial.html">教程</a> / 故障排查
+        </div>
+
+        <main>
+            <h1>Clash 故障排查完整指南</h1>
+
+            <p class="intro">
+                用 Clash 遇到问题很正常，关键是知道怎么排查。这篇文章整理了最常见的故障场景、原因分析和解决步骤。按照流程一步步检查，基本都能找到问题所在。实在解决不了，文末有进一步求助的建议。
+            </p>
+
+            <h2>快速诊断流程</h2>
+
+            <div class="flowchart">
+                <div class="flowchart-item"><strong>开始：Clash 无法正常使用</strong></div>
+                <div class="flowchart-item">检查 Clash 是否正常启动？
+                    <div style="margin-left: 20px;">
+                        <div>❌ 启动失败 → 检查端口占用、配置文件语法</div>
+                        <div>✅ 启动成功 → 下一步</div>
+                    </div>
+                </div>
+                <div class="flowchart-item">检查节点是否可用？
+                    <div style="margin-left: 20px;">
+                        <div>❌ 所有节点超时 → 检查订阅链接、节点有效期</div>
+                        <div>✅ 有可用节点 → 下一步</div>
+                    </div>
+                </div>
+                <div class="flowchart-item">检查代理模式是否正确？
+                    <div style="margin-left: 20px;">
+                        <div>❌ 直连模式 → 切换到规则或全局模式</div>
+                        <div>✅ 规则/全局模式 → 下一步</div>
+                    </div>
+                </div>
+                <div class="flowchart-item">检查系统代理是否开启？
+                    <div style="margin-left: 20px;">
+                        <div>❌ 未开启 → 开启系统代理</div>
+                        <div>✅ 已开启 → 检查具体问题</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>常见问题排查</h2>
+
+            <div class="problem-card">
+                <h3>问题 1：Clash 启动后还是无法访问外网</h3>
+
+                <div class="symptom">
+                    <strong>症状：</strong>Clash 显示运行中，但访问 Google、YouTube 等网站打不开，提示无法连接。
+                </div>
+
+                <div class="solution-steps">
+                    <div class="solution-step">
+                        <h4>步骤 1：确认已选择节点</h4>
+                        <p>打开 Clash 的"代理"或"Proxies"界面，确认已经选中了一个节点。如果没有选中，点击一个延迟较低的节点。</p>
+                        <p>有些 Clash 客户端需要手动点击"选择"按钮才会生效。</p>
+                    </div>
+
+                    <div class="solution-step">
+                        <h4>步骤 2：测试节点延迟</h4>
+                        <p>点击"测速"或延迟测试按钮，看看节点能不能 ping 通。</p>
+                        <ul>
+                            <li>如果所有节点都超时，说明节点失效或订阅过期了</li>
+                            <li>如果只有部分节点超时，换一个延迟低的节点</li>
+                        </ul>
+                    </div>
+
+                    <div class="solution-step">
+                        <h4>步骤 3：检查代理模式</h4>
+                        <p>确认 Clash 不是处于"直连模式"。在主界面查看当前模式：</p>
+                        <ul>
+                            <li><strong>规则模式</strong> - 推荐，根据规则分流</li>
+                            <li><strong>全局模式</strong> - 所有流量走代理，可以用这个测试</li>
+                            <li><strong>直连模式</strong> - 不走代理，如果是这个就切换掉</li>
+                        </ul>
+                    </div>
+
+                    <div class="solution-step">
+                        <h4>步骤 4：确认系统代理已开启</h4>
+                        <p><strong>Windows：</strong>检查 Clash 界面的"系统代理"开关是否打开。</p>
+                        <p><strong>macOS：</strong>检查菜单栏 Clash 图标，确认"设置为系统代理"已勾选。</p>
+                        <p><strong>Android：</strong>Clash 启动时会提示建立 VPN 连接，必须允许。</p>
+                    </div>
+
+                    <div class="solution-step">
+                        <h4>步骤 5：测试浏览器</h4>
+                        <p>打开浏览器的无痕/隐私模式，访问 <code>google.com</code>。</p>
+                        <ul>
+                            <li>如果能访问，说明是浏览器缓存或扩展问题，清除缓存试试</li>
+                            <li>如果还是不能访问，继续下一步</li>
+                        </ul>
+                    </div>
+
+                    <div class="solution-step">
+                        <h4>步骤 6：切换全局模式测试</h4>
+                        <p>把代理模式改成"全局模式"，再试试访问外网。</p>
+                        <ul>
+                            <li>如果全局模式能访问，说明是规则分流的问题，检查规则配置</li>
+                            <li>如果全局模式也不行，说明节点、网络或防火墙有问题</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tip">
+                    <strong>快速修复：</strong>如果上面步骤都试过了还不行，试试这个万能方法：关闭 Clash → 重启 Clash → 切换节点 → 开启系统代理 → 全局模式测试。90% 的问题都能解决。
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <h3>问题 2：速度很慢，看视频卡顿</h3>
+
+                <div class="symptom">
+                    <strong>症状：</strong>能访问外网，但速度非常慢，网页半天打不开，看 YouTube 一直在缓冲。
+                </div>
+
+                <div class="solution-steps">
+                    <div class="solution-step">
+                        <h4>原因 1：节点拥挤</h4>
+                        <p>晚高峰（晚上 8-11 点）很多人同时使用，节点会变慢。</p>
+                        <p><strong>解决办法：</strong>换一个节点，或者避开高峰期使用。</p>
+                    </div>
+
+                    <div class="solution-step">
+                        <h4>原因 2：节点带宽小</h4>
+                        <p>有些节点延迟低但带宽小，看视频会卡。</p>
+                        <p><strong>解决办法：</strong>多试几个节点，找到带宽大的。可以用 Speedtest 测试实际下载速度。</p>
+                    </div>
+
+                    <div class="solution-step">
+                        <h4>原因 3：协议不合适</h4>
+                        <p>某些网络环境下，特定协议会被限速。</p>
+                        <p><strong>解决办法：</strong>如果机场提供多种协议的节点，试试换个协议（比如从 SS 换到 Trojan）。</p>
+                    </div>
+
+                    <div class="solution-step">
+                        <h4>原因 4：本地网络问题</h4>
+                        <p>先不开代理测试本地网速。如果本地网就慢，代理肯定也快不了。</p>
+                        <p><strong>解决办法：</strong>检查路由器、WiFi 信号、宽带连接。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <h3>问题 3：部分网站能访问，部分不能</h3>
+
+                <div class="symptom">
+                    <strong>症状：</strong>Google 能打开，但 YouTube 打不开；或者国内网站正常，国外网站都不行。
+                </div>
+
+                <div class="solution-steps">
+                    <div class="solution-step">
+                        <h4>原因：规则分流配置问题</h4>
+                        <p>Clash 根据规则判断流量走向。如果规则配置不当，某些网站会走错路径。</p>
+                    </div>
+
+                    <div class="solution-step">
+                        <h4>解决步骤</h4>
+                        <ol style="margin-left: 20px;">
+                            <li>切换到"全局模式"测试。如果全局模式能访问，确定是规则问题</li>
+                            <li>检查配置文件的 rules 部分，看看有没有把目标网站配置成 DIRECT（直连）</li>
+                            <li>查看 Clash 的连接日志，看看目标域名匹配到了哪条规则</li>
+                            <li>临时解决：用全局模式；长期解决：修改规则或换一个规则集</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="note">
+                    <strong>常见情况：</strong>某些订阅的规则会把 GitHub、npm 等开发者常用网站设置为直连。如果你在国内访问这些网站很慢，需要手动修改规则把它们改成走代理。
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <h3>问题 4：TUN 模式开启后网络断了</h3>
+
+                <div class="symptom">
+                    <strong>症状：</strong>开启 TUN 模式或增强模式后，整个网络都不通了，ping 不通任何网站。
+                </div>
+
+                <div class="solution-steps">
+                    <div class="solution-step">
+                        <h4>立即执行</h4>
+                        <p>1. 立即关闭 TUN 模式</p>
+                        <p>2. 如果关闭后网络还是不通，重启网络适配器：</p>
+                        <ul>
+                            <li><strong>Windows：</strong>控制面板 → 网络连接 → 禁用网卡 → 启用网卡</li>
+                            <li><strong>macOS：</strong>系统设置 → 网络 → 关闭 WiFi → 打开 WiFi</li>
+                        </ul>
+                        <p>3. 如果还不行，重启电脑</p>
+                    </div>
+
+                    <div class="solution-step">
+                        <h4>原因分析</h4>
+                        <ul>
+                            <li>虚拟网卡驱动安装失败或冲突</li>
+                            <li>TUN 配置有误，导致路由表错误</li>
+                            <li>规则配置有问题，所有流量被拒绝</li>
+                            <li>防火墙拦截了虚拟网卡</li>
+                        </ul>
+                    </div>
+
+                    <div class="solution-step">
+                        <h4>解决办法</h4>
+                        <ol style="margin-left: 20px;">
+                            <li>检查 TUN 配置，确保 <code>auto-route: true</code></li>
+                            <li>试试换一个 stack（system / gvisor / lwip）</li>
+                            <li>把防火墙关掉测试，或者把 Clash 加入白名单</li>
+                            <li>如果用的是 Clash for Windows，重新安装 service（运行 install-service.bat）</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="warning">
+                    <strong>警告：</strong>如果 TUN 模式经常出问题，不建议继续使用。普通系统代理对大部分人够用了，只有游戏加速才真正需要 TUN。
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <h3>问题 5：导入订阅后没有节点</h3>
+
+                <div class="symptom">
+                    <strong>症状：</strong>输入订阅链接并下载，但节点列表是空的，或者提示"无法获取订阅"。
+                </div>
+
+                <div class="solution-steps">
+                    <div class="solution-step">
+                        <h4>检查清单</h4>
+                        <ol style="margin-left: 20px;">
+                            <li><strong>订阅链接是否正确？</strong>确认完整复制了链接，没有多余空格</li>
+                            <li><strong>订阅链接是否过期？</strong>联系机场确认服务是否在有效期内</li>
+                            <li><strong>网络是否正常？</strong>有些订阅链接本身需要代理才能访问</li>
+                            <li><strong>Clash 版本是否支持？</strong>旧版本 Clash 不支持新协议（如 Hysteria2）</li>
+                        </ol>
+                    </div>
+
+                    <div class="solution-step">
+                        <h4>测试方法</h4>
+                        <p>把订阅链接复制到浏览器打开，看看能不能访问。如果浏览器能打开并显示一堆文本，说明链接有效。</p>
+                        <p>如果浏览器也打不开，可能需要先用其他代理工具访问订阅链接。</p>
+                    </div>
+
+                    <div class="solution-step">
+                        <h4>解决办法</h4>
+                        <ul>
+                            <li>关闭 Clash 的代理，然后刷新订阅</li>
+                            <li>换一个时间段试试（某些订阅服务器可能暂时不可用）</li>
+                            <li>联系机场客服确认订阅链接和服务状态</li>
+                            <li>如果使用的是旧版 Clash，升级到最新版或换用 Clash Meta</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h2>进阶排查技巧</h2>
+
+            <h3>查看 Clash 日志</h3>
+
+            <p>Clash 的日志能显示详细的连接信息，包括哪些域名匹配了哪条规则、连接是否成功、错误信息等。</p>
+
+            <div class="checklist">
+                <ul style="list-style: none; margin: 0; padding: 0;">
+                    <li><strong>Clash for Windows：</strong>主界面 → Logs 标签页</li>
+                    <li><strong>ClashX：</strong>菜单栏 → Dashboard → 打开网页控制台</li>
+                    <li><strong>Clash Meta (Android)：</strong>主界面 → 日志</li>
+                </ul>
+            </div>
+
+            <p style="margin-top: 1rem;">看日志的重点：</p>
+            <ul>
+                <li>查找报错信息（Error、Failed 等关键词）</li>
+                <li>看目标域名匹配到了哪条规则（Rule matched）</li>
+                <li>看连接是成功还是超时（Connection timeout）</li>
+            </ul>
+
+            <h3>使用命令行测试</h3>
+
+            <p>有些问题在浏览器里不好排查，可以用命令行工具直接测试。</p>
+
+            <p><strong>测试代理是否工作：</strong></p>
+            <code style="display: block; margin: 1rem 0;">curl -I -x http://127.0.0.1:7890 https://google.com</code>
+
+            <p><strong>测试 DNS 解析：</strong></p>
+            <code style="display: block; margin: 1rem 0;">nslookup google.com</code>
+
+            <p><strong>测试节点连通性：</strong></p>
+            <code style="display: block; margin: 1rem 0;">ping 节点服务器地址</code>
+
+            <h3>检查端口占用</h3>
+
+            <p>Clash 默认使用 7890（HTTP）和 7891（SOCKS5）端口。如果这些端口被其他程序占用，Clash 会启动失败。</p>
+
+            <p><strong>Windows 检查：</strong></p>
+            <code style="display: block; margin: 1rem 0;">netstat -ano | findstr 7890</code>
+
+            <p><strong>macOS/Linux 检查：</strong></p>
+            <code style="display: block; margin: 1rem 0;">lsof -i :7890</code>
+
+            <p style="margin-top: 1rem;">如果端口被占用，可以在 Clash 配置文件中改成其他端口，或者关掉占用端口的程序。</p>
+
+            <h2>还是解决不了？</h2>
+
+            <p style="font-size: 1.05rem; margin-top: 2rem;">如果按照上面的步骤都试过了还是不行，可以尝试：</p>
+
+            <ul style="font-size: 1.05rem; line-height: 2;">
+                <li><strong>重装 Clash</strong> - 卸载干净再装，有时候能解决奇怪的问题</li>
+                <li><strong>换个客户端</strong> - 比如 Clash for Windows 换成 Clash Verge</li>
+                <li><strong>联系机场客服</strong> - 可能是服务端的问题</li>
+                <li><strong>查看 GitHub Issues</strong> - 搜索你的问题，看看别人怎么解决的</li>
+                <li><strong>技术社区求助</strong> - V2EX、恩山论坛等，带上详细的错误信息和日志</li>
+            </ul>
+
+            <div class="tip" style="margin-top: 2rem;">
+                <strong>求助时提供的信息：</strong>
+                <ul style="margin-top: 0.5rem; margin-left: 20px;">
+                    <li>使用的 Clash 客户端和版本</li>
+                    <li>操作系统版本</li>
+                    <li>具体的错误现象（最好有截图）</li>
+                    <li>Clash 的日志（隐藏订阅链接和节点信息）</li>
+                    <li>已经尝试过的解决步骤</li>
+                </ul>
+            </div>
+
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Clash 客户端下载 | 最后更新：<span id="updateTime"></span></p>
+        </div>
+    </footer>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            document.getElementById('updateTime').textContent = `${year}-${month}-${day}`;
+        }
+        updateTime();
+    </script>
+</body>
+</html>
