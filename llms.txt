@@ -1,0 +1,15 @@
+# Clash 客户端下载站
+
+> 开源跨平台代理工具，支持多协议和规则分流
+
+## 主要功能
+
+- Clash for Windows - Windows 平台代理客户端
+- ClashX - macOS 平台代理工具
+- Clash for Android - Android 代理应用
+- 规则分流配置和订阅管理
+- 多协议支持（SS/SSR/VMess/Trojan）
+
+## 目标受众
+
+适合需要使用代理工具的用户，提供各平台 Clash 客户端下载、使用教程和配置指南。
