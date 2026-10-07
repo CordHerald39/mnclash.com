@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash 规则配置完整指南 | YAML 规则编写、规则集订阅、分流策略</title>
+    <meta name="description" content="详细讲解 Clash 规则配置：DOMAIN、DOMAIN-SUFFIX、IP-CIDR、GEOIP 等规则类型，完整的 YAML 配置示例，规则集订阅使用方法，自定义分流策略。">
+    <link rel="canonical" href="https://mnclash.com/rules.html">
+
+    <style>
+        :root { color-scheme: light; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            line-height: 1.7;
+            color: #f5efe6;
+            background: #0f1117;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: #171a23;
+            padding: 20px 0;
+            border-bottom: 1px solid #1e222e;
+        }
+        .logo { font-size: 1.5rem; font-weight: 600; color: #fbbf24; text-decoration: none; }
+        nav { margin-top: 15px; }
+        nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin-right: 25px;
+            font-size: 0.95rem;
+        }
+        nav a:hover { color: #fbbf24; }
+        .breadcrumb {
+            padding: 20px 0;
+            font-size: 0.9rem;
+            color: #808080;
+        }
+        .breadcrumb a { color: #a0a0a0; text-decoration: none; }
+        main { padding: 40px 0; }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        .intro {
+            font-size: 1.05rem;
+            color: #c0c0c0;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+        h2 {
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem 0;
+            color: #ffffff;
+            border-left: 4px solid #fbbf24;
+            padding-left: 15px;
+        }
+        h3 {
+            font-size: 1.3rem;
+            margin: 2rem 0 1rem 0;
+            color: #fbbf24;
+        }
+        p { margin-bottom: 1rem; color: #d0d0d0; }
+        code {
+            background: #1e222e;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #fbbf24;
+        }
+        pre {
+            background: #1e222e;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid #2a2e3a;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+        .rule-type {
+            background: #171a23;
+            border: 1px solid #1e222e;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 1.5rem 0;
+        }
+        .rule-type h4 {
+            color: #fbbf24;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+        }
+        .example {
+            background: #1a1d28;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 1rem 0;
+            border-left: 3px solid #fbbf24;
+        }
+        .example-title {
+            color: #5eead4;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        ul {
+            margin: 1rem 0 1rem 20px;
+            color: #d0d0d0;
+        }
+        li { margin-bottom: 0.5rem; }
+        .note {
+            background: #1e222e;
+            border-left: 3px solid #fbbf24;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .note strong { color: #fbbf24; }
+        .tip {
+            background: #1a2e1a;
+            border-left: 3px solid #5eead4;
+            padding: 15px 20px;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .tip strong { color: #5eead4; }
+        footer {
+            background: #171a23;
+            padding: 30px 0;
+            margin-top: 60px;
+            text-align: center;
+            color: #808080;
+            border-top: 1px solid #1e222e;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Clash 客户端</a>
+            <nav>
+                <a href="index.html">首页</a>
+                <a href="tutorial.html">教程</a>
+                <a href="faq.html">FAQ</a>
+                <a href="about.html">关于</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">首页</a> / <a href="tutorial.html">教程</a> / 规则配置
+        </div>
+
+        <main>
+            <h1>Clash 规则配置完整指南</h1>
+
+            <p class="intro">
+                规则是 Clash 最核心的功能。掌握规则配置，你就能精确控制哪些流量走代理、哪些直连、哪些拒绝。这篇文章从基础到进阶，详细讲解 Clash 的规则类型、编写方法、常用规则集，以及实战案例。
+            </p>
+
+            <h2>规则的工作原理</h2>
+
+            <p>当你访问一个网站时，Clash 会按照配置文件中的规则列表，<strong>从上到下依次匹配</strong>。一旦匹配到第一条符合的规则，就按照规则指定的策略处理，不再继续往下匹配。</p>
+
+            <p>比如你的规则是这样的：</p>
+
+            <pre><code>rules:
+  - DOMAIN,www.google.com,Proxy
+  - DOMAIN-SUFFIX,google.com,Direct
+  - GEOIP,CN,Direct
+  - MATCH,Proxy</code></pre>
+
+            <p>当你访问 www.google.com 时：</p>
+            <ul>
+                <li>第 1 条规则匹配成功（精确匹配 www.google.com），走代理，不再继续匹配</li>
+                <li>第 2 条规则不会执行，虽然它也能匹配 www.google.com</li>
+            </ul>
+
+            <p>这就是为什么规则顺序很重要：<strong>特殊规则放前面，通用规则放后面</strong>。</p>
+
+            <h2>规则类型详解</h2>
+
+            <div class="rule-type">
+                <h4>DOMAIN - 域名精确匹配</h4>
+                <p>只匹配完全相同的域名。</p>
+
+                <div class="example">
+                    <div class="example-title">示例</div>
+                    <code>DOMAIN,www.google.com,Proxy</code>
+                </div>
+
+                <p><strong>匹配：</strong>www.google.com</p>
+                <p><strong>不匹配：</strong>google.com、mail.google.com、m.google.com</p>
+
+                <p><strong>使用场景：</strong>针对特定子域名使用不同策略。比如 GitHub 的某些子域名可能需要特殊处理。</p>
+            </div>
+
+            <div class="rule-type">
+                <h4>DOMAIN-SUFFIX - 域名后缀匹配</h4>
+                <p>匹配域名及其所有子域名。这是最常用的规则类型。</p>
+
+                <div class="example">
+                    <div class="example-title">示例</div>
+                    <code>DOMAIN-SUFFIX,google.com,Proxy</code>
+                </div>
+
+                <p><strong>匹配：</strong>google.com、www.google.com、mail.google.com、accounts.google.com 等所有 .google.com 域名</p>
+
+                <p><strong>使用场景：</strong>绝大部分情况用这个就够了。一条规则覆盖整个网站的所有子域名。</p>
+            </div>
+
+            <div class="rule-type">
+                <h4>DOMAIN-KEYWORD - 域名关键词匹配</h4>
+                <p>只要域名中包含指定关键词就匹配。</p>
+
+                <div class="example">
+                    <div class="example-title">示例</div>
+                    <code>DOMAIN-KEYWORD,google,Proxy</code>
+                </div>
+
+                <p><strong>匹配：</strong>google.com、googleapis.com、googleusercontent.com、googlevideo.com</p>
+
+                <p><strong>使用场景：</strong>某些服务的多个相关域名都包含同一个词，用一条规则全覆盖。但要小心误匹配。</p>
+
+                <div class="note">
+                    <strong>注意：</strong>DOMAIN-KEYWORD 很容易误匹配。比如 <code>DOMAIN-KEYWORD,google</code> 会匹配 mygoogleanalytics.com 这种无关域名。能用 DOMAIN-SUFFIX 就别用 KEYWORD。
+                </div>
+            </div>
+
+            <div class="rule-type">
+                <h4>IP-CIDR - IP 地址段匹配</h4>
+                <p>匹配特定的 IP 地址或 IP 段。</p>
+
+                <div class="example">
+                    <div class="example-title">示例</div>
+                    <code>IP-CIDR,192.168.0.0/16,Direct</code><br>
+                    <code>IP-CIDR,10.0.0.0/8,Direct</code>
+                </div>
+
+                <p><strong>使用场景：</strong></p>
+                <ul>
+                    <li>局域网流量直连（192.168.x.x、10.x.x.x）</li>
+                    <li>特定服务器 IP 段走特殊路由</li>
+                    <li>屏蔽某些 IP 段</li>
+                </ul>
+            </div>
+
+            <div class="rule-type">
+                <h4>GEOIP - 地理位置匹配</h4>
+                <p>根据 IP 地址的地理位置匹配。Clash 内置了 IP 地理位置数据库。</p>
+
+                <div class="example">
+                    <div class="example-title">示例</div>
+                    <code>GEOIP,CN,Direct</code><br>
+                    <code>GEOIP,US,US-Group</code>
+                </div>
+
+                <p><strong>最常用的规则：</strong><code>GEOIP,CN,Direct</code> - 所有中国大陆 IP 直连，不走代理。</p>
+
+                <p>这条规则几乎是必备的，能自动处理所有国内网站，不需要一个个添加域名规则。</p>
+            </div>
+
+            <div class="rule-type">
+                <h4>MATCH - 兜底规则</h4>
+                <p>匹配所有没有被前面规则匹配到的流量。</p>
+
+                <div class="example">
+                    <div class="example-title">示例</div>
+                    <code>MATCH,Proxy</code>
+                </div>
+
+                <p><strong>必须放在规则列表的最后一行</strong>，作为兜底。前面所有规则都没匹配到的，按这条规则处理。</p>
+            </div>
+
+            <h2>完整配置示例</h2>
+
+            <p>这是一个典型的 Clash 配置文件结构，带详细注释：</p>
+
+            <pre><code># 基础配置
+port: 7890                # HTTP 代理端口
+socks-port: 7891         # SOCKS5 代理端口
+allow-lan: false         # 是否允许局域网连接
+mode: rule               # 模式：rule（规则）/global（全局）/direct（直连）
+log-level: info          # 日志级别
+
+# DNS 配置
+dns:
+  enable: true
+  enhanced-mode: fake-ip  # fake-ip 或 redir-host
+  fake-ip-range: 198.18.0.1/16
+  nameserver:
+    - 223.5.5.5           # 阿里 DNS
+    - 119.29.29.29        # 腾讯 DNS
+  fallback:
+    - 8.8.8.8             # Google DNS
+    - 1.1.1.1             # Cloudflare DNS
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+
+# 代理节点（通常从订阅获取，这里是示例）
+proxies:
+  - name: "香港-01"
+    type: vmess
+    server: hk1.example.com
+    port: 443
+    uuid: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    alterId: 0
+    cipher: auto
+
+  - name: "美国-01"
+    type: trojan
+    server: us1.example.com
+    port: 443
+    password: your-password
+    sni: us1.example.com
+
+# 代理组
+proxy-groups:
+  # 手动选择组
+  - name: "Proxy"
+    type: select
+    proxies:
+      - "Auto"
+      - "香港-01"
+      - "美国-01"
+      - DIRECT
+
+  # 自动选择（延迟最低）
+  - name: "Auto"
+    type: url-test
+    proxies:
+      - "香港-01"
+      - "美国-01"
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300
+
+  # YouTube 专用组
+  - name: "YouTube"
+    type: select
+    proxies:
+      - "香港-01"
+      - "美国-01"
+
+# 规则列表
+rules:
+  # 局域网直连
+  - DOMAIN-SUFFIX,local,DIRECT
+  - IP-CIDR,192.168.0.0/16,DIRECT
+  - IP-CIDR,10.0.0.0/8,DIRECT
+  - IP-CIDR,127.0.0.0/8,DIRECT
+
+  # 常用网站规则
+  - DOMAIN-SUFFIX,google.com,Proxy
+  - DOMAIN-SUFFIX,youtube.com,YouTube
+  - DOMAIN-SUFFIX,googleapis.com,Proxy
+  - DOMAIN-SUFFIX,github.com,Proxy
+  - DOMAIN-SUFFIX,githubusercontent.com,Proxy
+  - DOMAIN-SUFFIX,openai.com,Proxy
+  - DOMAIN-SUFFIX,chatgpt.com,Proxy
+
+  # 国内网站直连
+  - DOMAIN-SUFFIX,qq.com,DIRECT
+  - DOMAIN-SUFFIX,taobao.com,DIRECT
+  - DOMAIN-SUFFIX,baidu.com,DIRECT
+  - DOMAIN-SUFFIX,bilibili.com,DIRECT
+
+  # 屏蔽广告
+  - DOMAIN-SUFFIX,ad.com,REJECT
+  - DOMAIN-KEYWORD,analytics,REJECT
+
+  # 中国 IP 直连
+  - GEOIP,CN,DIRECT
+
+  # 兜底规则
+  - MATCH,Proxy</code></pre>
+
+            <h2>实用规则案例</h2>
+
+            <h3>案例 1：开发者常用规则</h3>
+
+            <pre><code>rules:
+  # GitHub 及相关服务
+  - DOMAIN-SUFFIX,github.com,Proxy
+  - DOMAIN-SUFFIX,githubusercontent.com,Proxy
+  - DOMAIN-SUFFIX,github.io,Proxy
+  - DOMAIN-SUFFIX,githubassets.com,Proxy
+
+  # NPM 和前端工具
+  - DOMAIN-SUFFIX,npmjs.org,Proxy
+  - DOMAIN-SUFFIX,npmjs.com,Proxy
+  - DOMAIN-SUFFIX,yarnpkg.com,Proxy
+
+  # Docker
+  - DOMAIN-SUFFIX,docker.com,Proxy
+  - DOMAIN-SUFFIX,docker.io,Proxy
+
+  # Google 开发者资源
+  - DOMAIN-SUFFIX,golang.org,Proxy
+  - DOMAIN-SUFFIX,stackoverflow.com,Proxy</code></pre>
+
+            <h3>案例 2：流媒体分流</h3>
+
+            <pre><code># 先创建流媒体专用代理组
+proxy-groups:
+  - name: "Netflix"
+    type: select
+    proxies:
+      - "美国节点"
+      - "新加坡节点"
+
+  - name: "YouTube"
+    type: select
+    proxies:
+      - "香港节点"
+      - "台湾节点"
+
+rules:
+  # Netflix 走美国或新加坡
+  - DOMAIN-SUFFIX,netflix.com,Netflix
+  - DOMAIN-SUFFIX,nflxvideo.net,Netflix
+
+  # YouTube 走香港或台湾
+  - DOMAIN-SUFFIX,youtube.com,YouTube
+  - DOMAIN-SUFFIX,googlevideo.com,YouTube
+  - DOMAIN-SUFFIX,ytimg.com,YouTube</code></pre>
+
+            <h3>案例 3：屏蔽广告</h3>
+
+            <pre><code>rules:
+  # 常见广告域名
+  - DOMAIN-SUFFIX,googleads.com,REJECT
+  - DOMAIN-SUFFIX,doubleclick.net,REJECT
+  - DOMAIN-KEYWORD,analytics,REJECT
+  - DOMAIN-KEYWORD,tracker,REJECT
+  - DOMAIN-KEYWORD,adservice,REJECT
+
+  # 国内广告
+  - DOMAIN-SUFFIX,tanx.com,REJECT
+  - DOMAIN-SUFFIX,mmstat.com,REJECT</code></pre>
+
+            <h2>使用规则集（Rule Providers）</h2>
+
+            <p>手动维护几百条规则很麻烦，Clash 支持订阅规则集。社区维护的规则集会定期更新，包含最新的分流规则。</p>
+
+            <h3>配置规则集</h3>
+
+            <pre><code># 规则集定义
+rule-providers:
+  reject:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/reject.txt"
+    path: ./ruleset/reject.yaml
+    interval: 86400
+
+  proxy:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/proxy.txt"
+    path: ./ruleset/proxy.yaml
+    interval: 86400
+
+  direct:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/direct.txt"
+    path: ./ruleset/direct.yaml
+    interval: 86400
+
+# 使用规则集
+rules:
+  - RULE-SET,reject,REJECT
+  - RULE-SET,proxy,Proxy
+  - RULE-SET,direct,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,Proxy</code></pre>
+
+            <h3>常用规则集推荐</h3>
+
+            <p><strong>Loyalsoldier 规则集</strong> - 最流行，每日更新：</p>
+            <ul>
+                <li>reject.txt - 广告屏蔽</li>
+                <li>proxy.txt - 常见国外网站</li>
+                <li>direct.txt - 国内网站</li>
+                <li>gfw.txt - 被墙网站</li>
+                <li>greatfire.txt - GreatFire 列表</li>
+            </ul>
+
+            <p><strong>ACL4SSR 规则集</strong> - 分类详细：</p>
+            <ul>
+                <li>按地区分类（中国、香港、台湾、日本、美国等）</li>
+                <li>按服务分类（Google、Netflix、GitHub、游戏等）</li>
+                <li>广告拦截、隐私保护</li>
+            </ul>
+
+            <h2>规则编写技巧</h2>
+
+            <div class="tip">
+                <strong>技巧 1：规则顺序</strong>
+                <ul style="margin-left: 20px; margin-top: 0.5rem;">
+                    <li>特殊规则在前，通用规则在后</li>
+                    <li>精确匹配（DOMAIN）在前，模糊匹配（KEYWORD）在后</li>
+                    <li>GEOIP,CN,DIRECT 放在靠后位置</li>
+                    <li>MATCH 永远是最后一条</li>
+                </ul>
+            </div>
+
+            <div class="tip">
+                <strong>技巧 2：减少规则数量</strong>
+                <p style="margin-top: 0.5rem;">规则越多，匹配越慢。优先使用：</p>
+                <ul style="margin-left: 20px; margin-top: 0.5rem;">
+                    <li>DOMAIN-SUFFIX 代替多条 DOMAIN</li>
+                    <li>GEOIP,CN 代替几百条国内域名规则</li>
+                    <li>规则集代替手动列举</li>
+                </ul>
+            </div>
+
+            <div class="tip">
+                <strong>技巧 3：测试规则</strong>
+                <p style="margin-top: 0.5rem;">修改规则后：</p>
+                <ul style="margin-left: 20px; margin-top: 0.5rem;">
+                    <li>查看 Clash 的连接日志，确认流量走向</li>
+                    <li>访问不同网站测试分流是否正确</li>
+                    <li>用 <code>curl -v</code> 命令行测试特定域名</li>
+                </ul>
+            </div>
+
+            <h2>常见问题</h2>
+
+            <div class="note">
+                <strong>Q: 为什么某个网站没走代理？</strong><br>
+                检查规则顺序。可能前面有个 DIRECT 规则先匹配了。比如你写了 <code>DOMAIN-KEYWORD,google,Proxy</code>，但前面有条 <code>GEOIP,CN,DIRECT</code>，如果这个网站的 IP 被解析成国内 IP，就会先匹配 GEOIP 规则直连。
+            </div>
+
+            <div class="note">
+                <strong>Q: 规则太多会影响速度吗？</strong><br>
+                会，但影响不大。几百条规则的话，延迟增加通常在 10ms 以内。如果有几千条规则，建议用规则集，Clash 对规则集有优化。
+            </div>
+
+            <div class="note">
+                <strong>Q: DOMAIN 规则和 DOMAIN-SUFFIX 规则有什么区别？</strong><br>
+                DOMAIN 只匹配完全相同的域名，DOMAIN-SUFFIX 匹配域名及其所有子域名。99% 的情况用 DOMAIN-SUFFIX 就够了。
+            </div>
+
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Clash 客户端下载 | 最后更新：<span id="updateTime"></span></p>
+        </div>
+    </footer>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            document.getElementById('updateTime').textContent = `${year}-${month}-${day}`;
+        }
+        updateTime();
+    </script>
+</body>
+</html>
