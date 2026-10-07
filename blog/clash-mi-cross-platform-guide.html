@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash Mi 全平台使用指南:一个客户端搞定所有设备 | 2026 最新教程</title>
+    <meta name="description" content="Clash Mi 是唯一支持 iOS、Android、Windows、macOS、Linux 五大平台的完整 Clash 客户端。本文详细讲解各平台安装配置、多设备同步和常见问题解决。">
+    <link rel="canonical" href="https://mnclash.com/blog/clash-mi-cross-platform-guide.html">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Clash Mi 全平台使用指南:一个客户端搞定所有设备",
+      "description": "Clash Mi 全平台安装配置教程",
+      "datePublished": "2026-10-07",
+      "dateModified": "2026-10-07",
+      "author": {
+        "@type": "Organization",
+        "name": "Clash 客户端指南"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Clash 客户端指南"
+      }
+    }
+    </script>
+
+    <style>
+        :root { color-scheme: light; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            line-height: 1.8;
+            color: #f5efe6;
+            background: #0f1117;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: #171a23;
+            padding: 20px 0;
+            border-bottom: 1px solid #1e222e;
+        }
+        .logo { font-size: 1.5rem; font-weight: 600; color: #fbbf24; text-decoration: none; }
+        nav { margin-top: 15px; }
+        nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin-right: 25px;
+            font-size: 0.95rem;
+        }
+        nav a:hover { color: #fbbf24; }
+        main { padding: 40px 0; }
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 1.5rem;
+        }
+        .breadcrumb a {
+            color: #fbbf24;
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        article h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #fbbf24;
+            line-height: 1.3;
+        }
+        .article-meta {
+            font-size: 0.95rem;
+            color: #888;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #1e222e;
+        }
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
+        }
+        .tag {
+            background: #1e222e;
+            color: #fbbf24;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        article h2 {
+            font-size: 1.6rem;
+            color: #fbbf24;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        article h3 {
+            font-size: 1.3rem;
+            color: #5eead4;
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
+        }
+        article p {
+            margin-bottom: 1.2rem;
+            line-height: 1.8;
+        }
+        article ul, article ol {
+            margin-left: 2rem;
+            margin-bottom: 1.2rem;
+        }
+        article li {
+            margin-bottom: 0.6rem;
+        }
+        .highlight-box {
+            background: #171a23;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #fbbf24;
+            margin: 2rem 0;
+        }
+        .tip {
+            background: #1e222e;
+            padding: 1.2rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+            border-left: 3px solid #5eead4;
+        }
+        .warning {
+            background: #2a1a1a;
+            padding: 1.2rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+            border-left: 3px solid #f87171;
+        }
+        .internal-links {
+            background: #171a23;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2.5rem 0;
+        }
+        .internal-links h3 {
+            font-size: 1.2rem;
+            color: #fbbf24;
+            margin-bottom: 1rem;
+            margin-top: 0;
+        }
+        .internal-links ul {
+            list-style: none;
+            margin: 0;
+        }
+        .internal-links li {
+            margin-bottom: 0.6rem;
+        }
+        .internal-links a {
+            color: #5eead4;
+            text-decoration: none;
+        }
+        .internal-links a:hover {
+            text-decoration: underline;
+        }
+        code {
+            background: #1e222e;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #5eead4;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        th, td {
+            padding: 0.8rem;
+            border: 1px solid #1e222e;
+            text-align: left;
+        }
+        th {
+            background: #171a23;
+            color: #fbbf24;
+            font-weight: 600;
+        }
+        footer {
+            background: #171a23;
+            padding: 30px 0;
+            margin-top: 60px;
+            border-top: 1px solid #1e222e;
+            color: #888;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo">Clash 客户端</a>
+            <nav>
+                <a href="../index.html">首页</a>
+                <a href="../tutorial.html">使用教程</a>
+                <a href="index.html">文章资讯</a>
+                <a href="../faq.html">常见问题</a>
+                <a href="../clients.html">客户端对比</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../index.html">首页</a> / <a href="index.html">文章资讯</a> / Clash Mi 全平台使用指南
+            </div>
+
+            <article>
+                <h1>Clash Mi 全平台使用指南:一个客户端搞定所有设备</h1>
+
+                <div class="article-meta">
+                    发布时间: 2026-10-07 | 更新时间: <span id="update-time"></span> | 阅读时间: 5 分钟
+                    <div class="article-tags">
+                        <span class="tag">Clash Mi</span>
+                        <span class="tag">跨平台</span>
+                        <span class="tag">新手教程</span>
+                        <span class="tag">全平台</span>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong style="color: #fbbf24; font-size: 1.1rem;">核心亮点:</strong>
+                    <p style="margin-top: 0.8rem; margin-bottom: 0;">
+                        Clash Mi 是 2026 年<strong style="color: #fbbf24;">唯一支持 iOS、Android、Windows、macOS、Linux 五大平台</strong>的完整 Clash 客户端。如果你同时使用多个设备,Clash Mi 让你只需学习一次,所有设备通用。
+                    </p>
+                </div>
+
+                <h2>为什么选择 Clash Mi?</h2>
+
+                <p>市面上大多数 Clash 客户端只支持单一或两个平台,用户需要在不同设备上学习不同的客户端。Clash Mi 基于 Flutter 框架开发,真正实现了全平台统一体验:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>平台</th>
+                            <th>支持状态</th>
+                            <th>架构支持</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>iOS</strong></td>
+                            <td>✅ App Store 上架</td>
+                            <td>iPhone、iPad</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Android</strong></td>
+                            <td>✅ 原生支持</td>
+                            <td>arm64-v8a、armeabi-v7a</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Windows</strong></td>
+                            <td>✅ 完整功能</td>
+                            <td>x64</td>
+                        </tr>
+                        <tr>
+                            <td><strong>macOS</strong></td>
+                            <td>✅ 原生优化</td>
+                            <td>Intel + Apple Silicon</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Linux</strong></td>
+                            <td>✅ 桌面支持</td>
+                            <td>x86_64</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>核心优势</h3>
+
+                <ul>
+                    <li><strong>完全免费开源</strong> - 无广告、无内购、无隐藏费用</li>
+                    <li><strong>mihomo (Clash Meta) 核心</strong> - 支持 VLESS、Reality、Hysteria2 等最新协议</li>
+                    <li><strong>统一界面和操作</strong> - 在所有平台上使用体验一致</li>
+                    <li><strong>配置通用</strong> - 订阅配置可以跨平台复用</li>
+                    <li><strong>持续更新</strong> - KaringX 团队活跃维护</li>
+                </ul>
+
+                <h2>各平台安装教程</h2>
+
+                <h3>iOS 安装 (App Store)</h3>
+
+                <ol>
+                    <li>打开 App Store,搜索"Clash Mi"</li>
+                    <li>点击"获取"下载安装(完全免费)</li>
+                    <li>首次打开会提示添加 VPN 配置,点击"允许"并输入密码</li>
+                    <li>进入应用,点击"配置" → "新建配置" → 粘贴订阅链接</li>
+                    <li>返回首页,点击"启动"按钮即可使用</li>
+                </ol>
+
+                <div class="tip">
+                    <strong>💡 提示:</strong>Clash Mi 已在中国区 App Store 上架,无需切换美区账号。部分地区可能需要海外 Apple ID。
+                </div>
+
+                <h3>Android 安装</h3>
+
+                <ol>
+                    <li>访问 <a href="https://github.com/KaringX/clashmi/releases" style="color: #fbbf24;">Clash Mi GitHub Releases 页面</a></li>
+                    <li>下载最新版本的 APK 文件(选择 <code>clash-mi-android-arm64-v8a.apk</code> 或 <code>armeabi-v7a</code>)</li>
+                    <li>在手机上安装 APK(可能需要允许"未知来源")</li>
+                    <li>打开应用,导入订阅配置</li>
+                    <li>启动服务并授权 VPN 权限</li>
+                </ol>
+
+                <div class="warning">
+                    <strong>⚠️ 注意:</strong>从 GitHub 下载的 APK 需要手动更新。建议定期检查新版本。
+                </div>
+
+                <h3>Windows 安装</h3>
+
+                <ol>
+                    <li>访问 GitHub Releases 页面</li>
+                    <li>下载 <code>clash-mi-windows-x64.exe</code> 安装包</li>
+                    <li>运行安装程序,如遇 Windows Defender 提示点击"更多信息" → "仍要运行"</li>
+                    <li>完成安装后启动应用</li>
+                    <li>导入订阅,选择节点,点击"启动"</li>
+                </ol>
+
+                <h3>macOS 安装</h3>
+
+                <ol>
+                    <li>下载 <code>clash-mi-macos.dmg</code> 文件</li>
+                    <li>双击 DMG,将应用拖到 Applications 文件夹</li>
+                    <li>首次打开可能提示"无法验证开发者",去"系统设置" → "隐私与安全性" → 点击"仍要打开"</li>
+                    <li>导入订阅并启动</li>
+                </ol>
+
+                <h3>Linux 安装</h3>
+
+                <ol>
+                    <li>下载适合你发行版的包(AppImage、deb 或 rpm)</li>
+                    <li>AppImage 使用: <code>chmod +x clash-mi.AppImage && ./clash-mi.AppImage</code></li>
+                    <li>deb 安装: <code>sudo dpkg -i clash-mi.deb</code></li>
+                    <li>启动应用并配置</li>
+                </ol>
+
+                <h2>多设备配置同步</h2>
+
+                <p>Clash Mi 的一大优势是配置可以跨平台复用。推荐做法:</p>
+
+                <h3>方法 1: 使用同一订阅链接</h3>
+
+                <p>在所有设备上导入相同的订阅链接。订阅会自动从服务器拉取最新节点,无需手动同步。</p>
+
+                <h3>方法 2: 手动导出/导入配置</h3>
+
+                <ol>
+                    <li>在一台设备上配置完成后,导出配置文件(yaml 格式)</li>
+                    <li>通过云盘、邮件或局域网传输到其他设备</li>
+                    <li>在其他设备的 Clash Mi 中导入该配置文件</li>
+                </ol>
+
+                <div class="tip">
+                    <strong>💡 专业技巧:</strong>可以把配置文件放在 iCloud Drive、Google Drive 等云盘中,实现自动同步。
+                </div>
+
+                <h2>常见问题</h2>
+
+                <h3>Q: Clash Mi 和其他客户端相比有什么劣势?</h3>
+
+                <p>界面相对朴素,功能相对基础。如果你需要可视化规则编辑、复杂的分流策略,<a href="../windows.html" style="color: #fbbf24;">Clash Verge Rev</a> 或 <a href="../macos.html" style="color: #fbbf24;">ClashX Meta</a> 可能更合适。</p>
+
+                <h3>Q: iOS 版需要海外 Apple ID 吗?</h3>
+
+                <p>大部分地区的中国区 App Store 已上架,但部分地区可能需要切换。建议先在本地区搜索。</p>
+
+                <h3>Q: 支持 TUN 模式吗?</h3>
+
+                <p>支持。Clash Mi 基于 mihomo 核心,完整支持 TUN 模式,可以代理所有应用流量。详见 <a href="clash-tun-mode-explained.html" style="color: #fbbf24;">TUN 模式深度解析</a>。</p>
+
+                <h3>Q: 配置文件可以通用吗?</h3>
+
+                <p>可以。Clash Mi 使用标准的 Clash 配置格式,与其他 Clash 客户端完全兼容。</p>
+
+                <h2>适合人群</h2>
+
+                <ul>
+                    <li><strong>多设备用户</strong> - 同时使用电脑、手机、平板</li>
+                    <li><strong>追求统一体验</strong> - 不想在不同平台学习不同客户端</li>
+                    <li><strong>预算有限</strong> - 完全免费,无需付费购买 iOS 客户端</li>
+                    <li><strong>跨平台工作者</strong> - 在 Windows、macOS、Linux 间切换</li>
+                </ul>
+
+                <div class="internal-links">
+                    <h3>📚 相关阅读</h3>
+                    <ul>
+                        <li>→ <a href="../ios.html">iOS 完整客户端对比</a> - 查看其他 iOS Clash 客户端</li>
+                        <li>→ <a href="../android.html">Android 客户端推荐</a> - Android 平台其他选择</li>
+                        <li>→ <a href="../windows.html">Windows 客户端下载</a> - Windows 最强客户端</li>
+                        <li>→ <a href="../macos.html">macOS 客户端对比</a> - Mac 用户首选</li>
+                        <li>→ <a href="clash-subscription-management.html">订阅管理完全指南</a> - 如何管理多个订阅</li>
+                        <li>→ <a href="../clients.html">全平台客户端对比</a> - 查看所有客户端对比</li>
+                    </ul>
+                </div>
+
+                <h2>总结</h2>
+
+                <p>Clash Mi 是 2026 年最值得推荐的全平台 Clash 客户端。它的最大价值不在于功能最强,而在于<strong>真正实现了跨平台统一</strong>。如果你同时使用多个设备,Clash Mi 能显著降低你的学习成本和管理成本。</p>
+
+                <p>虽然在单一平台上,<a href="../windows.html" style="color: #fbbf24;">Clash Verge Rev</a>(Windows)、<a href="../macos.html" style="color: #fbbf24;">ClashX Meta</a>(macOS)、<a href="../android.html" style="color: #fbbf24;">Clash Meta for Android</a> 可能功能更强,但 Clash Mi 的全平台优势是无可替代的。</p>
+
+                <div class="highlight-box">
+                    <strong>🔗 官方资源:</strong><br>
+                    • GitHub: <a href="https://github.com/KaringX/clashmi" style="color: #fbbf24;">KaringX/clashmi</a><br>
+                    • 官网: <a href="https://en.clash-mi.org/" style="color: #fbbf24;">clash-mi.org</a><br>
+                    • App Store: 搜索"Clash Mi"
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 Clash 客户端指南 | <a href="../index.html" style="color: #fbbf24; text-decoration: none;">返回首页</a></p>
+        </div>
+    </footer>
+
+    <script>
+        const now = new Date();
+        const formatter = new Intl.DateTimeFormat('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        document.getElementById('update-time').textContent = formatter.format(now);
+    </script>
+</body>
+</html>
